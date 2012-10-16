@@ -5,6 +5,7 @@ def welcome(request):
         'names': [
             'creisman',
             'jlowdermilk',
+            'natmote',
         ]
     }
 
