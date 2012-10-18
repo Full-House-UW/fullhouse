@@ -6,6 +6,7 @@ def welcome(request):
             'creisman',
             'jlowdermilk',
             'natmote',
+            'cmoice',
         ]
     }
 
