@@ -1,0 +1,48 @@
+.pane {
+    background-color: #CCCCFF;
+    border: 3px solid #666666;
+    border-radius: 25px;
+    display: inline-block;
+    height: 80%;
+    padding: 10px;
+    width: 45%;
+}
+
+.inner_pane {
+    overflow-y: scroll;
+}
+
+#main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+#announcments {
+    float: left;
+}
+
+#tasks {
+    float: right;
+}
+
+#nav {
+    background-color: #999999;
+    padding: 5px;
+    text-align: right;
+}
+
+body {
+    color: #330066;
+    margin: 0px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    padding-left: 10px;
+}
+
+a {
+    color: #330066;
+    padding: 10px;
+}
