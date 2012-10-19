@@ -10,9 +10,8 @@ ADMINS = (
 MANAGERS = ADMINS
 
 from os.path import abspath, dirname, join
-PROJ_ROOT = join(dirname(__file__), '../../')
-DB_PATH = abspath(join(PROJ_ROOT, 'database'))
-
+PROJECT_ROOT = join(dirname(__file__), '../../')
+DB_PATH = abspath(join(PROJECT_ROOT, 'database'))
 DATABASES = {
     'default': {
         # 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -67,7 +66,7 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-STATIC_DIR = abspath(join(PROJ_ROOT, 'fullhouse/static/'))
+STATIC_DIR = abspath(join(PROJECT_ROOT, 'fullhouse/static/'))
 # Additional locations of static files
 STATICFILES_DIRS = (
     STATIC_DIR,
@@ -109,10 +108,14 @@ ROOT_URLCONF = 'fullhouse.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'fullhouse.wsgi.application'
 
-templatepath = abspath(join(PROJ_ROOT, 'fullhouse/dashboard/templates'))
+TEMPLATE_PATH = abspath(join(PROJECT_ROOT, 'fullhouse/dashboard/templates'))
 
 TEMPLATE_DIRS = (
-    templatepath,
+    TEMPLATE_PATH,
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
