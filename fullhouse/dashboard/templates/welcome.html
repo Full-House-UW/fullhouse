@@ -1,10 +1,19 @@
-<p>
-    This is not the welcome page you are looking for.
-</p>
-<ul>
-    {% for name in names %}
-    <li>
-    {{name}}
-    </li>
-    {% endfor %}
-</ul>
+<!doctype html>
+<title>Full House - Welcome</title>
+<link rel="stylesheet" href="static/welcome.css" />
+<div id="welcome">
+  <div id="logo">
+    <img src="static/main-logo.png" alt="logo" />
+  </div>
+  <form id="login" action="login.html" method="POST">
+    <div id="email">
+      Email: <input placeholder="Email or username" />
+    </div>
+    <div id="password">
+      Password: <input type="password" placeholder="*******" />
+    </div>
+    <div id="login-button">
+      <input type="submit" value="Login" />
+    </div>
+  </form>
+</div>
