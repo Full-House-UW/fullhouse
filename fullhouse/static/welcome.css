@@ -1,0 +1,32 @@
+body {
+  font-family: arial, sans-serif;
+  font-size: 13px;
+  margin: 0;
+}
+
+#welcome {
+  height: 100%;
+  padding-top: 10%;
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+
+#logo img {
+  height: 278px;
+  width: 686px;
+}
+
+#login {
+  display: inline-block;
+  margin: auto;
+  padding-top: 20px;
+}
+
+#login-button {
+  padding: 5px;
+}
+
+#email, #password {
+  text-align: right;
+}
