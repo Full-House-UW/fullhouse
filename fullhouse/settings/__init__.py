@@ -10,7 +10,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 from os.path import abspath, dirname, join
-root = join(dirname(__file__), '../')
+root = join(dirname(__file__), '../../')
 dbpath = abspath(join(root, 'database'))
 
 DATABASES = {
@@ -66,8 +66,10 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+staticdir = abspath(join(root, 'fullhouse/static/'))
 # Additional locations of static files
 STATICFILES_DIRS = (
+    staticdir,
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -106,7 +108,7 @@ ROOT_URLCONF = 'fullhouse.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'fullhouse.wsgi.application'
 
-templatepath = abspath(join(root, 'dashboard/templates'))
+templatepath = abspath(join(root, 'fullhouse/dashboard/templates'))
 
 TEMPLATE_DIRS = (
     templatepath,

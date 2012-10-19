@@ -1,9 +1,11 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
 <!doctype html>
 <title>Full House - Welcome</title>
-<link rel="stylesheet" href="static/welcome.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}welcome.css" />
 <div id="welcome">
   <div id="logo">
-    <img src="static/main-logo.png" alt="logo" />
+    <img src="{{ STATIC_PREFIX }}main-logo.png" alt="logo" />
   </div>
   <form id="login" action="login.html" method="POST">
     <div id="email">

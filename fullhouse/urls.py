@@ -15,3 +15,11 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+
+# for debug only! django is not made to serve static files in prod
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+
+if settings.DEBUG:
+  urlpatterns += staticfiles_urlpatterns()
