@@ -7,7 +7,7 @@
   <div id="logo">
     <img src="{{ STATIC_PREFIX }}main-logo.png" alt="logo" />
   </div>
-  <form id="login" action="login/" method="POST">
+  <form id="login" action="../login/" method="POST">
     {% csrf_token %}
     <div id="email">
       Email: <input placeholder="Email or username" />
