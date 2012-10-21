@@ -6,7 +6,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('fullhouse.dashboard',
     # Examples:
-    url(r'^$', 'views.welcome', name='welcome'),
+    url(r'^$', 'views.home', name='home'),
+    url(r'^welcome.html$', 'views.welcome', name='welcome'),
     url(r'^login/$', 'views.login', name='login'),
     url(r'^dashboard/$', 'views.dashboard', name='dashboard'),
 
