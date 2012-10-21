@@ -1,9 +1,11 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Full House - Dashboard</title>
-    <link href="master.css" type="text/css" rel="stylesheet" />
-    <link href="dashboard.css" type="text/css" rel="stylesheet" />
+    <link href="{{ STATIC_PREFIX }}master.css" type="text/css" rel="stylesheet" />
+    <link href="{{ STATIC_PREFIX }}dashboard.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
     <div id="nav">

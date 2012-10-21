@@ -4,9 +4,12 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('fullhouse.dashboard',
     # Examples:
-    url(r'^$', 'fullhouse.dashboard.views.welcome', name='welcome'),
+    url(r'^$', 'views.welcome', name='welcome'),
+    url(r'^login/$', 'views.login', name='login'),
+    url(r'^dashboard/$', 'views.dashboard', name='dashboard'),
+
     # url(r'^fullhouse/', include('fullhouse.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -22,4 +25,4 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 
 if settings.DEBUG:
-  urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += staticfiles_urlpatterns()
