@@ -14,8 +14,14 @@ framework.
 
 """
 import os
+import site
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fullhouse.settings")
+
+# Get the virtualenv path working in prod
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+package_path = os.path.join(root_dir, 'env/lib/python2.7/site-packages')
+site.addsitedir(package_path)
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
