@@ -1,6 +1,7 @@
 body {
+  color: #330066;
   font-family: arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
 }
 
@@ -29,4 +30,10 @@ body {
 
 #email, #password {
   text-align: right;
+}
+
+a {
+    color: #330066;
+    font-size: 14px;
+    padding: 12px;
 }
