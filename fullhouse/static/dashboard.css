@@ -12,12 +12,6 @@
     overflow-y: scroll;
 }
 
-#main {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-}
-
 #announcments {
     float: left;
 }
@@ -26,25 +20,6 @@
     float: right;
 }
 
-#nav {
-    background-color: #999999;
-    padding: 3px;
-    text-align: right;
-}
-
-body {
-    color: #330066;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    margin: 0px;
-}
-
-h1 {
+.dash-header {
     padding-left: 10px;
-}
-
-a {
-    color: #330066;
-    font-size: 14px;
-    padding: 10px;
 }

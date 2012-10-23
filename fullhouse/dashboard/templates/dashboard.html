@@ -1,38 +1,29 @@
+{% extends "base.html" %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Full House - Dashboard</title>
-    <link href="{{ STATIC_PREFIX }}master.css" type="text/css" rel="stylesheet" />
-    <link href="{{ STATIC_PREFIX }}dashboard.css" type="text/css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="nav">
-      <p>
-	<a href="#">User Settings</a>
-	<a href="#">House Settings</a>
-	<a href="../logout/">Logout</a>
-      </p>
-    </div>
-    <h1>Welcome to Full House, user!</h1>
-    <div id="main">
-      <div class="pane" id="announcements">
-	 <h2>Announcements</h2>
-	 <div class="inner_pane">
-	   <div class="announcement">
-	     <p>This is an announcement!</p>
-	   </div>
-	 </div>
-      </div>
-      <div class="pane" id="tasks">
-	<h2>Tasks</h2>
-	<div class="inner_pane">
-	   <div class="task">
-	     <p>This is a task!</p>
-	   </div>
-	</div>
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block content %}
+  <h1 class="dash-header">Welcome to Full House, user!</h1>
+  <div id="dash">
+    <div class="pane" id="announcements">
+      <h2>Announcements</h2>
+      <div class="inner_pane">
+        <div class="announcement">
+          <p>This is an announcement!</p>
+        </div>
       </div>
     </div>
-  </body>
-</html>
+    <div class="pane" id="tasks">
+      <h2>Tasks</h2>
+      <div class="inner_pane">
+        <div class="task">
+          <p>This is a task!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

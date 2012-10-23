@@ -1,58 +1,49 @@
-
+{% extends "base.html" %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Full House - Registeration</title>
-    <link href="{{ STATIC_PREFIX }}master.css" type="text/css" rel="stylesheet" />
-    <link href="{{ STATIC_PREFIX }}registration.css" type="text/css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="nav">
-      <p>
-	<a href="#">User Settings</a>
-	<a href="#">House Settings</a>
-	<a href="../logout/">Logout</a>
-      </p>
-    </div>
-    <h1>Register for Full House</h1>
-    <h2>It's fast, free and easy!</h2>
-   <b>Fields marked with * are required. </b> 
-   <br><br>
-    <div id="main">
-			<form name="account-registration" action="register/" method="get">
-				{% csrf_token %}
-				<div id="name">
-					Name: <input type="text" name="name"><br>
-				</div>
-				<div id="username">
-					Username*: <input type="text" name="username"><br>
-				</div>
-				<div id="email">
-					Email address*: <input type="text" name="email"><br>
-				</div>
-				<div id="pwd">
-					Password*: <input type="password" name="pwd"><br>
-				</div>
-				<div id="confirmpwd">
-					Retype password*: <input type="password" name="retypedpwd"><br>
-				</div>
-				<div id="gender">
-					Gender:
-					<select>
-						<option value="na">-------------------------------</option>
-						<option value="male">Male</option>
-						<option value="female">Female</option>
-					</select> 					
-				</div>
-				<div id="bday">
-					Birthday (MM/DD/YYYY): <input type="text" name="bday"><br>
-				</div>
-				<div id="register-button">
-					<input type="submit" value="Submit">
-				</div>
-			</form>
-    </div>
-  </body>
-</html>
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block content %}
+  <h1 class="reg-header">Register for Full House</h1>
+  <h2 class="reg-header">It's fast, free and easy!</h2>
+  <p class="reg-header">
+    <b>Fields marked with * are required. </b>
+  </p>
+  <div id="register">
+    <form name="account-registration" action="register/" method="get">
+      {% csrf_token %}
+      <div id="name">
+        Name: <input type="text" name="name"><br>
+      </div>
+      <div id="username">
+        Username*: <input type="text" name="username"><br>
+      </div>
+      <div id="email">
+        Email address*: <input type="text" name="email"><br>
+      </div>
+      <div id="pwd">
+        Password*: <input type="password" name="pwd"><br>
+      </div>
+      <div id="confirmpwd">
+        Retype password*: <input type="password" name="retypedpwd"><br>
+      </div>
+      <div id="gender">
+        Gender:
+        <select>
+          <option value="na">-------------------------------</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select> 					
+      </div>
+      <div id="bday">
+        Birthday (MM/DD/YYYY): <input type="text" name="bday"><br>
+      </div>
+      <div id="register-button">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+{% endblock %}

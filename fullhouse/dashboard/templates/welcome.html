@@ -3,28 +3,30 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-Full House - Welcome
+  Welcome
 {% endblock %}
 
 {% block content %}
-  <div id="logo">
-    <img src="{{ STATIC_PREFIX }}main-logo.png" alt="logo" />
+  <div id="welcome">
+    <div id="logo">
+      <img src="{{ STATIC_PREFIX }}large-logo.png" alt="logo" />
+    </div>
+    <form id="login" action="../login/" method="POST">
+      {% csrf_token %}
+      <div id="username">
+        Email: <input placeholder="username" />
+      </div>
+      <div id="password">
+        Password: <input type="password" placeholder="*******" />
+      </div>
+      <div id="login-button">
+        <input type="submit" value="Login" />
+      </div>
+      <div> 
+			  <br>
+			  <a href = "password-recovery-page">Forgot password</a>
+			  <a href = "../registration/">Register </a>
+      </div>
+    </form>
   </div>
-  <form id="login" action="../login/" method="POST">
-    {% csrf_token %}
-    <div id="username">
-      Email: <input placeholder="username" />
-    </div>
-    <div id="password">
-      Password: <input type="password" placeholder="*******" />
-    </div>
-    <div id="login-button">
-      <input type="submit" value="Login" />
-    </div>
-    <div> 
-			<br>
-			<a href = "password-recovery-page">Forgot password</a>
-			<a href = "registration-page">Register </a>
-    </div>
-  </form>
 {% endblock %}
