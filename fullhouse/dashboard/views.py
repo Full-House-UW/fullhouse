@@ -48,6 +48,11 @@ def welcome(request):
 
 @login_required
 def dashboard(request):
-    return render_to_response('dashboard.html', {
-        'announcements': request.user.userprofile.house.announcements.all()
-    }, context_instance=RequestContext(request))
+# Make the user create/join a house before showing the dashboard.
+# Commented out because creating/joining houses is not yet functional.
+#    if request.user.userprofile.house is None:
+#        return render_to_response('nonhousemember.html')
+#    else:
+        return render_to_response('dashboard.html', {
+            'announcements': request.user.userprofile.house.announcements.all()
+        }, context_instance=RequestContext(request))
