@@ -9,7 +9,7 @@ class Pep8Test(unittest.TestCase):
 
     def test_pep8(self):
 
-        filepath = os.path.join(settings.PROJ_ROOT, 'fullhouse')
+        filepath = os.path.join(settings.PROJECT_ROOT, 'fullhouse')
 
         arglist = [filepath]
         pep8.process_options(arglist)

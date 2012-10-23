@@ -3,16 +3,16 @@
 }
 
 .pane {
-  background-color: #CCCCFF;
-  border: 3px solid #666666;
-  border-radius: 25px;
+	background-color: #E3EFF2;
+  border-radius: 5px;
   display: inline-block;
-  height: 80%;
+  height: 320px;
   padding: 10px;
-  width: 45%;
+  width: 47%;
 }
 
 .inner_pane {
+	height: 200px;
   overflow-y: scroll;
 }
 
@@ -25,5 +25,6 @@
 }
 
 .dash-header {
+	font-family: serif;
   padding-left: 10px;
 }
