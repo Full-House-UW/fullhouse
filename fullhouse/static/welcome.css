@@ -5,18 +5,19 @@ body {
   margin: 0;
 }
 
-#welcome {
-  height: 100%;
-  padding-top: 10%;
+#footer {
+  height: 150px;
+}
+
+#header {
+  height: 150px;
+}
+
+#main {
   margin: auto;
-  text-align: center;
   width: 80%;
 }
 
-#logo img {
-  height: 278px;
-  width: 686px;
-}
 
 #login {
   display: inline-block;

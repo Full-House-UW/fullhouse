@@ -1,0 +1,55 @@
+/* STYLES FOR ALL PAGES */
+a {
+    color: #330066;
+    font-size: 14px;
+    padding: 12px;
+}
+
+body {
+  background-color: whiteSmoke;
+  color: #330066;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+}
+
+ul.nav {
+  display: inline-block;
+  list-style: none;
+}
+
+#footer {
+  border-top: 1px solid black;
+  height: 50px;
+}
+
+#header {
+  border-bottom: 1px solid black;
+  height: 50px;
+  text-align: right;
+}
+
+#main {
+  background-color: white;
+  margin: auto;
+  padding: 50px 0;
+  text-align: center;
+  width: 70%;
+}
+/* END STYLES FOR ALL PAGES */
+
+/* WELCOME */
+#login {
+  display: inline-block;
+  margin: auto;
+  padding-top: 20px;
+}
+
+#login-button {
+  padding: 5px;
+}
+
+#username, #password {
+  text-align: right;
+}
+/* END WELCOME */
