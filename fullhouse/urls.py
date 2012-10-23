@@ -4,12 +4,14 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('fullhouse.dashboard',
+from fullhouse.dashboard import views
+print views
+
+urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'views.home', name='home'),
-    url(r'^welcome/$', 'views.welcome', name='welcome'),
-    url(r'^dashboard/$', 'views.dashboard', name='dashboard'),
-    url(r'^announcement/new/$', 'views.create_announcement', name='create_announcement'),
+    url(r'^$', views.home, name='home'),
+    url(r'^welcome/$', views.welcome, name='welcome'),
+    url(r'^dashboard/', include('fullhouse.dashboard.urls')),
     url(r'^accounts/', include('fullhouse.auth.backend.urls')),
 
 

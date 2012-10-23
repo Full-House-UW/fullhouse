@@ -1,5 +1,14 @@
-from django import forms
+from django.forms import ModelForm
 
-class AnnouncementForm(forms.Form):
-    title = forms.CharField(min_length=1, max_length=30)
-    text = forms.CharField(widget=forms.Textarea, min_length=1);
+import models
+
+
+class CreateHouseForm(ModelForm):
+    class Meta:
+        model = models.House
+
+
+class CreateAnnouncementForm(ModelForm):
+    class Meta:
+        model = models.Announcement
+        exclude = ['creator', 'house']

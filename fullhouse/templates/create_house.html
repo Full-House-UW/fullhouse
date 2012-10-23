@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 
@@ -12,21 +13,26 @@
 
 {% block content %}
   <div id="createhouse">
-    <form name="create-house" action="." method="POST">
-      {% csrf_token %}
+    {% if error %}
+      {{ error }}
+    {% else %}
+      <form name="create-house" action="." method="POST">
+        {% csrf_token %}
 
-      <div class="fieldWrapper">
-        {{ form.housename.errors }}
-        <label form="housename">House Name: </label>
-        {{ form.housename }}
-      </div>
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+          {{ form.name.errors }}
+          <label form="housename">House Name: </label>
+          {{ form.name }}
+        </div>
 
-      <div class="fieldWrapper">
-        {{ form.zipcode.errors }}
-        <label form="zipcode">Zip Code: </label>
-        {{ form.zipcode }}
-      </div>
-      <input type="submit" value="{% trans 'Create My House' %}" />
-    </form>
+        <div class="fieldWrapper">
+          {{ form.zip_code.errors }}
+          <label form="zipcode">Zip Code: </label>
+          {{ form.zip_code }}
+        </div>
+        <input type="submit" value="{% trans 'Create My House' %}" />
+      </form>
+    {% endif %}
   </div>
 {% endblock %}
