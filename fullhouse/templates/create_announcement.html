@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Create Announcement
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_announcement.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="createannouncement">
+    <form name="create-announcement" action="." method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="{% trans 'Create Announcement' %}" />
+    </form>
+  </div>
+{% endblock %}

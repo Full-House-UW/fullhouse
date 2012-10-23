@@ -9,6 +9,7 @@ urlpatterns = patterns('fullhouse.dashboard',
     url(r'^$', 'views.home', name='home'),
     url(r'^welcome/$', 'views.welcome', name='welcome'),
     url(r'^dashboard/$', 'views.dashboard', name='dashboard'),
+    url(r'^announcement/new/$', 'views.create_announcement', name='create_announcement'),
     url(r'^accounts/', include('fullhouse.auth.backend.urls')),
 
 
