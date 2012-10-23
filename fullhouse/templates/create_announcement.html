@@ -13,6 +13,7 @@
 
 {% block content %}
   <div id="createannouncement">
+    <h2>Create New Announcement</h2>
     <form name="create-announcement" action="." method="POST">
       {% csrf_token %}
       {{ form.as_p }}
