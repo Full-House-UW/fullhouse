@@ -33,6 +33,8 @@ nosetests.xml
 env
 
 .cache
+# sqlite test db
+database
 
 # local settings
 fullhouse/settings/local.py
