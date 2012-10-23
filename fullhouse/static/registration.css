@@ -4,6 +4,14 @@
   text-align: right;
 }
 
+#register input[type="text"], #register input[type="password"] {
+  width: 150px;
+}
+
+#register select {
+  width: 154px;
+}
+
 #register-button {
 	padding: 5px;
 	text-align: left;

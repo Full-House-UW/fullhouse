@@ -6,6 +6,10 @@
   Dashboard
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}dashboard.css" />
+{% endblock %}
+
 {% block content %}
   <h1 class="dash-header">Welcome to Full House, user!</h1>
   <div id="dash">
