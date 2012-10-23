@@ -10,6 +10,7 @@ from registration.backends.default import DefaultBackend
 from fullhouse.dashboard.models import UserProfile
 from fullhouse.auth.forms import FullhouseRegistrationForm
 
+
 class FullhouseBackend(DefaultBackend):
     """
     A registration backend which follows a simple workflow:
@@ -47,7 +48,7 @@ class FullhouseBackend(DefaultBackend):
     an instance of ``registration.models.RegistrationProfile``. See
     that model and its custom manager for full documentation of its
     fields and supported operations.
-    
+
     """
     def register(self, request, **kwargs):
         """
@@ -73,15 +74,21 @@ class FullhouseBackend(DefaultBackend):
         class of this backend as the sender.
 
         """
-        username, email, password = kwargs['username'], kwargs['email'], kwargs['password1']
+        username, email, password = (kwargs['username'],
+                                     kwargs['email'],
+                                     kwargs['password1'])
         birthday = kwargs['birthday']
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
-        new_user = RegistrationProfile.objects.create_inactive_user(username, email,
-                                                                    password, site)
-        user_profile = UserProfile.objects.create(user=new_user, birthday=birthday)
+        new_user = RegistrationProfile.objects.create_inactive_user(
+            username, email,
+            password, site
+        )
+        user_profile = UserProfile.objects.create(
+            user=new_user, birthday=birthday
+        )
 
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
