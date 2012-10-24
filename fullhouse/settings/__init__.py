@@ -10,17 +10,18 @@ ADMINS = (
 MANAGERS = ADMINS
 
 from os.path import abspath, dirname, join
-root = join(dirname(__file__), '../../')
-dbpath = abspath(join(root, 'database'))
+PROJ_ROOT = join(dirname(__file__), '../../')
+DB_PATH = abspath(join(PROJ_ROOT, 'database'))
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': dbpath,                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        # 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DB_PATH,  # Or path to database file if using sqlite3.
+        'USER': '',       # Not used with sqlite3.
+        'PASSWORD': '',   # Not used with sqlite3.
+        'HOST': '',    # Set to empty string for localhost.
+        'PORT': '',    # Set to empty string for default.
     }
 }
 
@@ -66,10 +67,10 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-staticdir = abspath(join(root, 'fullhouse/static/'))
+STATIC_DIR = abspath(join(PROJ_ROOT, 'fullhouse/static/'))
 # Additional locations of static files
 STATICFILES_DIRS = (
-    staticdir,
+    STATIC_DIR,
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -108,19 +109,16 @@ ROOT_URLCONF = 'fullhouse.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'fullhouse.wsgi.application'
 
-templatepath = abspath(join(root, 'fullhouse/dashboard/templates'))
+templatepath = abspath(join(PROJ_ROOT, 'fullhouse/dashboard/templates'))
 
 TEMPLATE_DIRS = (
     templatepath,
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+
 INSTALLED_APPS = (
-    'django_nose',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -131,6 +129,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'django_nose',
 )
 
 # A sample logging configuration. The only tangible logging
