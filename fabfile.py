@@ -12,6 +12,8 @@ env.hosts = [SSH_STRING]
 QA_APPS = ('qa_fullhouse/', 'qa_fullhouse_static/')
 PROD_APPS = ('fullhouse/', 'fullhouse_static/')
 
+GIT_REPO = 'git://github.com/Full-House-UW/fullhouse.git'
+
 APP_PATH = 'webapps/'
 
 def get_release_apps(stack):
@@ -40,8 +42,9 @@ def release(stack, branch):
     dynamic, static = get_app_paths(stack)
 
     with cd(dynamic):
+        run("rm -rf fullhouse/")
+        run("git clone " + GIT_REPO)
         with cd("fullhouse/"):
-            run("git fetch --tags")
             run("git checkout " + branch)
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
