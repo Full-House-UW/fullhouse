@@ -17,3 +17,6 @@ def logout(request):
 
 def dashboard(request):
     return render_to_response('dashboard.html')
+    
+def registration(request):
+    return render_to_response('registration.html')
