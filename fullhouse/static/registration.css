@@ -1,0 +1,49 @@
+.pane {
+    background-color: #CCCCFF;
+    border: 3px solid #666666;
+    border-radius: 25px;
+    display: inline-block;
+    height: 80%;
+    padding: 10px;
+    width: 45%;
+}
+
+#main {
+    display: inline-block;
+    padding: 20px;
+}
+
+#nav {
+    background-color: #999999;
+    padding: 5px;
+    text-align: right;
+}
+
+#name, #username, #email, #pwd, #confirmpwd, #gender, #bday {
+	text-align: right;
+}
+
+#register-button {
+	padding: 5px;
+}
+
+body {
+    color: #330066;
+    font-family: Arial, sans-serif;
+		font-size: 14px;
+     margin: 0px;
+}
+
+h1 {
+    padding-left: 10px;
+}
+
+h2 {
+	padding-left: 10px;
+}
+
+a {
+    color: #330066;
+    font-size: 14px;
+    padding: 12px;
+}

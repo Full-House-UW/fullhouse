@@ -11,6 +11,8 @@ urlpatterns = patterns('fullhouse.dashboard',
     url(r'^login/$', 'views.login', name='login'),
     url(r'^logout/$', 'views.logout', name='logout'),
     url(r'^dashboard/$', 'views.dashboard', name='dashboard'),
+    url(r'^registration/$', 'views.registration', name='registration'),
+
 
     # url(r'^fullhouse/', include('fullhouse.foo.urls')),
 
