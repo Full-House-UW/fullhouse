@@ -1,0 +1,8 @@
+# Start with the settings below for local.py.
+
+DEBUG = True # for local development
+TEMPLATE_DEBUG = DEBUG
+
+# Make this unique, and don't share it with anybody.
+# any long (~50char) string of random nonsense will do
+SECRET_KEY = 'a;lksjdf$5905%+-9a;iwe=-=0qh;owieh90=--qh@0a9f'
