@@ -34,6 +34,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 INSTALLED_APPS = (
+    'fullhouse.dashboard',
+    'fullhouse.auth',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -129,6 +131,14 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+# AUTH settings
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window;
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+LOGIN_REDIRECT_URL = '/dashboard/'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
