@@ -4,3 +4,4 @@ nose==1.2.1
 pep8==1.2
 wsgiref==0.1.2
 fabric==1.4.3
+django-registration==0.8.0
