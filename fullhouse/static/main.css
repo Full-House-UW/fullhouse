@@ -1,0 +1,122 @@
+/* STYLES FOR ALL PAGES */
+a {
+    color: #330066;
+    font-size: 14px;
+    padding: 12px;
+}
+
+body {
+  background-color: whiteSmoke;
+  color: #330066;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+}
+
+ul.nav {
+  margin: 0;
+  padding: 17px 0;
+}
+
+.nav li {
+  display: inline-block;
+  list-style: none;
+}
+
+#footer {
+  background-color: #999;
+  border-top: 1px solid black;
+  height: 50px;
+}
+
+#header {
+  background-color: #999;
+  border-bottom: 1px solid black;
+  height: 50px;
+  text-align: right;
+}
+
+#main {
+  background-color: white;
+  margin: auto;
+  padding: 50px 0;
+  width: 70%;
+}
+/* END STYLES FOR ALL PAGES */
+
+/* WELCOME */
+#welcome {
+  text-align: center;
+}
+
+#login {
+  display: inline-block;
+  margin: auto;
+  padding-top: 20px;
+}
+
+#login-button {
+  padding: 5px;
+}
+
+#welcome #username, #welcome #password {
+  text-align: right;
+}
+/* END WELCOME */
+
+/* DASHBOARD */
+#dash {
+  padding: 0 10px;
+}
+
+.pane {
+  background-color: #CCCCFF;
+  border: 3px solid #666666;
+  border-radius: 25px;
+  display: inline-block;
+  height: 80%;
+  padding: 10px;
+  width: 45%;
+}
+
+.inner_pane {
+  overflow-y: scroll;
+}
+
+#announcments {
+  float: left;
+}
+
+#tasks {
+  float: right;
+}
+
+.dash-header {
+  padding-left: 10px;
+}
+/* END DASHBOARD */
+
+/* REGISTRATION */
+#register {
+  display: inline-block;
+  padding: 20px;
+  text-align: right;
+}
+
+#register input[type="text"], #register input[type="password"] {
+  width: 150px;
+}
+
+#register select {
+  width: 154px;
+}
+
+#register-button {
+	padding: 5px;
+	text-align: left;
+}
+
+.reg-header {
+  padding-left: 10px;
+}
+/* END REGISTRATION */

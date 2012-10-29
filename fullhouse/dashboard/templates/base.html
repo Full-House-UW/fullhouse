@@ -1,0 +1,30 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<!doctype html>
+<title>
+  Full House - 
+  {% block title %}
+    Welcome
+  {% endblock %}
+</title>
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+<div id="header">
+  {% block header %}
+    <ul class="nav">
+      <li><a href="#">User Settings</a></li>
+      <li><a href="#">House Settings</a></li>
+      <li><a href="../logout">Logout</a></li>
+    </ul>
+  {% endblock %}
+</div>
+<div id="main">
+  {% block content %}
+  <div class="error">
+    There was an error fetching the web page.
+  </div>
+  {% endblock %}
+</div>
+<div id="footer">
+  {% block footer %} {% endblock %}
+</div>
