@@ -7,3 +7,8 @@ pep8==1.2
 pycrypto==2.6
 ssh==1.7.14
 wsgiref==0.1.2
+<<<<<<< HEAD
+=======
+fabric==1.4.3
+django-registration==0.8.0
+>>>>>>> 1d2c275453044759c8cdb885de205912b2ffab92

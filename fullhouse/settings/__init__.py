@@ -7,5 +7,8 @@ try:
 except ImportError:
     raise Exception("settings/local.py config required and not found")
 
-if 'SECRET_KEY' not in locals():
-    raise Exception("SECRET_KEY setting required")
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window;
+EMAIL_HOST = 'localhost'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+LOGIN_REDIRECT_URL = '/'
+
