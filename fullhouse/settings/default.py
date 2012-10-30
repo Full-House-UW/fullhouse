@@ -51,7 +51,7 @@ INSTALLED_APPS = (
 
 ROOT_URLCONF = 'fullhouse.urls'
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-TEMPLATE_PATH = abspath(join(PROJECT_ROOT, 'fullhouse/dashboard/templates'))
+TEMPLATE_PATH = abspath(join(PROJECT_ROOT, 'fullhouse/templates'))
 
 TEMPLATE_DIRS = (
     TEMPLATE_PATH,
