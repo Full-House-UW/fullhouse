@@ -36,6 +36,7 @@ MIDDLEWARE_CLASSES = (
 INSTALLED_APPS = (
     'fullhouse.dashboard',
     'fullhouse.auth',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

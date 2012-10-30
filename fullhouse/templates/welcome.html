@@ -11,21 +11,24 @@
     <div id="logo">
       <img src="{{ STATIC_PREFIX }}large-logo.png" alt="logo" />
     </div>
-    <form id="login" action="../login/" method="POST">
+    <form id="login" action="/accounts/login/" method="POST">
       {% csrf_token %}
+      {{ form.as_p }}
+      <!-- temp comment, remove when form fields arranged as desired
       <div id="username">
         Email: <input placeholder="username" />
       </div>
       <div id="password">
         Password: <input type="password" placeholder="*******" />
       </div>
+      -->
       <div id="login-button">
         <input type="submit" value="Login" />
       </div>
-      <div> 
+      <div>
 			  <br>
-			  <a href = "password-recovery-page">Forgot password</a>
-			  <a href = "../registration/">Register </a>
+			  <a href = "/accounts/password/reset/">Forgot password</a>
+			  <a href = "/accounts/register/">Register </a>
       </div>
     </form>
   </div>

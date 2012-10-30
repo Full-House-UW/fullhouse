@@ -1,8 +1,53 @@
-{% extends "registration_base.html" %}
+{% extends "base.html" %}
 {% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Register
+{% endblock %}
+
 {% block content %}
-<form method="post" action=".">{% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="{% trans 'Submit' %}" />
-</form>
+  <h1 class="reg-header">Register for Full House</h1>
+  <h2 class="reg-header">It's fast, free and easy!</h2>
+  <p class="reg-header">
+    <b>Fields marked with * are required. </b>
+  </p>
+  <div id="register">
+    <form name="account-registration" action="." method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <!-- temp
+      <div id="name">
+        Name: <input type="text" name="name"><br>
+      </div>
+      <div id="username">
+        Username*: <input type="text" name="username"><br>
+      </div>
+      <div id="email">
+        Email address*: <input type="text" name="email"><br>
+      </div>
+      <div id="pwd">
+        Password*: <input type="password" name="pwd"><br>
+      </div>
+      <div id="confirmpwd">
+        Retype password*: <input type="password" name="retypedpwd"><br>
+      </div>
+      <div id="gender">
+        Gender:
+        <select>
+          <option value="na">None selected</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select> 					
+      </div>
+      <div id="bday">
+        Birthday (MM/DD/YYYY): <input type="text" name="bday"><br>
+      </div>
+      -->
+      <div id="register-button">
+        <input type="submit" value="{% trans 'Submit' %}" />
+      </div>
+    </form>
+  </div>
 {% endblock %}
