@@ -4,5 +4,5 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     birthday = models.DateField()
