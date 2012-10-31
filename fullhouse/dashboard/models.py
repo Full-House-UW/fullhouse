@@ -23,7 +23,7 @@ class UserProfile(models.Model):
     birthday = models.DateField()
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
-    house = models.ForeignKey(House, related_name='members')
+    house = models.ForeignKey(House, related_name='members', null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.user.__str__()
