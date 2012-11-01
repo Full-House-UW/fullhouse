@@ -16,7 +16,36 @@
   <div id="register">
     <form name="account-registration" action="." method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
+   
+      <div class = "fieldWrapper">
+        {{ form.username.errors }}
+         <label for="username">Username*: </label>
+         {{ form.username }} 
+      </div>
+      
+      <div class = "fieldWrapper">
+        {{ form.email.errors }}
+         <label form="email">Email Address*: </label>
+         {{ form.email }} 
+      </div>
+      
+      <div class = "fieldWrapper">
+        {{ form.password1.errors }}
+         <label form="password1">Password*: </label>
+         {{ form.password1 }} 
+      </div>
+      
+      <div class = "fieldWrapper">
+        {{ form.password2.errors }}
+         <label form="password2">Confirm Password*: </label>
+         {{ form.password2 }} 
+      </div>
+      
+      <div class = "fieldWrapper">
+        {{ form.birthday.errors }}
+         <label form="birthday">Birthdate (MM/DD/YYYY): </label>
+         {{ form.birthday }} 
+      </div>
       <!-- temp
       <div id="name">
         Name: <input type="text" name="name"><br>
@@ -39,7 +68,7 @@
           <option value="na">None selected</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
-        </select> 					
+        </select>           
       </div>
       <div id="bday">
         Birthday (MM/DD/YYYY): <input type="text" name="bday"><br>
