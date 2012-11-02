@@ -20,7 +20,7 @@ class House(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    birthday = models.DateField()
+    birthday = models.DateField(null=True)
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(House, related_name='members', null=True, on_delete=models.SET_NULL)
