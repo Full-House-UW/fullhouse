@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Create House
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_house.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="createhouse">
+    <form name="create-house" action="." method="POST">
+      {% csrf_token %}
+
+      <div class="fieldWrapper">
+        {{ form.housename.errors }}
+        <label form="housename">House Name: </label>
+        {{ form.housename }}
+      </div>
+
+      <div class="fieldWrapper">
+        {{ form.zipcode.errors }}
+        <label form="zipcode">Zip Code: </label>
+        {{ form.zipcode }}
+      </div>
+      <input type="submit" value="{% trans 'Create My House' %}" />
+    </form>
+  </div>
+{% endblock %}
