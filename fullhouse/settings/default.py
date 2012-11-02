@@ -134,7 +134,7 @@ STATICFILES_FINDERS = (
 )
 
 # AUTH settings
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window;
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window;
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
