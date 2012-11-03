@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  About_us
+{% endblock %}
+
+{% block content %}
+  <div id="about_us">
+	  <h1 class="reg-header">About Us</h1>
+	  <h3 class="reg-header">Our Vision</h3>
+	  <p class="reg-header"><i> "Providing roommates an efficient way to manage their daily household lives"
+	  </i></p>
+	  <p class="reg-header">
+		We aim to create an application that will help people living together better manage their lives
+		and be more organized. We want to enrich the communication between roommates, and make assigning
+		everyday household tasks easy for everyone. With Fullhouse, we believe we have accomplished this.
+	  </p>
+	  
+	  <h3 class="reg-header">Who We Are</h3>
+	  <!-- Enable when a picture is available
+	  <div id="pic">
+		<img src="{{ STATIC_PREFIX }}group-pic.png" alt="pic" />
+	  </div>
+	  -->
+	  <p class="reg-header">
+		We are a group of college minds come together to form something great. All of us attend the University
+		of Washington and are pursuing a degree in Computer Science. Our fantastic group of seven includes 
+		Brandon, Jeff, Cornel, Nat, Shahaf, Conor and our fabulous project lead Janette. Things we enjoy are
+		whiteboards, eating pretzels, head-shaking and tut-tutting (at the same time!), and magic. We have all had 
+		the experience of living with other people, and know that it can get hectic! Which is why we bring you this
+		program.
+	  </p>
+	  
+	  <h3 class="reg-header">The Process</h3>
+	  <p class="reg-header">
+		Much like a large scale software engineering project, this application was developed under realistic
+		specifications and methods. We all thought about what the goal of this application would be, and what
+		we would have to do to get there. We had to consider many different features and structures before we
+		arrived at what you see. There were many milestones that we had to go through and long hours of revisions
+		before we got everything looking how we imagined it. With careful planning and developing, we were able 
+		to meet our goals and deliver a finished project.
+	  </p>
+	  &nbsp;
+	  <p class="reg-header">Project Fullhouse, Copyright 2012. All rights reserved.</p>
+   </div>
+{% end block %}
