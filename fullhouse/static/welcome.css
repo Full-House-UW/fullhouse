@@ -1,23 +1,6 @@
-body {
-  color: #330066;
-  font-family: arial, sans-serif;
-  font-size: 14px;
-  margin: 0;
+#welcome {
+  text-align: center;
 }
-
-#footer {
-  height: 150px;
-}
-
-#header {
-  height: 150px;
-}
-
-#main {
-  margin: auto;
-  width: 80%;
-}
-
 
 #login {
   display: inline-block;
@@ -29,12 +12,6 @@ body {
   padding: 5px;
 }
 
-#email, #password {
+#welcome #username, #welcome #password {
   text-align: right;
-}
-
-a {
-    color: #330066;
-    font-size: 14px;
-    padding: 12px;
 }
