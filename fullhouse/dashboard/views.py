@@ -16,8 +16,7 @@ def welcome(request):
             'form': form
         }))
 
-
-@login_required(login_url='/accounts/login/')
+@login_required
 def dashboard(request):
     return render_to_response('dashboard.html')
 
