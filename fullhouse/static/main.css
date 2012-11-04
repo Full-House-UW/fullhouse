@@ -13,7 +13,7 @@ body {
 
 ul.nav {
   margin: 0;
-  padding: 0;
+  padding: 17px 0;
 }
 
 .nav li {
@@ -37,7 +37,6 @@ ul.nav {
 }
 
 #header-logo {
-  display: inline-block;
   float: left;
 }
 
