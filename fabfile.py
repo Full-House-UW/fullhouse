@@ -16,6 +16,15 @@ GIT_REPO = 'git://github.com/Full-House-UW/fullhouse.git'
 
 APP_PATH = 'webapps/'
 
+# arguments:
+# - stack: qa or prod -- the stack to release to
+#
+# returns:
+# - a pair where the first element is name of the dynamic app folder, and the
+#   second element is the name of the static folder
+#
+# example return value:
+# ('qa_fullhouse/', 'qa_fullhouse_static')
 def get_release_apps(stack):
     if (stack == 'qa'):
         return QA_APPS
@@ -29,6 +38,15 @@ def get_release_apps(stack):
         print("stack must be qa or prod")
         return None
 
+# arguments:
+# - stack: qa or prod -- the stack to release to
+#
+# returns:
+# - a pair where the first element is path to the dynamic app folder, and the
+#   second element is the path to the static folder
+#
+# example return value:
+# ('webapps/qa_fullhouse/', 'webapps/qa_fullhouse_static')
 def get_app_paths(stack):
     apps = get_release_apps(stack)
     dynamic_app_path = APP_PATH + apps[0]
@@ -50,5 +68,9 @@ def release(stack, branch):
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
 
     run("cp -r " + dynamic + "fullhouse/fullhouse/static/* " + static)
+    run("STACK=" + stack + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
+
+    with cd(dynamic + "fullhouse/"):
+        run("source ../env/bin/activate && ./manage.py syncdb")
 
     run(dynamic + "apache2/bin/restart")
