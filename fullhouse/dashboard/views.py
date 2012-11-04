@@ -21,14 +21,16 @@ from models import (
 def home(request):
     return HttpResponseRedirect('/welcome/')
 
+
 def create_announcement(request):
     # TODO Hack to block making an announcement if there's no house.
-    if request.user.profile.house == None:
-      return httpResponseRedirect('/dashboard/')
+    if request.user.profile.house is None:
+        return httpResponseRedirect('/dashboard/')
 
     if request.method == "POST":
-        announcement = Announcement.objects.create(creator=request.user.profile,
-                                                   house=request.user.profile.house)
+        announcement = Announcement.objects.create(
+            creator=request.user.profile,
+            house=request.user.profile.house)
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             form.save()
