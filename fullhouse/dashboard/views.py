@@ -114,7 +114,7 @@ def add_members(request):
                         email, user, user.profile.house
                     )
 
-            return HttpResponseRedirect('complete/')
+            return HttpResponseRedirect('/dashboard/')
 
     else:
         formset = AddMemberFormSet()
