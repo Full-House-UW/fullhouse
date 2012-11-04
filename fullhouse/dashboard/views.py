@@ -9,7 +9,7 @@ from django.forms.formsets import formset_factory
 
 from forms import (
     CreateHouseForm,
-    CreateAnnouncementForm
+    CreateAnnouncementForm,
     AddMemberForm,
     BaseAddMemberFormSet
 )
