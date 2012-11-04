@@ -140,6 +140,8 @@ EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 LOGIN_REDIRECT_URL = '/dashboard/'
 
+# for member house invites
+INVITE_ACTIVATION_DAYS = 7  # One-week activation window;
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
