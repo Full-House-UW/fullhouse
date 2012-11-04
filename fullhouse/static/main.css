@@ -1,12 +1,11 @@
 a {
-    color: #330066;
+    color: #306;
     font-size: 14px;
-    padding: 12px;
 }
 
 body {
   background-color: #f2f5f6;
-  color: #330066;
+  color: #306;
   font-family: arial, sans-serif;
   font-size: 14px;
   margin: 0;
@@ -20,6 +19,7 @@ ul.nav {
 .nav li {
   display: inline-block;
   list-style: none;
+  padding-right: 24px;
 }
 
 

@@ -11,3 +11,4 @@ class CreateHouseForm(ModelForm):
 class CreateAnnouncementForm(ModelForm):
     class Meta:
         model = models.Announcement
+        exclude = ['creator', 'house']

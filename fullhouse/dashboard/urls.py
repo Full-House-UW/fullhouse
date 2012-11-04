@@ -11,4 +11,7 @@ urlpatterns = patterns('',
         views.create_house,
         {'template_name': 'create_house_complete'},
         name='dashboard_create_house_complete'),
+    url(r'^announcement/new/$',
+        views.create_announcement,
+        name='create_announcement'),
 )

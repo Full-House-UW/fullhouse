@@ -12,6 +12,6 @@
   padding: 5px;
 }
 
-#welcome #username, #welcome #password {
+#login p {
   text-align: right;
 }

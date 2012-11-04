@@ -12,12 +12,27 @@
 }
 
 .inner_pane {
-	height: 200px;
+	height: 240px;
   overflow-y: scroll;
 }
 
 #announcments {
   float: left;
+}
+
+.announcement {
+  border: 1px solid black;
+  border-bottom: none;
+  padding: 5px;
+}
+
+.announcement:last-child {
+  border-bottom: 1px solid black;
+}
+
+.announcement .createdby {
+  font-size: smaller;
+  font-style: italic;
 }
 
 #tasks {

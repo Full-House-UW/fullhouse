@@ -12,12 +12,13 @@
 
 {% block content %}
   <div id="nonhousemember">
-	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
-	<!-- Need to specify actual path of the pages -->
-	<p class="reg-header" align="center">You can <a href = "/accounts/createhouse/">create a House</a></p>
-	<!-- Maybe for future release?
-	<p class="reg-header" align="center">Alternatively, maybe you want to <a href = "/accounts/joinhouse/">join a House</a></p>
-	-->
-	<p class="reg-header" align="center">Or if you want to do that later you can <a href = "/accounts/dashboard/">return to dashboard</a></p>
+  	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
+	  <!-- Need to specify actual path of the pages -->
+	  <p class="reg-header" align="center">You can <a href = "/dashboard/create_house/">create a House</a></p>
+	  <!-- Maybe for future release?
+	    <p class="reg-header" align="center">Alternatively, maybe you want to <a href = "/accounts/joinhouse/">join a House</a></p>
+	  This isn't allowed.
+	  <p class="reg-header" align="center">Or if you want to do that later you can <a href = "/dashboard/">return to dashboard</a></p>
+    -->
   </div>
-{% end block %}
+{% endblock %}
