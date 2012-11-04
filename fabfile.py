@@ -14,7 +14,7 @@ PROD_APPS = ('fullhouse/', 'fullhouse_static/')
 
 GIT_REPO = 'git://github.com/Full-House-UW/fullhouse.git'
 
-APP_PATH = 'webapps/'
+APP_PATH = '/home/heff/webapps/'
 
 # arguments:
 # - stack: qa or prod -- the stack to release to
@@ -46,7 +46,7 @@ def get_release_apps(stack):
 #   second element is the path to the static folder
 #
 # example return value:
-# ('webapps/qa_fullhouse/', 'webapps/qa_fullhouse_static')
+# ('/home/heff/webapps/qa_fullhouse/', '/home/heff/webapps/qa_fullhouse_static')
 def get_app_paths(stack):
     apps = get_release_apps(stack)
     dynamic_app_path = APP_PATH + apps[0]
@@ -67,8 +67,11 @@ def release(stack, branch):
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
 
-    run("cp -r " + dynamic + "fullhouse/fullhouse/static/* " + static)
-    run("STACK=" + stack + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
+    run("STACK=" + stack + " STATIC_ROOT=" + static + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
+
+    with cd(dynamic):
+        run("source env/bin/activate && fullhouse/manage.py collectstatic -l --noinput")
+
     run("rm -f " + dynamic + "fullhouse/initial_data.json")
 
     with cd(dynamic + "fullhouse/"):
