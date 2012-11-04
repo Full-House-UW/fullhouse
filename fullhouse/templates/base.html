@@ -25,7 +25,10 @@
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
 {% block css %} {% endblock %}
 <div id="header">
-  {% block header %}
+  {% block header %} 
+    <a href="{% url welcome %}"> 
+      <img id="header-logo" src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
+    </a>
     <ul class="nav">
       <li><a href="#">User Settings</a></li>
       <li><a href="#">House Settings</a></li>
