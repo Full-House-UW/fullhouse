@@ -12,16 +12,13 @@
 {% block css %} {% endblock %}
 <div id="header">
   {% block header %} 
+    <a href="{% url welcome %}"> 
+      <img id="header-logo" src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
+    </a>
     <ul class="nav">
-      <li>
-        <a href="{% url welcome %}"> 
-          <img id="header-logo" src="{{ STATIC_PREFIX }}large-logo.png" 
-            alt="logo" height=25% width=25%/>
-        </a>
-      </li>
       <li><a href="#">User Settings</a></li>
       <li><a href="#">House Settings</a></li>
-      <li><a href="{% url welcome %}">Logout</a></li>
+      <li><a href="/accounts/logout/">Logout</a></li>
     </ul>
   {% endblock %}
 </div>
