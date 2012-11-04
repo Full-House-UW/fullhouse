@@ -69,6 +69,7 @@ def release(stack, branch):
 
     run("cp -r " + dynamic + "fullhouse/fullhouse/static/* " + static)
     run("STACK=" + stack + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
+    run("rm -f " + dynamic + "fullhouse/initial_data.json")
 
     with cd(dynamic + "fullhouse/"):
         run("source ../env/bin/activate && ./manage.py syncdb")
