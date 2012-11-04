@@ -17,4 +17,7 @@ urlpatterns = patterns('',
     url(r'^join_house/(?P<invite_key>\w+)/$',
         views.join_house,
         name='dashboard_join_house'),
+    url(r'^announcement/new/$',
+        views.create_announcement,
+        name='create_announcement'),
 )

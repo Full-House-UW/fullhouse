@@ -6,6 +6,10 @@
   Welcome
 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}welcome.css" />
+{% endblock %}
+
 {% block content %}
   <div id="welcome">
     <div id="logo">
@@ -16,7 +20,7 @@
       {{ form.as_p }}
       <!-- temp comment, remove when form fields arranged as desired
       <div id="username">
-	Username: <input placeholder="username" />
+        Username: <input placeholder="username" />
       </div>
       <div id="password">
         Password: <input type="password" placeholder="*******" />

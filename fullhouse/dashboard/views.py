@@ -8,15 +8,37 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
 
 from forms import (
-    CreateHouseForm, AddMemberForm, BaseAddMemberFormSet
+    CreateHouseForm,
+    CreateAnnouncementForm
+    AddMemberForm,
+    BaseAddMemberFormSet
 )
 from models import (
-    House, InviteProfile
+    House, Announcement, InviteProfile
 )
 
 
 def home(request):
     return HttpResponseRedirect('/welcome/')
+
+def create_announcement(request):
+    # TODO Hack to block making an announcement if there's no house.
+    if request.user.profile.house == None:
+      return httpResponseRedirect('/dashboard/')
+
+    if request.method == "POST":
+        announcement = Announcement.objects.create(creator=request.user.profile,
+                                                   house=request.user.profile.house)
+        form = CreateAnnouncementForm(request.POST, instance=announcement)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        form = CreateAnnouncementForm()
+    return render_to_response('create_announcement.html',
+        RequestContext(request, {
+            'form': form
+        }))
 
 
 @login_required
@@ -103,7 +125,13 @@ def add_members(request):
 
 @login_required
 def dashboard(request):
-    return render_to_response('dashboard.html')
+# Make the user create/join a house before showing the dashboard.
+    if request.user.profile.house is None:
+        return render_to_response('nonhousemember.html')
+    else:
+        return render_to_response('dashboard.html', {
+            'announcements': request.user.profile.house.announcements.all()
+        }, context_instance=RequestContext(request))
 
 
 def welcome(request):

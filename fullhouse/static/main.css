@@ -1,13 +1,11 @@
-/* STYLES FOR ALL PAGES */
 a {
-    color: #330066;
+    color: #306;
     font-size: 14px;
-    padding: 12px;
 }
 
 body {
   background-color: #f2f5f6;
-  color: #330066;
+  color: #306;
   font-family: arial, sans-serif;
   font-size: 14px;
   margin: 0;
@@ -21,6 +19,7 @@ ul.nav {
 .nav li {
   display: inline-block;
   list-style: none;
+  padding-right: 24px;
 }
 
 
@@ -44,82 +43,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8d7dc', end
   padding: 50px 0;
   width: 70%;
 }
-/* END STYLES FOR ALL PAGES */
 
-/* WELCOME */
-#welcome {
-  text-align: center;
-}
-
-#login {
-  display: inline-block;
-  margin: auto;
-  padding-top: 20px;
-}
-
-#login-button {
-  padding: 5px;
-}
-
-#welcome #username, #welcome #password {
-  text-align: right;
-}
-/* END WELCOME */
-
-/* DASHBOARD */
-#dash {
-  padding: 0 10px;
-}
-
-.pane {
-	background-color: #E3EFF2;
-  border-radius: 5px;
-  display: inline-block;
-  height: 320px;
-  padding: 10px;
-  width: 47%;
-}
-
-.inner_pane {
-	height: 200px;
-  overflow-y: scroll;
-}
-
-#announcments {
-  float: left;
-}
-
-#tasks {
-  float: right;
-}
-
-.dash-header {
-	font-family: serif;
-  padding-left: 10px;
-}
-/* END DASHBOARD */
-
-/* REGISTRATION */
-#register {
-  display: inline-block;
-  padding: 20px;
-  text-align: right;
-}
-
-#register input[type="text"], #register input[type="password"] {
-  width: 150px;
-}
-
-#register select {
-  width: 154px;
-}
-
-#register-button {
-	padding: 5px;
-	text-align: left;
-}
-
-.reg-header {
-  padding-left: 10px;
-}
-/* END REGISTRATION */

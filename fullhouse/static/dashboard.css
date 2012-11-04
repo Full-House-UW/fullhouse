@@ -1,25 +1,45 @@
+#dash {
+  padding: 0 10px;
+}
+
 .pane {
-    background-color: #CCCCFF;
-    border: 3px solid #666666;
-    border-radius: 25px;
-    display: inline-block;
-    height: 80%;
-    padding: 10px;
-    width: 45%;
+	background-color: #E3EFF2;
+  border-radius: 5px;
+  display: inline-block;
+  height: 320px;
+  padding: 10px;
+  width: 47%;
 }
 
 .inner_pane {
-    overflow-y: scroll;
+	height: 240px;
+  overflow-y: scroll;
 }
 
 #announcments {
-    float: left;
+  float: left;
+}
+
+.announcement {
+  border: 1px solid black;
+  border-bottom: none;
+  padding: 5px;
+}
+
+.announcement:last-child {
+  border-bottom: 1px solid black;
+}
+
+.announcement .createdby {
+  font-size: smaller;
+  font-style: italic;
 }
 
 #tasks {
-    float: right;
+  float: right;
 }
 
 .dash-header {
-    padding-left: 10px;
+	font-family: serif;
+  padding-left: 10px;
 }

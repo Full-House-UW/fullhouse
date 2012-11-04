@@ -23,3 +23,4 @@ class BaseAddMemberFormSet(BaseFormSet):
 class CreateAnnouncementForm(forms.ModelForm):
     class Meta:
         model = models.Announcement
+        exclude = ['creator', 'house']
