@@ -2,11 +2,17 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.forms.formsets import formset_factory
 
-from forms import CreateHouseForm
-from models import House
+from forms import (
+    CreateHouseForm, AddMemberForm, BaseAddMemberFormSet
+)
+from models import (
+    House, InviteProfile
+)
 
 
 def home(request):
@@ -37,7 +43,7 @@ def create_house(request):
             userprofile.house = new_house
             userprofile.save()
 
-        return HttpResponseRedirect('complete/')
+        return HttpResponseRedirect('../add_members/')
 
     else:
         form = CreateHouseForm()
@@ -46,6 +52,53 @@ def create_house(request):
         'form': form,
     })
     return render_to_response('create_house.html', context)
+
+
+@login_required
+def join_house(request, invite_key):
+    user = request.user
+    joined = InviteProfile.objects.accept_invite(user, invite_key)
+        # redirect to success url
+    context = RequestContext(request, {
+        'joined': joined,
+    })
+
+    return render_to_response('addmembers/__accept.html', context)
+
+
+@login_required
+def add_members(request):
+    user = request.user
+    if user.profile.house is None:
+        return HttpResponseRedirect('../create_house')
+
+    AddMemberFormSet = formset_factory(
+        AddMemberForm,
+        extra=3,
+        max_num=12,
+        formset=BaseAddMemberFormSet
+    )
+    if request.method == "POST":
+        formset = AddMemberFormSet(data=request.POST)
+        if formset.is_valid():
+            # do something with data
+            # pdb.set_trace()
+            for f in formset.cleaned_data:
+                if 'email' in f:
+                    email = f['email']
+                    InviteProfile.objects.create_member_invite(
+                        email, user, user.profile.house
+                    )
+
+            return HttpResponseRedirect('complete/')
+
+    else:
+        formset = AddMemberFormSet()
+
+    context = RequestContext(request, {
+        'formset': formset,
+    })
+    return render_to_response('addmembers/add_members.html', context)
 
 
 @login_required

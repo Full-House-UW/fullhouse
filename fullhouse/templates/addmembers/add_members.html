@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Create House
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_house.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="addmembers">
+    <form action="." method="POST">
+      {% csrf_token %}
+
+      {{ formset.management_form }}
+      {{ formset.non_form_errors }}
+      <table>
+          {% for form in formset.forms %}
+              {{ form }}
+          {% endfor %}
+      </table>
+    <input type="submit" value="{% trans 'Add Members' %}" />
+    </form>
+  </div>
+{% endblock %}
