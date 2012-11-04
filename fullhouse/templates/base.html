@@ -26,8 +26,8 @@
 {% block css %} {% endblock %}
 <div id="header">
   {% block header %} 
-    <a href="{% url welcome %}"> 
-      <img id="header-logo" src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
+    <a id="header-logo" href="{% url welcome %}"> 
+      <img src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
     </a>
     <ul class="nav">
       <li><a href="#">User Settings</a></li>
