@@ -25,7 +25,7 @@ def home(request):
 def create_announcement(request):
     # TODO Hack to block making an announcement if there's no house.
     if request.user.profile.house is None:
-        return httpResponseRedirect('/dashboard/')
+        return HttpResponseRedirect('/dashboard/')
 
     if request.method == "POST":
         announcement = Announcement.objects.create(
@@ -114,7 +114,7 @@ def add_members(request):
                         email, user, user.profile.house
                     )
 
-            return HttpResponseRedirect('complete/')
+            return HttpResponseRedirect('/dashboard/')
 
     else:
         formset = AddMemberFormSet()
@@ -137,6 +137,9 @@ def dashboard(request):
 
 
 def welcome(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/dashboard/')
+
     form = AuthenticationForm()
     return render_to_response('welcome.html',
         RequestContext(request, {
