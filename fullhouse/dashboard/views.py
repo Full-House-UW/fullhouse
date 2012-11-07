@@ -28,7 +28,7 @@ def create_announcement(request):
         return HttpResponseRedirect('/dashboard/')
 
     if request.method == "POST":
-        announcement = Announcement.objects.create(
+        announcement = Announcement(
             creator=request.user.profile,
             house=request.user.profile.house)
         form = CreateAnnouncementForm(request.POST, instance=announcement)
