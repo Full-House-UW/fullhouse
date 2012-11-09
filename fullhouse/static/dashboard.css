@@ -17,7 +17,7 @@
 }
 
 #announcments {
-  float: left;
+  display: inline-block;
 }
 
 .announcement {
@@ -36,7 +36,7 @@
 }
 
 #tasks {
-  float: right;
+  display: inline-block;
 }
 
 .dash-header {
