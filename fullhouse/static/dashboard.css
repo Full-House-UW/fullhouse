@@ -3,7 +3,7 @@
 }
 
 .pane {
-	background-color: #E3EFF2;
+  background-color: #E3EFF2;
   border-radius: 5px;
   display: inline-block;
   height: 320px;
@@ -12,12 +12,12 @@
 }
 
 .inner_pane {
-	height: 240px;
+  height: 240px;
   overflow-y: scroll;
 }
 
-#announcments {
-  display: inline-block;
+#announcements {
+  float: left;
 }
 
 .announcement {
@@ -36,10 +36,10 @@
 }
 
 #tasks {
-  display: inline-block;
+  float: right;
 }
 
 .dash-header {
-	font-family: serif;
+  font-family: serif;
   padding-left: 10px;
 }

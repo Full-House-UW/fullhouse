@@ -1,0 +1,7 @@
+{% load i18n %}
+{{ from_username }} {% trans "has invited you to join a house on" %} {{ site.name }}:
+
+{% trans "House" %}: {{ housename|safe }}
+http://{{ site.domain }}{% url fullhouse.dashboard.views.join_house invite_key %}
+
+{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
