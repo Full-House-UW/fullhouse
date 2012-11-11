@@ -16,18 +16,22 @@
   overflow-y: scroll;
 }
 
+.add-announcement-link {
+  font-size: 14px;
+}
+
 #announcements {
   float: left;
 }
 
 .announcement {
-  border: 1px solid black;
-  border-bottom: none;
+  border-top: 1px solid black;
+  margin-right: 5px;
   padding: 5px;
 }
 
 .announcement:last-child {
-  border-bottom: 1px solid black !important;
+  border-bottom: 1px solid black;
 }
 
 .announcement .createdby {
