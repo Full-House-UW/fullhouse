@@ -20,4 +20,7 @@ urlpatterns = patterns('',
     url(r'^announcement/new/$',
         views.create_announcement,
         name='create_announcement'),
+    url(r'^announcement/edit/$',
+        views.edit_announcement,
+        name='edit_announcement'),
 )
