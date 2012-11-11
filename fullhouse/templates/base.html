@@ -29,11 +29,13 @@
     <a id="header-logo" href="{% url welcome %}"> 
       <img src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
     </a>
-    <ul class="nav">
-      <li><a href="#">User Settings</a></li>
-      <li><a href="#">House Settings</a></li>
-      <li><a href="/accounts/logout/">Logout</a></li>
-    </ul>
+    {% if user.is_authenticated %}
+      <ul class="nav">
+        <li><a href="#">User Settings</a></li>
+        <li><a href="#">House Settings</a></li>
+        <li><a href="/accounts/logout/">Logout</a></li>
+      </ul>
+    {% endif %}
   {% endblock %}
 </div>
 <div id="main">

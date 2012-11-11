@@ -22,6 +22,7 @@ def home(request):
     return HttpResponseRedirect('/welcome/')
 
 
+@login_required
 def create_announcement(request):
     # TODO Hack to block making an announcement if there's no house.
     if request.user.profile.house is None:
@@ -42,6 +43,32 @@ def create_announcement(request):
             'form': form
         }))
 
+
+@login_required
+def edit_announcement(request):
+    a = request.GET["id"] if request.method == "GET" else request.POST["id"]
+    if a is None:
+        #TODO decide how to handle this error.
+        return HttpResponseRedirect('/dashboard/')
+    # TODO check it's a valid announcement.
+    announcement = Announcement.objects.get(id=a)
+    # Only the owner can edit.
+    if request.user != announcement.creator.user:
+        #TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
+
+    if request.method == "POST":
+        form = CreateAnnouncementForm(request.POST, instance=announcement)
+        if form.is_valid():
+            announcement = form.save()
+        return HttpResponseRedirect('/dashboard/')
+    else:
+        form = CreateAnnouncementForm(instance=announcement)
+    return render_to_response('edit_announcement.html',
+        RequestContext(request, {
+            'form': form,
+            'id': a
+        }))
 
 @login_required
 def create_house(request):
