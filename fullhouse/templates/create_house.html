@@ -16,6 +16,7 @@
     {% if error %}
       {{ error }}
     {% else %}
+    <h1> Create a house!</h1>
       <form name="create-house" action="." method="POST">
         {% csrf_token %}
 
