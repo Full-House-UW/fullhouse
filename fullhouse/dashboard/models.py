@@ -141,7 +141,6 @@ class UserProfile(models.Model):
 
 class Announcement(models.Model):
     creator = models.ForeignKey(UserProfile)
-    title = models.CharField(max_length=100)
     text = models.TextField()
     house = models.ForeignKey(House, related_name='announcements')
     expiration = models.DateField(null=True)
