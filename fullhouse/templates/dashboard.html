@@ -14,9 +14,9 @@
   <h1 class="dash-header">Welcome to Full House, {{ user.username }}!</h1>
   <div id="dash">
     <div class="pane" id="announcements">
-      <h2>Announcements
-        <a id="add-ann" href="/dashboard/announcement/new/">
-					<img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon"/>add</a></h2>
+      <h2>Announcements <a id="add-ann" href="/dashboard/announcement/new/" class="add-announcement-link">
+        <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
+      </h2>
       <div class="inner_pane">
         {% for announcement in announcements %}
           <div class="announcement">
@@ -25,7 +25,12 @@
               {{ announcement.text }}
             </p>
             <p class="createdby">
-              posted by {{ announcement.creator.user.username }}
+              posted by
+              {% if announcement.creator.user == user %}
+                you <a href="/dashboard/announcement/edit/?id={{ announcement.id }}">edit</a>
+              {% else %}
+                posted by {{ announcement.creator.user.username }}
+              {% endif %}
             </p>
           </div>
         {% endfor %}

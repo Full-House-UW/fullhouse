@@ -1,6 +1,5 @@
 a {
     color: #306;
-    font-size: 14px;
 }
 
 body {
@@ -9,6 +8,10 @@ body {
   font-family: arial, sans-serif;
   font-size: 14px;
   margin: 0;
+}
+
+img {
+  border: none;
 }
 
 ul.nav {
