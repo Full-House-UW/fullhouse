@@ -7,7 +7,7 @@
   border-radius: 5px;
   display: inline-block;
   height: 320px;
-  padding: 10px;
+  padding: 1%;
   width: 47%;
 }
 
@@ -37,6 +37,15 @@
 .announcement .createdby {
   font-size: smaller;
   font-style: italic;
+}
+
+#add-icon {
+  width: 15px;
+  height: 15px;
+}
+
+#add-ann {
+  float: right;
 }
 
 #tasks {
