@@ -1,16 +1,17 @@
-window.onload(function() {
-  var chdiv = $("#createhouse");
-  chdiv.style.visibility = "hidden";
+window.onload = function() {
+  var chdiv = $("#createhouse")[0];
+  chdiv.style.display = "none";
 
-  chdiv.addEventListener("click", toggleCreateHouse, false);
-});
+  var createHouseLink = $("#create_house")[0];
+  createHouseLink.addEventListener("click", toggleCreateHouse, false);
+};
 
 function toggleCreateHouse() {
-  var chdiv = $("#createhouse");
+  var chdiv = $("#createhouse")[0];
 
-  if (chdiv.style.visibility == "hidden") {
-    chdiv.style.visibility = "visible";
+  if (chdiv.style.display == "none") {
+    chdiv.style.display = "";
   } else {
-    chdiv.style.visibility = "hidden";
+    chdiv.style.display = "none";
   }
 }

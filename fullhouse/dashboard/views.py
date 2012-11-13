@@ -80,7 +80,7 @@ def create_house(request):
         context = RequestContext(request, {
             'error': 'You have already created a house',
         })
-        return render_to_response('create_house.html', context)
+        return render_to_response('nonhousemember.html', context)
 
     if request.method == "POST":
         # create the house and redirect to complete page
@@ -94,7 +94,7 @@ def create_house(request):
             userprofile.house = new_house
             userprofile.save()
 
-        return HttpResponseRedirect('../add_members/')
+        return HttpResponseRedirect('add_members/')
 
     else:
         form = CreateHouseForm()
@@ -102,7 +102,7 @@ def create_house(request):
     context = RequestContext(request, {
         'form': form,
     })
-    return render_to_response('create_house.html', context)
+    return render_to_response('nonhousemember.html', context)
 
 
 @login_required
@@ -156,7 +156,9 @@ def add_members(request):
 def dashboard(request):
 # Make the user create/join a house before showing the dashboard.
     if request.user.profile.house is None:
-        return render_to_response('nonhousemember.html')
+        # Don't see error for "already created house"
+        return create_house(request)
+        #return render_to_response('nonhousemember.html')
     else:
         return render_to_response('dashboard.html', {
             'announcements': request.user.profile.house.announcements.all()
