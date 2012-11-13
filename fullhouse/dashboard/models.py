@@ -148,3 +148,6 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.creator.__str__() + ": " + self.title
+
+    class Meta:
+        ordering = ['-id']
