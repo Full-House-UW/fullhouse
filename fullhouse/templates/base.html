@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
 {% block css %} {% endblock %}
 <div id="header">
-  {% block header %} 
+  {% block header %}
+    <LINK REL="SHORTCUT ICON" HREF="{{ STATIC_PREFIX }}favicon.ico" type="image/x-icon">
     <a id="header-logo" href="{% url welcome %}"> 
       <img src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
     </a>
@@ -47,5 +48,8 @@
   {% endblock %}
 </div>
 <div id="footer">
-  {% block footer %} {% endblock %}
+  {% block footer %}  
+    <br>
+    <a href = "/about_us/">About Us</a>
+  {% endblock %}
 </div>
