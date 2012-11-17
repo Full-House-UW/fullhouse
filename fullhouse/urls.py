@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^welcome/$', views.welcome, name='welcome'),
     url(r'^about_us/', views.about_us, name='about_us'),
     url(r'^dashboard/', include('fullhouse.dashboard.urls')),
-    url(r'^accounts/', include('fullhouse.auth.backend.urls')),
+    url(r'^accounts/', include('fullhouse.auth.urls')),
 
 
     # url(r'^fullhouse/', include('fullhouse.foo.urls')),
