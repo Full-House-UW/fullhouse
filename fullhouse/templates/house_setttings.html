@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  House Settings
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}house_settings.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="house-settings">
+    {% if error %}
+      {{ error }}
+    {% else %}
+      <h1 class="settings-head">House Settings</h1>
+      <form name="house-settings" action="." method="POST">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+          {{ form.name.errors }}
+          <label form="housename">House Name: </label>
+          {{ form.name }}
+        </div>
+
+        <div class="fieldWrapper">
+          {{ form.zip_code.errors }}
+          <label form="zipcode">Zip Code: </label>
+          {{ form.zip_code }}
+        </div>
+        <input type="submit" value="{% trans 'Update House Settings' %}" />
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
