@@ -7,4 +7,3 @@ pep8==1.2
 pycrypto==2.6
 ssh==1.7.14
 wsgiref==0.1.2
-psycopg2
