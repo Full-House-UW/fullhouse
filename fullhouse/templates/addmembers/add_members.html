@@ -11,8 +11,12 @@
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}create_house.css" />
 {% endblock %}
 
+
 {% block content %}
   <div id="addmembers">
+		<h1>Add house-mates</h1>
+		<p>Type in the email addresses of those in your house. An email will
+		be sent to each so they can join.</p>
     <form action="." method="POST">
       {% csrf_token %}
 
@@ -23,7 +27,13 @@
               {{ form }}
           {% endfor %}
       </table>
-    <input type="submit" value="{% trans 'Add Members' %}" />
+    <br>
+    <div id = "addmembers-button">
+      <input type="submit" value="{% trans 'Add house-mates' %}" />
+    </div>
     </form>
+    <br><p>Or you can choose to 
+      <a href="{% url welcome %}"><u>Skip for now</u></a> 
+      and add house-mates later </p> 
   </div>
 {% endblock %}
