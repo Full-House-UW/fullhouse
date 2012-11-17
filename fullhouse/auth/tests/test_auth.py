@@ -20,7 +20,6 @@ class TestAuth(TestCase):
 
     def testRegistration(self):
         register_data = {
-            'username': 'alice',
             'email': 'alice@eatallthecake.com',
             'password1': 'shiny',
             'password2': 'shiny',
@@ -29,7 +28,7 @@ class TestAuth(TestCase):
         # first attempt at login fails
         response = self.client.post(
             '/accounts/login/',
-            data={'username': 'alice', 'password': 'nope'},
+            data={'email': 'alice@eatallthecake.com', 'password': 'nope'},
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -71,7 +70,7 @@ class TestAuth(TestCase):
         # now login succeeds
         response = self.client.post(
             '/accounts/login/',
-            data={'username': 'alice', 'password': 'shiny'},
+            data={'email': 'alice@eatallthecake.com', 'password': 'shiny'},
             follow=True
         )
         self.assertEqual(response.status_code, 200)

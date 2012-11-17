@@ -70,6 +70,7 @@ def edit_announcement(request):
             'id': a
         }))
 
+
 @login_required
 def create_house(request):
 
@@ -172,6 +173,7 @@ def welcome(request):
         RequestContext(request, {
             'form': form
         }))
+
 
 def about_us(request):
     return render_to_response('about_us.html')

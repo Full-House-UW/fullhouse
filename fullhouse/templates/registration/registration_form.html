@@ -22,12 +22,6 @@
       {% csrf_token %}
 
       <div class = "fieldWrapper">
-        {{ form.username.errors }}
-         <label for="username">Username*: </label>
-         {{ form.username }}
-      </div>
-
-      <div class = "fieldWrapper">
         {{ form.email.errors }}
          <label form="email">Email Address*: </label>
          {{ form.email }}
@@ -45,11 +39,6 @@
          {{ form.password2 }}
       </div>
 
-      <div class = "fieldWrapper">
-        {{ form.birthday.errors }}
-         <label form="birthday">Birthdate (MM/DD/YYYY): </label>
-         {{ form.birthday }}
-      </div>
       <input type="hidden" name="next" value="{{ next }}" />
       <div id="register-button">
         <input type="submit" value="{% trans 'Submit' %}" />

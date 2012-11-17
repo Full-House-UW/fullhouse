@@ -5,7 +5,6 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 from fullhouse.dashboard import views
-print views
 
 urlpatterns = patterns('',
     # Examples:
