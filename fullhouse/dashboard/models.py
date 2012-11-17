@@ -144,6 +144,7 @@ class Announcement(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField()
     house = models.ForeignKey(House, related_name='announcements')
+    expiration = models.DateField(null=True)
 
     def __str__(self):
         return self.creator.__str__() + ": " + self.title
