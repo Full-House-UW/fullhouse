@@ -66,6 +66,7 @@ def release(stack, branch):
             run("git checkout " + branch)
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
+        run("source env/bin/activate && pip install -r fullhouse/server_requirements.txt")
 
     run("STACK=" + stack + " STATIC_ROOT=" + static + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
 
