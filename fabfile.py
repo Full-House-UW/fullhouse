@@ -22,10 +22,12 @@ APP_PATH = '/home/heff/webapps/'
 # returns:
 # - a pair where the first element is name of the dynamic app folder, and the
 #   second element is the name of the static folder
-#
-# example return value:
-# ('qa_fullhouse/', 'qa_fullhouse_static')
 def get_release_apps(stack):
+    """
+    >>> get_release_apps('qa')
+    ('qa_fullhouse/', 'qa_fullhouse_static/')
+    """
+
     if (stack == 'qa'):
         return QA_APPS
     elif (stack == 'prod'):
@@ -44,10 +46,11 @@ def get_release_apps(stack):
 # returns:
 # - a pair where the first element is path to the dynamic app folder, and the
 #   second element is the path to the static folder
-#
-# example return value:
-# ('/home/heff/webapps/qa_fullhouse/', '/home/heff/webapps/qa_fullhouse_static')
 def get_app_paths(stack):
+    """
+    >>> get_app_paths('qa')
+    ('/home/heff/webapps/qa_fullhouse/', '/home/heff/webapps/qa_fullhouse_static/')
+    """
     apps = get_release_apps(stack)
     dynamic_app_path = APP_PATH + apps[0]
     static_app_path = APP_PATH + apps[1]
@@ -79,3 +82,7 @@ def release(stack, branch):
         run("source ../env/bin/activate && ./manage.py syncdb")
 
     run(dynamic + "apache2/bin/restart")
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
