@@ -16,7 +16,7 @@
     {% if error %}
       {{ error }}
     {% else %}
-      <h1 class="settings-head">House Settings</h1>
+      <h1>House Settings</h1>
       <form name="house-settings" action="." method="POST">
         {% csrf_token %}
 
@@ -32,7 +32,10 @@
           <label form="zipcode">Zip Code: </label>
           {{ form.zip_code }}
         </div>
-        <input type="submit" value="{% trans 'Update House Settings' %}" />
+
+        <div id="house-settings-submit">
+          <input type="submit" value="{% trans 'Update House Settings' %}" />
+        </div>
       </form>
     {% endif %}
   </div>

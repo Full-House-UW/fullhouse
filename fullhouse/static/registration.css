@@ -8,13 +8,9 @@
   width: 150px;
 }
 
-#register select {
-  width: 154px;
-}
-
 #register-button {
-	padding: 5px;
-	text-align: left;
+  padding: 5px;
+  text-align: left;
 }
 
 .reg-header {

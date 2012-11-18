@@ -16,7 +16,7 @@
     {% if error %}
       {{ error }}
     {% else %}
-      <h1 class="settings-head">User Settings</h1>
+      <h1>User Settings</h1>
       <form name="user-settings" action="." method="POST">
         {% csrf_token %}
 
@@ -56,7 +56,9 @@
           {{ form.gender }}
         </div>
 
-        <input type="submit" value="{% trans 'Update User Settings' %}" />
+        <div id="user-settings-submit">
+          <input type="submit" value="{% trans 'Update User Settings' %}" />
+        </div>
       </form>
     {% endif %}
   </div>
