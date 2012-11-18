@@ -224,8 +224,8 @@ def dashboard(request):
         #return render_to_response('nonhousemember.html')
     else:
         return render_to_response('dashboard.html', {
-            'announcements': request.user.profile.house.announcements.filter(
-                expiration__gte=date.today()
+            'announcements': request.user.profile.house.announcements.exclude(
+                expiration__lt=date.today()
             )
         }, context_instance=RequestContext(request))
 
