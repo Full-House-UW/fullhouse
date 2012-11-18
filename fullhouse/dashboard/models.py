@@ -146,7 +146,7 @@ class Announcement(models.Model):
     expiration = models.DateField(null=True)
 
     def __str__(self):
-        return self.creator.__str__() + ": " + self.title
+        return self.creator.__str__() + ": " + self.text
 
     class Meta:
         ordering = ['-id']
