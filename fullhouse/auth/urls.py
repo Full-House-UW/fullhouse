@@ -49,5 +49,5 @@ urlpatterns = patterns('',
         direct_to_template,
         {'template': 'registration/registration_closed.html'},
         name='registration_disallowed'),
-    url(r'', include('fullhouse.auth.auth_urls')),
+    url(r'', include('fullhouse.auth.backend.auth_urls')),
 )

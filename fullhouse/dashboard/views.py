@@ -8,7 +8,7 @@ from django.template import RequestContext
 
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from emailusernames.forms import EmailAuthenticationForm
 from django.forms.formsets import formset_factory
 
 from forms import (
@@ -81,6 +81,7 @@ def edit_announcement(request):
             'form': form,
             'id': a
         }))
+
 
 @login_required
 def create_house(request):
@@ -183,11 +184,12 @@ def welcome(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/dashboard/')
 
-    form = AuthenticationForm()
+    form = EmailAuthenticationForm()
     return render_to_response('welcome.html',
         RequestContext(request, {
             'form': form
         }))
+
 
 def about_us(request):
     return render_to_response('about_us.html')

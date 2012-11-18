@@ -1,5 +1,6 @@
 Django==1.4.1
 Fabric==1.4.3
+django-email-as-username==1.6.2
 django-nose==1.1
 django-registration==0.8
 nose==1.2.1
