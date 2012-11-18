@@ -11,12 +11,8 @@ from django.contrib.auth.decorators import login_required
 from emailusernames.forms import EmailAuthenticationForm
 from django.forms.formsets import formset_factory
 
-from forms import (
-    CreateHouseForm,
-    CreateAnnouncementForm,
-    AddMemberForm,
-    BaseAddMemberFormSet
-)
+from forms import *
+
 from models import (
     House, Announcement, InviteProfile
 )
@@ -81,6 +77,55 @@ def edit_announcement(request):
             'form': form,
             'id': a
         }))
+
+
+@login_required
+def edit_user(request):
+    user = request.user
+    if request.method == "POST":
+        form = UpdateUserForm(request.POST, user=user)
+        if form.is_valid():
+            if form.cleaned_data['email'] != user.email:
+                user.email = form.cleaned_data['email']
+                user.save()
+            user.profile.birthday = form.cleaned_data['birthday']
+            user.profile.save()
+
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        initial = {
+            'email': user.email,
+            'birthday': user.profile.birthday,
+        }
+        form = UpdateUserForm(initial=initial, user=user)
+
+    context = RequestContext(request, {'form': form})
+
+    return render_to_response('user_settings.html', context)
+
+
+@login_required
+def edit_house(request):
+    user = request.user
+    house = user.profile.house
+    if house is None:
+        return HttpResponseRedirect('../create_house/')
+
+    if request.method == "POST":
+        form = CreateHouseForm(data=request.POST, instance=house)
+        if form.is_valid():
+            house.save()
+            return HttpResponseRedirect('/dashboard/')
+
+    else:
+        initial = {
+            'name': house.name,
+            'zip_code': house.zip_code,
+        }
+        form = CreateHouseForm(initial=initial)
+    context = RequestContext(request, {'form': form})
+
+    return render_to_response('house_settings.html', context)
 
 
 @login_required
