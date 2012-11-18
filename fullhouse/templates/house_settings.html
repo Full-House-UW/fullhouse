@@ -4,20 +4,20 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-  Create House
+  House Settings
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_house.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}house_settings.css" />
 {% endblock %}
 
 {% block content %}
-  <div id="createhouse">
+  <div id="house-settings">
     {% if error %}
       {{ error }}
     {% else %}
-    <h1> Create a house!</h1>
-      <form name="create-house" action="." method="POST">
+      <h1>House Settings</h1>
+      <form name="house-settings" action="." method="POST">
         {% csrf_token %}
 
         {{ form.non_field_errors }}
@@ -27,7 +27,15 @@
           {{ form.name }}
         </div>
 
-        <input type="submit" value="{% trans 'Create My House' %}" />
+        <div class="fieldWrapper">
+          {{ form.zip_code.errors }}
+          <label form="zipcode">Zip Code: </label>
+          {{ form.zip_code }}
+        </div>
+
+        <div id="house-settings-submit">
+          <input type="submit" value="{% trans 'Update House Settings' %}" />
+        </div>
       </form>
     {% endif %}
   </div>

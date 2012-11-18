@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  User Settings
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}user_settings.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="user_settings">
+    {% if error %}
+      {{ error }}
+    {% else %}
+      <h1>User Settings</h1>
+      <form name="user-settings" action="." method="POST">
+        {% csrf_token %}
+
+        <div class="fieldWrapper">
+          {{ form.email.errors }}
+          <label form="email">Email Address: </label>
+          {{ form.email }}
+        </div>
+
+        <div class="fieldWrapper">
+          <a href="/accounts/password/change/">Change your password</a>
+        </div>
+
+        <div class="fieldWrapper">
+          {{ form.birthday.errors }}
+          <label form="birthday">Birthdate (MM/DD/YYYY): </label>
+          {{ form.birthday }}
+        </div>
+
+        <div class="fieldWrapper">
+          {{ form.gender.errors }}
+          <label form="gender">Gender: </label>
+          {{ form.gender }}
+        </div>
+
+        <div id="user-settings-submit">
+          <input type="submit" value="{% trans 'Update User Settings' %}" />
+        </div>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
