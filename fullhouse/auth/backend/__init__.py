@@ -74,8 +74,7 @@ class FullhouseBackend(DefaultBackend):
         class of this backend as the sender.
 
         """
-        email, password = (kwargs['email'],
-                                     kwargs['password1'])
+        email, password = (kwargs['email'], kwargs['password1'])
 
         #TODO: get site data from settings
         if Site._meta.installed:

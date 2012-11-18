@@ -6,16 +6,13 @@ from django.conf.urls import patterns, include, url
 
 from fullhouse.dashboard import views
 
-urlpatterns = patterns('',
-    # Examples:
+urlpatterns = patterns(
+    '',
     url(r'^$', views.home, name='home'),
     url(r'^welcome/$', views.welcome, name='welcome'),
     url(r'^about_us/', views.about_us, name='about_us'),
     url(r'^dashboard/', include('fullhouse.dashboard.urls')),
     url(r'^accounts/', include('fullhouse.auth.urls')),
-
-
-    # url(r'^fullhouse/', include('fullhouse.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

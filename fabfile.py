@@ -16,6 +16,7 @@ GIT_REPO = 'git://github.com/Full-House-UW/fullhouse.git'
 
 APP_PATH = '/home/heff/webapps/'
 
+
 # arguments:
 # - stack: qa or prod -- the stack to release to
 #
@@ -33,12 +34,13 @@ def get_release_apps(stack):
     elif (stack == 'prod'):
         confirm = raw_input('Release to production? [y/n]: ')
         if (confirm == 'y'):
-          return PROD_APPS
+            return PROD_APPS
         else:
-          return None
+            return None
     else:
         print("stack must be qa or prod")
         return None
+
 
 # arguments:
 # - stack: qa or prod -- the stack to release to
@@ -55,6 +57,7 @@ def get_app_paths(stack):
     dynamic_app_path = APP_PATH + apps[0]
     static_app_path = APP_PATH + apps[1]
     return (dynamic_app_path, static_app_path)
+
 
 # arguments:
 # - stack: qa or prod -- the stack to release to

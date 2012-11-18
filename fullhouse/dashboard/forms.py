@@ -33,6 +33,7 @@ class CreateTaskForm(forms.ModelForm):
         model = models.Task
         exclude = ('creator', 'house')
 
+
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
