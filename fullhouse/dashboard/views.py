@@ -106,6 +106,11 @@ def create_house(request):
             new_house.save()
             userprofile.house = new_house
             userprofile.save()
+        else:
+            context = RequestContext(request, {
+                'form': form,
+            })
+            return render_to_response('nonhousemember.html', context)
 
         return HttpResponseRedirect('add_members/')
 

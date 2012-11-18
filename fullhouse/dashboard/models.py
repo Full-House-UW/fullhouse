@@ -4,6 +4,7 @@ import random
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.validators import *
 from django.contrib.auth.models import User
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
@@ -29,7 +30,7 @@ from registration.models import SHA1_RE
 
 class House(models.Model):
     name = models.CharField(max_length=30)
-    zip_code = models.CharField(max_length=9)
+    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")])
 
     def __str__(self):
         return self.name
