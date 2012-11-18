@@ -1,8 +1,5 @@
 window.onload = function() {
-  var chdiv = $("#createhouse")[0];
-  chdiv.style.display = "none";
-
-  var createHouseLink = $("#create_house")[0];
+  var createHouseLink = $("#create_house_link")[0];
   createHouseLink.addEventListener("click", toggleCreateHouse, false);
 };
 

@@ -15,8 +15,12 @@
   <script src="{{ STATIC_PREFIX }}/nonhousemember.js"></script>
   <div id="nonhousemember">
   	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
-	  <p class="reg-header" align="center">You can <a id="create_house" href = "javascript:void(0)">create a House</a></p>
-      <div id="createhouse">
+	  <p class="reg-header" align="center">You can <a id="create_house_link" href = "javascript:void(0)">create a House</a></p>
+      <div id="createhouse"
+          {% if not form.is_bound %}
+             style="display:none"
+          {% endif %}
+      >
         <h1> Create a house!</h1>
         <form name="create-house" action="." method="POST">
           {% csrf_token %}
