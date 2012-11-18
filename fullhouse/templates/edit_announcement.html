@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Create Announcement
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_announcement.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="createannouncement">
+    <h2>Edit Announcement</h2>
+    <form name="edit-announcement" action="." method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ id }}" />
+      {{ form.as_p }}
+      <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
+      <input type="submit" name="delete" value="{% trans 'Delete' %}" />
+    </form>
+  </div>
+{% endblock %}

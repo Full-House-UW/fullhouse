@@ -1,3 +1,7 @@
+from datetime import (
+    date, timedelta
+)
+
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -37,7 +41,9 @@ def create_announcement(request):
             form.save()
             return HttpResponseRedirect('/dashboard/')
     else:
-        form = CreateAnnouncementForm()
+        # Create a date two weeks from today.
+        twoweeks = date.today() + timedelta(14)
+        form = CreateAnnouncementForm(initial={'expiration': twoweeks})
     return render_to_response('create_announcement.html',
         RequestContext(request, {
             'form': form
@@ -50,14 +56,20 @@ def edit_announcement(request):
     if a is None:
         #TODO decide how to handle this error.
         return HttpResponseRedirect('/dashboard/')
-    # TODO check it's a valid announcement.
-    announcement = Announcement.objects.get(id=a)
+    try:
+        announcement = Announcement.objects.get(id=a)
+    except Announcement.DoesNotExist:
+        # TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
     # Only the owner can edit.
     if request.user != announcement.creator.user:
         #TODO decide how to handle this.
         return HttpResponseRedirect('/dashboard/')
 
     if request.method == "POST":
+        if request.POST.get('delete') is not None:
+          announcement.delete()
+          return HttpResponseRedirect('/dashboard/')
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
@@ -80,7 +92,7 @@ def create_house(request):
         context = RequestContext(request, {
             'error': 'You have already created a house',
         })
-        return render_to_response('create_house.html', context)
+        return render_to_response('nonhousemember.html', context)
 
     if request.method == "POST":
         # create the house and redirect to complete page
@@ -94,7 +106,7 @@ def create_house(request):
             userprofile.house = new_house
             userprofile.save()
 
-        return HttpResponseRedirect('../add_members/')
+        return HttpResponseRedirect('add_members/')
 
     else:
         form = CreateHouseForm()
@@ -102,7 +114,7 @@ def create_house(request):
     context = RequestContext(request, {
         'form': form,
     })
-    return render_to_response('create_house.html', context)
+    return render_to_response('nonhousemember.html', context)
 
 
 @login_required
@@ -156,10 +168,14 @@ def add_members(request):
 def dashboard(request):
 # Make the user create/join a house before showing the dashboard.
     if request.user.profile.house is None:
-        return render_to_response('nonhousemember.html')
+        # TODO Don't see error for "already created house"
+        return create_house(request)
+        #return render_to_response('nonhousemember.html')
     else:
         return render_to_response('dashboard.html', {
-            'announcements': request.user.profile.house.announcements.all()
+            'announcements': request.user.profile.house.announcements.filter(
+                expiration__gte=date.today()
+            )
         }, context_instance=RequestContext(request))
 
 

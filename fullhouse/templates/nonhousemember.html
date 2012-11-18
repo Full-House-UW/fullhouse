@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-  Non_house_member
+  Create A House
 {% endblock %}
 
 {% block css %}
@@ -11,15 +12,29 @@
 {% endblock %}
 
 {% block content %}
+  <script src="{{ STATIC_PREFIX }}/nonhousemember.js"></script>
   <div id="nonhousemember">
   	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
-	  <!-- Need to specify actual path of the pages -->
-	  <p class="reg-header" align="center">You can <a href = "/dashboard/create_house/">create a House</a></p>
-	  <p class="reg-header" align="center"><a href = "/accounts/logout/">Skip for now and logout?</a></p>
-	  <!-- Maybe for future release?
-	    <p class="reg-header" align="center">Alternatively, maybe you want to <a href = "/accounts/joinhouse/">join a House</a></p>
-	  This isn't allowed.
-	  <p class="reg-header" align="center">Or if you want to do that later you can <a href = "/dashboard/">return to dashboard</a></p>
-    -->
+	  <p class="reg-header" align="center">You can <a id="create_house" href = "javascript:void(0)">create a House</a></p>
+      <div id="createhouse">
+        <h1> Create a house!</h1>
+        <form name="create-house" action="." method="POST">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <div class="fieldWrapper">
+            {{ form.name.errors }}
+            <label form="housename">House Name: </label>
+            {{ form.name }}
+          </div>
+
+          <div class="fieldWrapper">
+            {{ form.zip_code.errors }}
+            <label form="zipcode">Zip Code: </label>
+            {{ form.zip_code }}
+          </div>
+          <input type="submit" value="{% trans 'Create My House' %}" />
+        </form>
+    </div>
+	  <p class="reg-header" align="center"><a href = "{% url auth_logout %}">Skip for now and log out</a></p>
   </div>
 {% endblock %}
