@@ -9,7 +9,6 @@ from django.template.loader import (
 
 from emailusernames.utils import migrate_usernames
 
-print settings.TEMPLATE_DIRS
 
 encountered_emails = set()
 duplicates = {}
@@ -17,12 +16,11 @@ duplicates = {}
 
 def update_duplicate_email(user):
     email = user.email
-    username = user.username
+    username = user._username
     email_name, domain_part = email.rsplit('@', 1)
     email_name = '%s+%s' % (email_name, username)
     user.email = '@'.join([email_name, domain_part])
     user.save()
-    return username
 
 
 def send_email_update_notification(user):
@@ -31,7 +29,7 @@ def send_email_update_notification(user):
     else:
         site = RequestSite(request)
 
-    ctx_dict = {'username': user.username,
+    ctx_dict = {'username': user._username,
                 'updated_email': user.email,
                 'site': site}
     subject = render_to_string("auth_update_subject.txt", ctx_dict)
@@ -41,11 +39,16 @@ def send_email_update_notification(user):
 
 
 def migrate_fullhouse_usernames():
+    """
+        WARNING: RUN THIS SCRIPT BEFORE SOUTH MIGRATIONS OR BAD
+        SHIT WILL HAPPEN.
+
+    """
 
     for user in User.objects.all().order_by('date_joined'):
         email = str(user.email)
         if email in encountered_emails:
-            username = user.username
+            username = user._username
             update_duplicate_email(user)
             send_email_update_notification(user)
             if email in duplicates:
@@ -56,7 +59,7 @@ def migrate_fullhouse_usernames():
               encountered_emails.update([email])
 
     print "Updated duplicate emails for %d of %d accounts" % (
-          len(duplicates), len(encountered_emails))
+          sum(len (d) for d in (duplicates.values())), len(encountered_emails))
 
     migrate_usernames()
 
