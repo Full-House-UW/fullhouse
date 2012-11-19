@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Create Task
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_task.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="createannouncement">
+    <h2>Create New Task</h2>
+    <form name="create-announcement" action="." method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="{% trans 'Create Task' %}" />
+    </form>
+  </div>
+{% endblock %}

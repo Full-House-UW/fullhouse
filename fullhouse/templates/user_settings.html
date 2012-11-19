@@ -27,23 +27,20 @@
         </div>
 
         <div class="fieldWrapper">
-          <a href="/accounts/password/change/">Change your password</a>
-        </div>
-
-        <div class="fieldWrapper">
+          <br>
           {{ form.birthday.errors }}
           <label form="birthday">Birthdate (MM/DD/YYYY): </label>
           {{ form.birthday }}
         </div>
 
         <div class="fieldWrapper">
-          {{ form.gender.errors }}
-          <label form="gender">Gender: </label>
-          {{ form.gender }}
+          <br>
+          <a href="/accounts/password/change/"><b>Change your password</b></a>
         </div>
 
         <div id="user-settings-submit">
-          <input type="submit" value="{% trans 'Update User Settings' %}" />
+          <br>
+          <input type="submit" value="{% trans 'Save User Settings' %}" />
         </div>
       </form>
     {% endif %}

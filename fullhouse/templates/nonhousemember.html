@@ -9,6 +9,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}nonhousemember.css" />
 {% endblock %}
 
 {% block content %}
@@ -21,7 +22,6 @@
              style="display:none"
           {% endif %}
       >
-        <h1> Create a house!</h1>
         <form name="create-house" action="." method="POST">
           {% csrf_token %}
           {{ form.non_field_errors }}

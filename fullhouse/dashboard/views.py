@@ -13,9 +13,7 @@ from django.forms.formsets import formset_factory
 
 from forms import *
 
-from models import (
-    House, Announcement, InviteProfile
-)
+from models import *
 
 
 def home(request):
@@ -69,13 +67,68 @@ def edit_announcement(request):
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
-        return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateAnnouncementForm(instance=announcement)
     return render_to_response('edit_announcement.html',
         RequestContext(request, {
             'form': form,
             'id': a
+        }))
+
+
+@login_required
+def create_task(request):
+    if request.user.profile.house is None:
+        return HttpResponseRedirect('/dashboard/')
+
+    if request.method == "POST":
+        userprofile = request.user.profile
+        task = Task(
+            creator=userprofile,
+            house=userprofile.house)
+        form = CreateTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        form = CreateTaskForm()
+    return render_to_response('create_task.html',
+        RequestContext(request, {
+            'form': form
+        }))
+
+
+@login_required
+def edit_task(request):
+    t_id = request.GET["id"] if request.method == "GET" else request.POST["id"]
+    if t_id is None:
+        #TODO decide how to handle this error.
+        return HttpResponseRedirect('/dashboard/')
+    try:
+        task = Task.objects.get(id=t_id)
+    except Task.DoesNotExist:
+        # TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
+    # Only the owner can edit.
+    if request.user != task.creator.user:
+        #TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
+
+    if request.method == "POST":
+        if request.POST.get('delete') is not None:
+          task.delete()
+          return HttpResponseRedirect('/dashboard/')
+        form = CreateTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        form = CreateTaskForm(instance=task)
+    return render_to_response('edit_task.html',
+        RequestContext(request, {
+            'form': form,
+            'id': t_id
         }))
 
 
@@ -130,7 +183,6 @@ def edit_house(request):
 
 @login_required
 def create_house(request):
-
     #TODO fix this hack
     user = request.user
     if user.profile.house is not None:
@@ -223,11 +275,16 @@ def dashboard(request):
         return create_house(request)
         #return render_to_response('nonhousemember.html')
     else:
-        return render_to_response('dashboard.html', {
-            'announcements': request.user.profile.house.announcements.filter(
-                expiration__gte=date.today()
-            )
-        }, context_instance=RequestContext(request))
+        house = request.user.profile.house
+        announcements = house.announcements.exclude(
+            expiration__lt=date.today()
+        )
+        tasks = house.tasks.all()
+        context = RequestContext(request, {
+            'announcements': announcements,
+            'tasks': tasks,
+        })
+        return render_to_response('dashboard.html', context)
 
 
 def welcome(request):
