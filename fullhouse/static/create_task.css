@@ -16,7 +16,7 @@
   width: 345px;
 }
 
-#create-task input[type="text"] {
+#create-task input[type="text"], input[type="textarea"] {
   width: 341px;
 }
 
