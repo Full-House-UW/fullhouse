@@ -131,7 +131,7 @@ class InviteProfile(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, related_name='profile')
-    birthday = models.DateField(null=True)
+    birthday = models.DateField(null=True, blank=True)
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(
