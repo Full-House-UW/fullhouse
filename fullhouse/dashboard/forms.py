@@ -33,6 +33,12 @@ class CreateTaskForm(forms.ModelForm):
         model = models.Task
         exclude = ('creator', 'house')
 
+    def __init__(self, *args, **kwargs):
+        members = kwargs.pop('members')
+        super(CreateTaskForm, self).__init__(*args, **kwargs)
+        self.fields['assigned'].queryset = members
+
+
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
