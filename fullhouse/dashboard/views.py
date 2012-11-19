@@ -67,7 +67,7 @@ def edit_announcement(request):
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
-        return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateAnnouncementForm(instance=announcement)
     return render_to_response('edit_announcement.html',
@@ -122,7 +122,7 @@ def edit_task(request):
         form = CreateTaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-        return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateTaskForm()
     return render_to_response('edit_announcement.html',
@@ -276,8 +276,8 @@ def dashboard(request):
         #return render_to_response('nonhousemember.html')
     else:
         house = request.user.profile.house
-        announcements = house.announcements.filter(
-            expiration__gte=date.today()
+        announcements = house.announcements.exclude(
+            expiration__lt=date.today()
         )
         tasks = house.tasks.all()
         context = RequestContext(request, {
