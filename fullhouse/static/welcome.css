@@ -12,6 +12,11 @@
   padding: 5px;
 }
 
-#login p {
+#login-form-fields {
+  display: inline-block;
+  margin: auto;
+}
+
+#login-form-fields > p {
   text-align: right;
 }
