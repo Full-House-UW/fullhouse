@@ -151,3 +151,25 @@ class Announcement(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class Task(models.Model):
+    creator = models.ForeignKey(UserProfile, related_name='tasks_created')
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    house = models.ForeignKey(House, related_name='tasks')
+    assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned')
+    due = models.CharField(max_length=10)
+    def __str__(self):
+        return "%s: %s" % (str(self.creator), self.title)
+
+#class TaskInstance(models.Model):
+#    task = models.ForeignKey(Task, related_name='instances')
+#    completed_by = models.ForeignKey(UserProfile,
+#                                     related_name'tasks_completed')
+#    completion_date = models.DateField()
+#
+#    def __str__(self):
+#        return "%s completed by %s", %s (
+#            self.task.title, str(self.completed_by)
+#        )
