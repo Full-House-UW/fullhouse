@@ -159,7 +159,7 @@ class Task(models.Model):
     description = models.TextField()
     house = models.ForeignKey(House, related_name='tasks')
     assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned')
-    due = models.CharField(max_length=10)
+    due = models.DateTimeField()
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 
