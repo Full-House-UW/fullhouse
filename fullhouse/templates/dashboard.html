@@ -36,11 +36,34 @@
       </div>
     </div>
     <div class="pane" id="tasks">
-      <h2>Tasks</h2>
+      <h2>Tasks <a id="add-task" href="/dashboard/task/new/" class="add-task-link">
+        <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
+      </h2>
       <div class="inner_pane">
-        <div class="task">
-          <p>This is a task!</p>
-        </div>
+        {% for task in tasks %}
+          <div class="announcement">
+            <p>
+              Title: {{ task.title}}
+            </p>
+            <p>
+              description: {{ task.description }}
+            </p>
+            <p>
+              assigned to: {{ task.assigned }}
+            </p>
+            <p>
+              due: {{ task.due }}
+            </p>
+            <p class="createdby">
+              posted by
+              {% if task.creator.user == user %}
+                you <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
+              {% else %}
+                posted by {{ task.creator.user.username }}
+              {% endif %}
+            </p>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>

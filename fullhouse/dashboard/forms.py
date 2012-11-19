@@ -28,6 +28,11 @@ class CreateAnnouncementForm(forms.ModelForm):
         exclude = ('creator', 'house')
 
 
+class CreateTaskForm(forms.ModelForm):
+    class Meta:
+        model = models.Task
+        exclude = ('creator', 'house')
+
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
