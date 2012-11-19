@@ -21,12 +21,6 @@
         {% csrf_token %}
 
         <div class="fieldWrapper">
-          {{ form.email.errors }}
-          <label form="email">Email Address: </label>
-          {{ form.email }}
-        </div>
-
-        <div class="fieldWrapper">
           <br>
           {{ form.birthday.errors }}
           <label form="birthday">Birthdate (YYYY-MM-DD): </label>
