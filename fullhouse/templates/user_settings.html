@@ -36,14 +36,8 @@
           {{ form.birthday }}
         </div>
 
-        <div class="fieldWrapper">
-          {{ form.gender.errors }}
-          <label form="gender">Gender: </label>
-          {{ form.gender }}
-        </div>
-
         <div id="user-settings-submit">
-          <input type="submit" value="{% trans 'Update User Settings' %}" />
+          <input type="submit" value="{% trans 'Save User Settings' %}" />
         </div>
       </form>
     {% endif %}
