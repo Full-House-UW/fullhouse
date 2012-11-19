@@ -106,7 +106,7 @@ def edit_task(request):
         #TODO decide how to handle this error.
         return HttpResponseRedirect('/dashboard/')
     try:
-        task = Task.objects.get(pk=t_id)
+        task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
         # TODO decide how to handle this.
         return HttpResponseRedirect('/dashboard/')
@@ -124,8 +124,8 @@ def edit_task(request):
             form.save()
             return HttpResponseRedirect('/dashboard/')
     else:
-        form = CreateTaskForm()
-    return render_to_response('edit_announcement.html',
+        form = CreateTaskForm(instance=task)
+    return render_to_response('edit_task.html',
         RequestContext(request, {
             'form': form,
             'id': t_id
