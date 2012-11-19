@@ -79,20 +79,22 @@ def edit_announcement(request):
 
 @login_required
 def create_task(request):
-    if request.user.profile.house is None:
+    userprofile = request.user.profile
+    if userprofile.house is None:
         return HttpResponseRedirect('/dashboard/')
+    members = userprofile.house.members.get_query_set()
 
     if request.method == "POST":
-        userprofile = request.user.profile
         task = Task(
             creator=userprofile,
             house=userprofile.house)
-        form = CreateTaskForm(request.POST, instance=task)
+        form = CreateTaskForm(request.POST,
+            instance=task, members=members)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/dashboard/')
     else:
-        form = CreateTaskForm()
+        form = CreateTaskForm(members=members)
     return render_to_response('create_task.html',
         RequestContext(request, {
             'form': form
@@ -115,16 +117,20 @@ def edit_task(request):
         #TODO decide how to handle this.
         return HttpResponseRedirect('/dashboard/')
 
+    userprofile = request.user.profile
+    members = userprofile.house.members.get_query_set()
+
     if request.method == "POST":
         if request.POST.get('delete') is not None:
           task.delete()
           return HttpResponseRedirect('/dashboard/')
-        form = CreateTaskForm(request.POST, instance=task)
+        form = CreateTaskForm(request.POST,
+            instance=task, members=members)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/dashboard/')
     else:
-        form = CreateTaskForm(instance=task)
+        form = CreateTaskForm(instance=task, members=members)
     return render_to_response('edit_task.html',
         RequestContext(request, {
             'form': form,
