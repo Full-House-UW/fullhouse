@@ -16,10 +16,6 @@
   overflow-y: scroll;
 }
 
-.add-announcement-link {
-  font-size: 14px;
-}
-
 #announcements {
   float: left;
 }
@@ -35,7 +31,7 @@
   border-bottom: 1px solid black;
 }
 
-.announcement .createdby {
+.announcement .createdby, .announcement .assigned {
   font-size: smaller;
   font-style: italic;
 }
@@ -45,8 +41,9 @@
   height: 15px;
 }
 
-#add-ann {
+#add-ann, #add-task {
   float: right;
+  font-size: 14px;
 }
 
 #tasks {
