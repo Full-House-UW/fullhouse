@@ -12,12 +12,14 @@
 {% endblock %}
 
 {% block content %}
-  <div id="createannouncement">
-    <h2>Create New Task</h2>
+  <div id="create-task">
+    <h1>Create New Task</h1>
     <form name="create-announcement" action="." method="POST">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type="submit" value="{% trans 'Create Task' %}" />
+      <div id="create-task-submit">
+        <input type="submit" value="{% trans 'Create Task' %}" />
+      </div>
     </form>
   </div>
 {% endblock %}

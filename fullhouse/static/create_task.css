@@ -1,3 +1,26 @@
 #id_description {
   vertical-align: top;
 }
+
+#create-task {
+  display: inline-block;
+  padding: 20px;
+  text-align: right;
+}
+
+#create-task h1 {
+  padding-left: 10px;
+}
+
+#create-task input[type="select"] {
+  width: 345px;
+}
+
+#create-task input[type="text"] {
+  width: 341px;
+}
+
+#create-task-submit {
+  padding: 5px;
+  text-align: left;
+}
