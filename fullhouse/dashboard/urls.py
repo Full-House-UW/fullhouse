@@ -3,7 +3,8 @@ from django.views.generic.simple import direct_to_template
 
 import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', views.dashboard, name='dashboard'),
     url(r'^create_house/$',
         views.create_house,

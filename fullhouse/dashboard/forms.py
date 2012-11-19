@@ -38,7 +38,6 @@ class CreateTaskForm(forms.ModelForm):
         super(CreateTaskForm, self).__init__(*args, **kwargs)
         self.fields['assigned'].queryset = members
 
-
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile

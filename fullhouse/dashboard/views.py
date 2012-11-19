@@ -38,10 +38,10 @@ def create_announcement(request):
         # Create a date two weeks from today.
         twoweeks = date.today() + timedelta(14)
         form = CreateAnnouncementForm(initial={'expiration': twoweeks})
-    return render_to_response('create_announcement.html',
-        RequestContext(request, {
-            'form': form
-        }))
+    return render_to_response(
+        'create_announcement.html',
+        RequestContext(request, {'form': form})
+    )
 
 
 @login_required
@@ -62,15 +62,16 @@ def edit_announcement(request):
 
     if request.method == "POST":
         if request.POST.get('delete') is not None:
-          announcement.delete()
-          return HttpResponseRedirect('/dashboard/')
+            announcement.delete()
+            return HttpResponseRedirect('/dashboard/')
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateAnnouncementForm(instance=announcement)
-    return render_to_response('edit_announcement.html',
+    return render_to_response(
+        'edit_announcement.html',
         RequestContext(request, {
             'form': form,
             'id': a
@@ -95,7 +96,8 @@ def create_task(request):
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateTaskForm(members=members)
-    return render_to_response('create_task.html',
+    return render_to_response(
+        'create_task.html',
         RequestContext(request, {
             'form': form
         }))
@@ -122,8 +124,8 @@ def edit_task(request):
 
     if request.method == "POST":
         if request.POST.get('delete') is not None:
-          task.delete()
-          return HttpResponseRedirect('/dashboard/')
+            task.delete()
+            return HttpResponseRedirect('/dashboard/')
         form = CreateTaskForm(request.POST,
             instance=task, members=members)
         if form.is_valid():
@@ -131,7 +133,8 @@ def edit_task(request):
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateTaskForm(instance=task, members=members)
-    return render_to_response('edit_task.html',
+    return render_to_response(
+        'edit_task.html',
         RequestContext(request, {
             'form': form,
             'id': t_id
@@ -192,7 +195,6 @@ def create_house(request):
     #TODO fix this hack
     user = request.user
     if user.profile.house is not None:
-        form = CreateHouseForm(data=request.POST)
         context = RequestContext(request, {
             'error': 'You have already created a house',
         })
@@ -209,20 +211,14 @@ def create_house(request):
             new_house.save()
             userprofile.house = new_house
             userprofile.save()
-        else:
-            context = RequestContext(request, {
-                'form': form,
-            })
-            return render_to_response('nonhousemember.html', context)
 
-        return HttpResponseRedirect('add_members/')
+            return HttpResponseRedirect('add_members/')
 
     else:
         form = CreateHouseForm()
 
-    context = RequestContext(request, {
-        'form': form,
-    })
+    context = RequestContext(request, {'form': form})
+
     return render_to_response('nonhousemember.html', context)
 
 
@@ -298,7 +294,8 @@ def welcome(request):
         return HttpResponseRedirect('/dashboard/')
 
     form = EmailAuthenticationForm()
-    return render_to_response('welcome.html',
+    return render_to_response(
+        'welcome.html',
         RequestContext(request, {
             'form': form
         }))

@@ -29,7 +29,8 @@ from emailusernames.forms import EmailAuthenticationForm
 from django.contrib.auth import views as auth_views
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^login/$',
         auth_views.login,
         {'authentication_form': EmailAuthenticationForm,
