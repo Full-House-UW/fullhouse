@@ -1,3 +1,11 @@
 #id_text {
   vertical-align: top;
 }
+
+#createannouncement input[type="textarea"] {
+  width: 345px;
+}
+
+#createannouncement input[type="text"] {
+  width: 230px;
+}

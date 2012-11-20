@@ -14,9 +14,33 @@
 {% block content %}
   <div id="create-task">
     <h1>Create New Task</h1>
-    <form name="create-announcement" action="." method="POST">
+    <form name="create-task" action="." method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
+
+      <div class = "fieldWrapper">
+        {{ form.title.errors }}
+        <label form="title">Title: </label>
+        {{ form.title }}
+      </div>
+
+      <div class = "fieldWrapper">
+        {{ form.description.errors }}
+        <label form="description">Description: </label>
+        {{ form.description }}
+      </div>
+
+      <div class = "fieldWrapper">
+        {{ form.assigned.errors }}
+        <label form="assigned">Assigned to: </label>
+        {{ form.assigned }}
+      </div>
+
+     <div class = "fieldWrapper">
+        {{ form.due.errors }}
+        <label form="due">Due (YYYY-MM-DD): </label>
+        {{ form.due }}
+      </div>
+      
       <div id="create-task-submit">
         <input type="submit" value="{% trans 'Create Task' %}" />
       </div>
