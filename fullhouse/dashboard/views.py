@@ -147,16 +147,16 @@ def edit_user(request):
     if request.method == "POST":
         form = UpdateUserForm(request.POST, user=user)
         if form.is_valid():
-            if form.cleaned_data['email'] != user.email:
-                user.email = form.cleaned_data['email']
-                user.save()
+            #if form.cleaned_data['email'] != user.email:
+            #    user.email = form.cleaned_data['email']
+            #    user.save()
             user.profile.birthday = form.cleaned_data['birthday']
             user.profile.save()
 
             return HttpResponseRedirect('/dashboard/')
     else:
         initial = {
-            'email': user.email,
+            #'email': user.email,
             'birthday': user.profile.birthday,
         }
         form = UpdateUserForm(initial=initial, user=user)
