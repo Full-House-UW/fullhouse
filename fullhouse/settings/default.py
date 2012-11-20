@@ -36,8 +36,9 @@ MIDDLEWARE_CLASSES = (
 INSTALLED_APPS = (
     'fullhouse.dashboard',
     'fullhouse.auth',
-    'registration',
     'django.contrib.auth',
+    'registration',
+    'emailusernames',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -48,6 +49,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django_nose',
+    'south',
 )
 
 ROOT_URLCONF = 'fullhouse.urls'
@@ -67,7 +69,6 @@ TEMPLATE_DIRS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -130,7 +131,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # AUTH settings
@@ -139,6 +139,10 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 LOGIN_REDIRECT_URL = '/dashboard/'
+
+AUTHENTICATION_BACKENDS = (
+    'emailusernames.backends.EmailAuthBackend',
+)
 
 # for member house invites
 INVITE_ACTIVATION_DAYS = 7  # One-week activation window;

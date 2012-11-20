@@ -14,22 +14,21 @@
   <h1 class="dash-header">Welcome to Full House, {{ user.username }}!</h1>
   <div id="dash">
     <div class="pane" id="announcements">
-      <h2>Announcements <a id="add-ann" href="/dashboard/announcement/new/" class="add-announcement-link">
+      <h2>Announcements <a id="add-ann" href="/dashboard/announcement/new/">
         <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
       </h2>
       <div class="inner_pane">
         {% for announcement in announcements %}
           <div class="announcement">
-            <h4>{{ announcement.title }}</h4>
             <p>
               {{ announcement.text }}
             </p>
             <p class="createdby">
-              posted by
+              Posted by
               {% if announcement.creator.user == user %}
                 you <a href="/dashboard/announcement/edit/?id={{ announcement.id }}">edit</a>
               {% else %}
-                posted by {{ announcement.creator.user.username }}
+                {{ announcement.creator.user.username }}
               {% endif %}
             </p>
           </div>
@@ -37,11 +36,31 @@
       </div>
     </div>
     <div class="pane" id="tasks">
-      <h2>Tasks</h2>
+      <h2>Tasks <a id="add-task" href="/dashboard/task/new/">
+        <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
+      </h2>
       <div class="inner_pane">
-        <div class="task">
-          <p>This is a task!</p>
-        </div>
+        {% for task in tasks %}
+          <div class="announcement">
+            <h2>
+              {{ task.title}}
+            </h2>
+            <p>
+              {{ task.description }}
+            </p>
+            <p class="assigned">
+              Assigned to {{ task.assigned }} to be completed by {{ task.due }}.
+            </p>
+            <p class="createdby">
+              Posted by
+              {% if task.creator.user == user %}
+                you <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
+              {% else %}
+                {{ task.creator.user.username }}
+              {% endif %}
+            </p>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>

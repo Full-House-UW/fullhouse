@@ -1,22 +1,27 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-  Non_house_member
+  Create A House
 {% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}nonhousemember.css" />
 {% endblock %}
 
 {% block content %}
   <script src="{{ STATIC_PREFIX }}/nonhousemember.js"></script>
   <div id="nonhousemember">
   	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
-	  <p class="reg-header" align="center">You can <a href = "javascript:void(0)">create a House</a></p>
-      <div id="createhouse">
-        <h1> Create a house!</h1>
+	  <p class="reg-header" align="center">You can <a id="create_house_link" href = "javascript:void(0)">create a House</a></p>
+      <div id="createhouse"
+          {% if not form.is_bound %}
+             style="display:none"
+          {% endif %}
+      >
         <form name="create-house" action="." method="POST">
           {% csrf_token %}
           {{ form.non_field_errors }}
@@ -34,6 +39,6 @@
           <input type="submit" value="{% trans 'Create My House' %}" />
         </form>
     </div>
-	  <p class="reg-header" align="center"><a href = "{% url logout %}">Skip for now and log out</a></p>
+	  <p class="reg-header" align="center"><a href = "{% url auth_logout %}">Skip for now and log out</a></p>
   </div>
 {% endblock %}

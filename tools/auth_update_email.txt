@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% blocktrans %}To make logging in easier, {{ site.name }} is moving to email-based
+authentication. You now just need your email and password to log in.
+
+You are receiving this email, because your account with username {{ username }} has the same email as other accounts.
+To continue using the account for {{ username }}, please use the following email to login:
+
+{{ updated_email }}
+
+Your password has not been changed, but you can change it yourself if you would like to by
+{% endblocktrans %}
+visiting http://{{ site.domain }}{% url auth_password_change %}
+
+{% trans 'Thanks for using' %} {{ site.name }}!
+
+
+
+
+
+

@@ -16,27 +16,31 @@ GIT_REPO = 'git://github.com/Full-House-UW/fullhouse.git'
 
 APP_PATH = '/home/heff/webapps/'
 
+
 # arguments:
 # - stack: qa or prod -- the stack to release to
 #
 # returns:
 # - a pair where the first element is name of the dynamic app folder, and the
 #   second element is the name of the static folder
-#
-# example return value:
-# ('qa_fullhouse/', 'qa_fullhouse_static')
 def get_release_apps(stack):
+    """
+    >>> get_release_apps('qa')
+    ('qa_fullhouse/', 'qa_fullhouse_static/')
+    """
+
     if (stack == 'qa'):
         return QA_APPS
     elif (stack == 'prod'):
         confirm = raw_input('Release to production? [y/n]: ')
         if (confirm == 'y'):
-          return PROD_APPS
+            return PROD_APPS
         else:
-          return None
+            return None
     else:
         print("stack must be qa or prod")
         return None
+
 
 # arguments:
 # - stack: qa or prod -- the stack to release to
@@ -44,14 +48,16 @@ def get_release_apps(stack):
 # returns:
 # - a pair where the first element is path to the dynamic app folder, and the
 #   second element is the path to the static folder
-#
-# example return value:
-# ('/home/heff/webapps/qa_fullhouse/', '/home/heff/webapps/qa_fullhouse_static')
 def get_app_paths(stack):
+    """
+    >>> get_app_paths('qa')
+    ('/home/heff/webapps/qa_fullhouse/', '/home/heff/webapps/qa_fullhouse_static/')
+    """
     apps = get_release_apps(stack)
     dynamic_app_path = APP_PATH + apps[0]
     static_app_path = APP_PATH + apps[1]
     return (dynamic_app_path, static_app_path)
+
 
 # arguments:
 # - stack: qa or prod -- the stack to release to
@@ -66,6 +72,7 @@ def release(stack, branch):
             run("git checkout " + branch)
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
+        run("source env/bin/activate && pip install -r fullhouse/server_requirements.txt")
 
     run("STACK=" + stack + " STATIC_ROOT=" + static + " erb local.py.erb > " + dynamic + "fullhouse/fullhouse/settings/local.py")
 
@@ -78,3 +85,7 @@ def release(stack, branch):
         run("source ../env/bin/activate && ./manage.py syncdb")
 
     run(dynamic + "apache2/bin/restart")
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

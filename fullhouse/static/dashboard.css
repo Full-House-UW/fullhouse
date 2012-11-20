@@ -16,10 +16,6 @@
   overflow-y: scroll;
 }
 
-.add-announcement-link {
-  font-size: 14px;
-}
-
 #announcements {
   float: left;
 }
@@ -28,13 +24,14 @@
   border-top: 1px solid black;
   margin-right: 5px;
   padding: 5px;
+  word-wrap: break-word;
 }
 
 .announcement:last-child {
   border-bottom: 1px solid black;
 }
 
-.announcement .createdby {
+.announcement .createdby, .announcement .assigned {
   font-size: smaller;
   font-style: italic;
 }
@@ -44,8 +41,9 @@
   height: 15px;
 }
 
-#add-ann {
+#add-ann, #add-task {
   float: right;
+  font-size: 14px;
 }
 
 #tasks {
@@ -56,3 +54,16 @@
   font-family: serif;
   padding-left: 10px;
 }
+
+
+#main {
+  background-color: white;
+  height: 450px;
+  margin: auto;
+  padding-top: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  width: 70%;
+}
+

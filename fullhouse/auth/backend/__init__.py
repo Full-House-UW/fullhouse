@@ -8,12 +8,12 @@ from registration.models import RegistrationProfile
 from registration.backends.default import DefaultBackend
 
 from fullhouse.dashboard.models import UserProfile
-from fullhouse.auth.forms import FullhouseRegistrationForm
+from emailusernames.forms import EmailUserCreationForm
 
 
 class FullhouseBackend(DefaultBackend):
     """
-    A registration backend which follows a simple workflow:
+    A custom registration backend which follows a simple workflow:
 
     1. User signs up, inactive account is created.
 
@@ -52,7 +52,7 @@ class FullhouseBackend(DefaultBackend):
     """
     def register(self, request, **kwargs):
         """
-        Given a username, email address and password, register a new
+        Given an email address and password, register a new
         user account, which will initially be inactive.
 
         Along with the new ``User`` object, a new
@@ -74,21 +74,27 @@ class FullhouseBackend(DefaultBackend):
         class of this backend as the sender.
 
         """
-        username, email, password = (kwargs['username'],
-                                     kwargs['email'],
-                                     kwargs['password1'])
-        birthday = kwargs['birthday']
+        email, password = (kwargs['email'], kwargs['password1'])
+
+        #TODO: get site data from settings
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
+        # pass the email as the username. The actual creation of
+        # the User object is managed by emailusernames. Under
+        # the hood, it patches the default User object to return
+        # the email for User.username, but in the database it
+        # actually saves the username as a hash of the email.
+        #
+        # This works correctly provided we use EmailUserCreationForm
+        # (or any similar form) which checks for duplicate emails in
+        # its validation method.
         new_user = RegistrationProfile.objects.create_inactive_user(
-            username, email,
-            password, site
+            email, email, password, site
         )
-        user_profile = UserProfile.objects.create(
-            user=new_user, birthday=birthday
-        )
+        # Here create fullhouse custom UserProfile object
+        user_profile = UserProfile.objects.create(user=new_user)
 
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
@@ -100,4 +106,4 @@ class FullhouseBackend(DefaultBackend):
         Return the default form class used for user registration.
 
         """
-        return FullhouseRegistrationForm
+        return EmailUserCreationForm

@@ -20,7 +20,6 @@ class TestAuth(TestCase):
 
     def testRegistration(self):
         register_data = {
-            'username': 'alice',
             'email': 'alice@eatallthecake.com',
             'password1': 'shiny',
             'password2': 'shiny',
@@ -29,7 +28,7 @@ class TestAuth(TestCase):
         # first attempt at login fails
         response = self.client.post(
             '/accounts/login/',
-            data={'username': 'alice', 'password': 'nope'},
+            data={'email': 'alice@eatallthecake.com', 'password': 'nope'},
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -39,13 +38,12 @@ class TestAuth(TestCase):
         )
 
         with self.settings(
-            # use the inmemory mail backend so we can get the activation url
-            # from the email
-            EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'
-            ):
+                # use the inmemory mail backend so we can get the activation url
+                # from the email
+                EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'):
             # registration redirects to dashboard on success
-            response = self.client.post('/accounts/register/', follow=True,
-                data=register_data)
+            response = self.client.post(
+                '/accounts/register/', follow=True, data=register_data)
         self.assertEqual(
             response.redirect_chain,
             [('http://testserver/accounts/register/complete/', 302)]
@@ -71,7 +69,7 @@ class TestAuth(TestCase):
         # now login succeeds
         response = self.client.post(
             '/accounts/login/',
-            data={'username': 'alice', 'password': 'shiny'},
+            data={'email': 'alice@eatallthecake.com', 'password': 'shiny'},
             follow=True
         )
         self.assertEqual(response.status_code, 200)

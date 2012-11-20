@@ -24,7 +24,8 @@ from django.views.generic.simple import direct_to_template
 from registration.views import activate
 from registration.views import register
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^activate/complete/$',
         direct_to_template,
         {'template': 'registration/activation_complete.html'},
@@ -49,5 +50,5 @@ urlpatterns = patterns('',
         direct_to_template,
         {'template': 'registration/registration_closed.html'},
         name='registration_disallowed'),
-    url(r'', include('fullhouse.auth.auth_urls')),
+    url(r'', include('fullhouse.auth.backend.auth_urls')),
 )

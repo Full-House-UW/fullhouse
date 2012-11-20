@@ -4,6 +4,7 @@ import random
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.validators import *
 from django.contrib.auth.models import User
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
@@ -29,7 +30,7 @@ from registration.models import SHA1_RE
 
 class House(models.Model):
     name = models.CharField(max_length=30)
-    zip_code = models.CharField(max_length=9)
+    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")])
 
     def __str__(self):
         return self.name
@@ -64,10 +65,12 @@ class InviteManager(models.Manager):
             email = email.encode('utf-8')
 
         invite_key = hashlib.sha1(salt + email + housename).hexdigest()
-        invite_profile = self.create(house=house,
-                           email=email,
-                           invite_key=invite_key,
-                           sent_date=datetime_now())
+        invite_profile = self.create(
+            house=house,
+            email=email,
+            invite_key=invite_key,
+            sent_date=datetime_now()
+        )
 
         if Site._meta.installed:
             site = Site.objects.get_current()
@@ -99,7 +102,7 @@ class InviteProfile(models.Model):
             days=settings.INVITE_ACTIVATION_DAYS
         )
         return self.invite_key == self.INVITE_ACCEPTED or \
-               (self.sent_date + expiration_date <= datetime_now())
+            (self.sent_date + expiration_date <= datetime_now())
 
     def send_invite_email(self, site, from_user):
         ctx_dict = {'invite_key': self.invite_key,
@@ -128,7 +131,7 @@ class InviteProfile(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, related_name='profile')
-    birthday = models.DateField(null=True)
+    birthday = models.DateField(null=True, blank=True)
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(
@@ -136,14 +139,39 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return self.user.__str__()
+        return str(self.user)
 
 
 class Announcement(models.Model):
     creator = models.ForeignKey(UserProfile)
-    title = models.CharField(max_length=100)
     text = models.TextField()
     house = models.ForeignKey(House, related_name='announcements')
+    expiration = models.DateField(null=True)
 
     def __str__(self):
-        return self.creator.__str__() + ": " + self.title
+        return "%s: %s" % (self.creator, self.text)
+
+    class Meta:
+        ordering = ['-id']
+
+
+class Task(models.Model):
+    creator = models.ForeignKey(UserProfile, related_name='tasks_created')
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    house = models.ForeignKey(House, related_name='tasks')
+    assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned')
+    due = models.DateTimeField()
+    def __str__(self):
+        return "%s: %s" % (str(self.creator), self.title)
+
+#class TaskInstance(models.Model):
+#    task = models.ForeignKey(Task, related_name='instances')
+#    completed_by = models.ForeignKey(UserProfile,
+#                                     related_name'tasks_completed')
+#    completion_date = models.DateField()
+#
+#    def __str__(self):
+#        return "%s completed by %s", %s (
+#            self.task.title, str(self.completed_by)
+#        )

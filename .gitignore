@@ -34,7 +34,7 @@ env
 
 .cache
 # sqlite test db
-database
+database*
 
 # local settings
 fullhouse/settings/local.py

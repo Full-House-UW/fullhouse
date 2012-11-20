@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  User Settings
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}user_settings.css" />
+{% endblock %}
+
+{% block content %}
+  <div id="user_settings">
+    {% if error %}
+      {{ error }}
+    {% else %}
+      <h1>User Settings</h1>
+      <form name="user-settings" action="." method="POST">
+        {% csrf_token %}
+
+        <div class="fieldWrapper">
+          <br>
+          {{ form.birthday.errors }}
+          <label form="birthday">Birthdate (YYYY-MM-DD): </label>
+          {{ form.birthday }}
+        </div>
+
+        <div class="fieldWrapper">
+          <br>
+          <a href="/accounts/password/change/"><b>Change your password</b></a>
+        </div>
+
+        <div id="user-settings-submit">
+          <br>
+          <input type="submit" value="{% trans 'Save User Settings' %}" />
+        </div>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
