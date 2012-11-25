@@ -16,19 +16,19 @@
     <h2>Create New Announcement</h2>
     <form name="create-announcement" action="." method="POST">
       {% csrf_token %}
-      
+
       <div class = "fieldWrapper">
         {{ form.text.errors }}
-        <label form="text">Announcement: </label>
+        <label for="id_text">Announcement: </label>
         {{ form.text }}
       </div>
 
       <div class = "fieldWrapper">
         {{ form.expiration.errors }}
-        <label form="Expiration">Expiration (YYYY-MM-DD): </label>
+        <label for="id_expiration">Expiration (MM-DD-YYYY): </label>
         {{ form.expiration }}
       </div>
-      
+
       <input type="submit" value="{% trans 'Create Announcement' %}" />
     </form>
   </div>

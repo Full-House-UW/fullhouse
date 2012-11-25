@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Task History
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}dashboard.css" />
+{% endblock %}
+
+{% block content %}
+{% for task in tasks %}
+  {% for instance in task.instances %}
+    <div class="task-history-record">
+      <p>
+        {{ task.title }}
+      </p>
+      <p>
+      Assigned to {{ instance.assignee }}, due {{ instance.due_date }}
+      </p>
+      <p>
+      {% if instance.completed_by %}
+        Completed by {{ instance.completed_by.user.username }} on {{ instance.completed_date }}
+      {% else %}
+        NOT COMPLETED
+        {% if user.profile in task.participants %}
+        <a href="/dashboard/task/update/complete/?id={{ task.id }}&next=/dashboard/task/history/">complete</a>
+        {% endif %}
+      {% endif %}
+      </p>
+    </div>
+  {% endfor %}
+{% endfor %}
+{% endblock %}

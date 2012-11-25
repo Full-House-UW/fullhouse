@@ -1,0 +1,39 @@
+<h3>
+  {{ task.title}}
+</h3>
+<p>
+  {{ task.description }}
+</p>
+<p class="previous">
+Last person:
+  {% if task.prev %}
+      Assigned to {{ task.prev.assignee }}, due {{ task.prev.due_date }}
+      {% if task.prev.completed_by %}
+        (Completed by {{ task.prev.completed_by }} on {{ task.prev.completed_date }}
+      {% else %}
+        NOT COMPLETED
+      {% endif %}
+  {% else %}
+    N/A
+  {% endif %}
+</p>
+<p class="frequency">
+  Frequency: {{ task.frequency }}
+</p>
+<p class="assigned{% if task.overdue %} overdue{% endif %}">
+  Assigned to {{ task.current.assignee.user.username }}, due {{ task.current.due_date }}.
+</p>
+<p class="createdby">
+  Posted by
+  {% if task.creator == user.profile %}
+      you
+      <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
+  {% else %}
+    {{ task.creator.user.username }}
+  {% endif %}
+</p>
+<p>
+  {% if user.profile in task.participants %}
+  <a href="/dashboard/task/update/complete/?id={{ task.current.id }}">complete</a>
+  {% endif %}
+</p>
