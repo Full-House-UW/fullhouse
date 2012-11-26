@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', views.home, name='home'),
     url(r'^welcome/$', views.welcome, name='welcome'),
-    url(r'^about_us/', views.about_us, name='about_us'),
+    url(r'^about_us/$', views.about_us, name='about_us'),
     url(r'^dashboard/', include('fullhouse.dashboard.urls')),
     url(r'^accounts/', include('fullhouse.auth.urls')),
 
