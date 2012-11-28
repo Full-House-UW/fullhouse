@@ -125,8 +125,9 @@ def edit_task(request):
             task.is_active = False
             task.save()
             return HttpResponseRedirect('/dashboard/')
-        form = CreateTaskForm(request.POST,
-            instance=task, members=members)
+        form = CreateTaskForm(
+            request.POST, instance=task, members=members
+        )
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/dashboard/')

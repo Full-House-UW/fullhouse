@@ -338,6 +338,7 @@ class Task(models.Model):
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 
+
 class TaskInstance(models.Model):
     """
     Represents a single instance of a (possibly recurring) task
@@ -361,7 +362,7 @@ class TaskInstance(models.Model):
             # from task participants
             return random.choice(participants)
 
-        i = (i+1) % len(participants)
+        i = (i + 1) % len(participants)
         return participants[i]
 
     def complete(self, userprofile):

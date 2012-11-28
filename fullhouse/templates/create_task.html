@@ -17,6 +17,8 @@
     <form name="create-task" action="." method="POST">
       {% csrf_token %}
 
+      {{ form.non_field_errors }}
+
       <div class = "fieldWrapper">
         {{ form.title.errors }}
         <label form="title">Title: </label>

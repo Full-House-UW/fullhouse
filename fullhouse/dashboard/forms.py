@@ -41,14 +41,13 @@ class CreateAnnouncementForm(forms.ModelForm):
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        exclude = ('creator', 'house')
+        exclude = ('is_active', 'creator', 'house')
 
     def __init__(self, *args, **kwargs):
         housemembers = kwargs.pop('members')
         super(CreateTaskForm, self).__init__(*args, **kwargs)
 
         self.fields['description'].required = False
-        self.fields['frequency'].required = False
         self.fields['first_due'] = forms.DateField(
             #initial=date.today(),
             widget=forms.widgets.DateInput(format='%m-%d-%Y'),
@@ -62,15 +61,7 @@ class CreateTaskForm(forms.ModelForm):
         instance = getattr(self, 'instance', None)
         if instance and instance.id:
             self.fields['first_due'].widget.attrs['disabled'] = True
-
-    #def clean(self):15323
-    #    cleaned_data = super(CreateTaskForm, self).clean()
-    #    if datetime.now < cleaned_data['first_due']:
-    #        raise forms.ValidationError(
-    #            "Cannot set first due date in the past"
-    #        )
-    #    return cleaned_data
-
+            self.fields['first_due'].required = False
 
     def clean_first_due(self):
         # Disallow changing of first due field
@@ -80,7 +71,9 @@ class CreateTaskForm(forms.ModelForm):
         else:
             return self.cleaned_data.get('first_due', None)
 
+
 class UpdateUserForm(forms.ModelForm):
+
     class Meta:
         model = models.UserProfile
         exclude = ('user', 'house')

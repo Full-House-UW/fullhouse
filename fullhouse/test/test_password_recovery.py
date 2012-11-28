@@ -4,11 +4,13 @@ from django.core import mail
 import re
 import test_case_base
 
+
 class TestPasswordRecovery(test_case_base.TestCaseBase):
+
     def setUp(self):
-      
-        self.client   = Client()
-        self.email    = 'alice@eatallthecake.com'
+
+        self.client = Client()
+        self.email = 'alice@eatallthecake.com'
         self.password = 'shiny'
         self.newpassword = 'tiny'
         self.createUser(self.email, self.password)
@@ -19,11 +21,12 @@ class TestPasswordRecovery(test_case_base.TestCaseBase):
         """
         mail.outbox = []
         # post request for password reset
-        response = self.client.post('/accounts/password/reset/',
+        response = self.client.post(
+            '/accounts/password/reset/',
             data={'email': 'alice@eatallthecake.com'},
             follow=True
         )
-        # validate response status 
+        # validate response status
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.redirect_chain,
@@ -40,7 +43,8 @@ class TestPasswordRecovery(test_case_base.TestCaseBase):
 
         activation_key = match.group(1)
 
-        response = self.client.post('/accounts/password/reset/confirm/%s/' %
+        response = self.client.post(
+            '/accounts/password/reset/confirm/%s/' %
             activation_key,
             data={'new_password1': self.newpassword, 'new_password2': self.newpassword},
             follow=True
@@ -52,11 +56,10 @@ class TestPasswordRecovery(test_case_base.TestCaseBase):
             [('http://testserver/accounts/password/reset/complete/', 302)]
         )
 
-        # retrieve the user 
+        # retrieve the user
         user = User.objects.get(email=self.email)
-        # ensure the user is not logged in  
+        # ensure the user is not logged in
         self.assertNotIn(user.pk, self.client.session)
         self.loginUser(self.email, self.newpassword)
         # ensure the user is now logged in with new password
         self.assertEqual(self.client.session['_auth_user_id'], user.pk)
-

@@ -16,8 +16,39 @@
     <h2>Edit Task</h2>
     <form name="edit-task" action="." method="POST">
       {% csrf_token %}
+      {{ form.non_field_errors }}
       <input type="hidden" name="id" value="{{ id }}" />
-      {{ form.as_p }}
+
+      <div class = "fieldWrapper">
+        {{ form.title.errors }}
+        <label form="title">Title: </label>
+        {{ form.title }}
+      </div>
+
+      <div class = "fieldWrapper">
+        {{ form.description.errors }}
+        <label form="description">Description: </label>
+        {{ form.description }}
+      </div>
+
+      <div class = "fieldWrapper">
+        {{ form.participants.errors }}
+        <label form="assigned">Participants: </label>
+        {{ form.participants }}
+      </div>
+
+     <div class = "fieldWrapper">
+        {{ form.frequency.errors }}
+        <label form="frequency">Frequency: </label>
+        {{ form.frequency }}
+      </div>
+
+     <div class = "fieldWrapper">
+        {{ form.first_due.errors }}
+        <label form="first_due">First Due (MM-DD-YYYY): </label>
+        {{ form.first_due }}
+      </div>
+
       <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
       <input type="submit" name="discontinue" value="{% trans 'Discontinue' %}" />
     </form>
