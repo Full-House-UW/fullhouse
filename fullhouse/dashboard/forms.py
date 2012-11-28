@@ -38,7 +38,6 @@ class CreateTaskForm(forms.ModelForm):
         super(CreateTaskForm, self).__init__(*args, **kwargs)
         self.fields['assigned'].queryset = members
 
-
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
@@ -48,13 +47,13 @@ class UpdateUserForm(forms.ModelForm):
         self.user = kwargs.pop('user')
         super(UpdateUserForm, self).__init__(*args, **kwargs)
 
-    email = forms.EmailField()
+    #email = forms.EmailField()
 
-    def clean(self):
-        cleaned_data = super(UpdateUserForm, self).clean()
-        email = cleaned_data.get('email')
-        if self.user.email != email and user_exists(email):
-            raise forms.ValidationError(
-                "Another user with that email exists"
-            )
-        return cleaned_data
+    #def clean(self):
+    #    cleaned_data = super(UpdateUserForm, self).clean()
+    #    email = cleaned_data.get('email')
+    #    if self.user.email != email and user_exists(email):
+    #        raise forms.ValidationError(
+    #            "Another user with that email exists"
+    #        )
+    #    return cleaned_data

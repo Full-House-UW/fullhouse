@@ -38,13 +38,12 @@ class TestAuth(TestCase):
         )
 
         with self.settings(
-            # use the inmemory mail backend so we can get the activation url
-            # from the email
-            EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'
-            ):
+                # use the inmemory mail backend so we can get the activation url
+                # from the email
+                EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'):
             # registration redirects to dashboard on success
-            response = self.client.post('/accounts/register/', follow=True,
-                data=register_data)
+            response = self.client.post(
+                '/accounts/register/', follow=True, data=register_data)
         self.assertEqual(
             response.redirect_chain,
             [('http://testserver/accounts/register/complete/', 302)]

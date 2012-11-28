@@ -65,10 +65,12 @@ class InviteManager(models.Manager):
             email = email.encode('utf-8')
 
         invite_key = hashlib.sha1(salt + email + housename).hexdigest()
-        invite_profile = self.create(house=house,
-                           email=email,
-                           invite_key=invite_key,
-                           sent_date=datetime_now())
+        invite_profile = self.create(
+            house=house,
+            email=email,
+            invite_key=invite_key,
+            sent_date=datetime_now()
+        )
 
         if Site._meta.installed:
             site = Site.objects.get_current()
@@ -100,7 +102,7 @@ class InviteProfile(models.Model):
             days=settings.INVITE_ACTIVATION_DAYS
         )
         return self.invite_key == self.INVITE_ACCEPTED or \
-               (self.sent_date + expiration_date <= datetime_now())
+            (self.sent_date + expiration_date <= datetime_now())
 
     def send_invite_email(self, site, from_user):
         ctx_dict = {'invite_key': self.invite_key,
@@ -129,7 +131,7 @@ class InviteProfile(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, related_name='profile')
-    birthday = models.DateField(null=True)
+    birthday = models.DateField(null=True, blank=True)
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(
@@ -137,7 +139,7 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return self.user.__str__()
+        return str(self.user)
 
 
 class Announcement(models.Model):
@@ -147,7 +149,7 @@ class Announcement(models.Model):
     expiration = models.DateField(null=True)
 
     def __str__(self):
-        return self.creator.__str__() + ": " + self.text
+        return "%s: %s" % (self.creator, self.text)
 
     class Meta:
         ordering = ['-id']

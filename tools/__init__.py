@@ -56,12 +56,9 @@ def migrate_fullhouse_usernames():
             else:
                 duplicates[email] = [user.email]
         else:
-              encountered_emails.update([email])
+            encountered_emails.update([email])
 
     print "Updated duplicate emails for %d of %d accounts" % (
-          sum(len (d) for d in (duplicates.values())), len(encountered_emails))
+          sum(len(d) for d in (duplicates.values())), len(encountered_emails))
 
     migrate_usernames()
-
-
-
