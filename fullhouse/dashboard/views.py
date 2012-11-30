@@ -243,7 +243,6 @@ def add_members(request):
     AddMemberFormSet = formset_factory(
         AddMemberForm,
         extra=3,
-        max_num=12,
         formset=BaseAddMemberFormSet
     )
     if request.method == "POST":
