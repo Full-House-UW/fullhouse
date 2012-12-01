@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="dash-header">Welcome to Full House, {{ user.username }}!</h1>
+  <h1 class="dash-header">Welcome to {{ user.profile.house  }}, {{ user.username }}!</h1>
   <div id="dash">
     <div class="pane" id="announcements">
       <h2>Announcements <a id="add-ann" href="{% url create_announcement %}">
