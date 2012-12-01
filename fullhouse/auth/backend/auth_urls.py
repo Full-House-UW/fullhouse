@@ -28,6 +28,10 @@ from django.conf.urls.defaults import *
 from emailusernames.forms import EmailAuthenticationForm
 from django.contrib.auth import views as auth_views
 
+from fullhouse.auth.forms import (
+    PasswordChangeForm, SetPasswordForm
+)
+
 
 urlpatterns = patterns(
     '',
@@ -42,6 +46,7 @@ urlpatterns = patterns(
         name='auth_logout'),
     url(r'^password/change/$',
         auth_views.password_change,
+        {'password_change_form': PasswordChangeForm},
         name='auth_password_change'),
     url(r'^password/change/done/$',
         auth_views.password_change_done,
@@ -51,6 +56,7 @@ urlpatterns = patterns(
         name='auth_password_reset'),
     url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
         auth_views.password_reset_confirm,
+        {'set_password_form': SetPasswordForm},
         name='auth_password_reset_confirm'),
     url(r'^password/reset/complete/$',
         auth_views.password_reset_complete,
