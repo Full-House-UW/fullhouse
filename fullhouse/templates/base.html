@@ -33,10 +33,10 @@
     </a>
     {% if user.is_authenticated %}
       <ul class="nav">
-        <li><a href="/dashboard/user_settings/">User Settings</a></li>
-        <li><a href="/dashboard/house_settings/">House Settings</a></li>
-        <li><a href="/dashboard/add_members/">Invite Housemates</a></li>
-        <li><a href="/accounts/logout/">Logout</a></li>
+        <li><a href="{% url edit_user %}">User Settings</a></li>
+        <li><a href="{% url edit_house %}">House Settings</a></li>
+        <li><a href="{% url dashboard_add_members %}">Invite Housemates</a></li>
+        <li><a href="{% url auth_logout %}">Logout</a></li>
       </ul>
     {% endif %}
   {% endblock %}
@@ -51,6 +51,6 @@
 <div id="footer">
   {% block footer %}  
     <br>
-    <a href = "/about_us/">About Us</a>
+    <a href = "{% url about_us %}">About Us</a>
   {% endblock %}
 </div>
