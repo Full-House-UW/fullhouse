@@ -8,7 +8,7 @@ class TestUserSettings(test_case_base.TestCaseBase):
     def setUp(self):
         self.client = Client()
         self.email = 'alice@eatallthecake.com'
-        self.password = 'shiny'
+        self.password = 'shinyballs'
         self.createUser(self.email, self.password)
         self.loginUser(self.email, self.password)
 

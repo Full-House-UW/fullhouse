@@ -81,14 +81,3 @@ class UpdateUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(UpdateUserForm, self).__init__(*args, **kwargs)
-
-    #email = forms.EmailField()
-
-    #def clean(self):
-    #    cleaned_data = super(UpdateUserForm, self).clean()
-    #    email = cleaned_data.get('email')
-    #    if self.user.email != email and user_exists(email):
-    #        raise forms.ValidationError(
-    #            "Another user with that email exists"
-    #        )
-    #    return cleaned_data

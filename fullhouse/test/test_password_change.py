@@ -8,8 +8,8 @@ class TestPasswordChange(test_case_base.TestCaseBase):
 
         self.client = Client()
         self.email = 'alice@eatallthecake.com'
-        self.password = 'shiny'
-        self.newpassword = 'tiny'
+        self.password = 'shinyballs'
+        self.newpassword = 'tinybubbles'
         self.createUser(self.email, self.password)
         self.loginUser(self.email, self.password)
 

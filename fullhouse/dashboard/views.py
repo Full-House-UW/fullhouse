@@ -16,6 +16,7 @@ from forms import *
 
 from models import *
 
+
 def get_param(request, key):
     if request.method == "GET":
         return request.GET.get(key, None)
@@ -148,9 +149,7 @@ def edit_task(request):
             task.is_active = False
             task.save()
             return HttpResponseRedirect('/dashboard/')
-        form = CreateTaskForm(
-            request.POST, instance=task, members=members
-        )
+        form = CreateTaskForm(request.POST, instance=task, members=members)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/dashboard/')
@@ -381,13 +380,15 @@ def about_us(request):
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
     }))
-    
+
+
 def faq(request):
     return render_to_response('faq.html', RequestContext(request, {
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
     }))
+
 
 def contact_us(request):
     return render_to_response('contact_us.html', RequestContext(request, {

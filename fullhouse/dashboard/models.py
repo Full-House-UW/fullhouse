@@ -323,7 +323,6 @@ class Task(models.Model):
     creator = models.ForeignKey(UserProfile, related_name='tasks_created')
     is_active = models.BooleanField(default=False)
 
-    #assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned', null=True)
     title = models.CharField(max_length=100)
     description = models.TextField(null=True)
     frequency = models.CharField(
@@ -334,7 +333,6 @@ class Task(models.Model):
     )
     first_due = models.DateField()
 
-    #TODO: remove this field
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 
