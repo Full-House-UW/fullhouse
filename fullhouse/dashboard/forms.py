@@ -86,7 +86,8 @@ class UpdateUserForm(forms.ModelForm):
     birthday = forms.DateField(
         widget=forms.widgets.DateInput(format='%m-%d-%Y'),
         input_formats=('%m-%d-%Y',),
-        required=False
+        required=False,
+        label='Birthday (mm-dd-yy):'
     )
 
     def save(self, commit=True):
