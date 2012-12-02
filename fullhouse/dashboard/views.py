@@ -102,22 +102,27 @@ def create_task(request):
 
 @login_required
 def edit_task(request):
-    #TODO fix this, will break if id not passed in
-    t_id = request.GET["id"] if request.method == "GET" else request.POST["id"]
+    t_id = None
+    if request.method == "GET":
+        t_id = request.GET.get('id', None)
+    elif request.method == "POST":
+        t_id = request.POST.get('id', None)
     if t_id is None:
         return HttpResponseRedirect('/dashboard/')
+
     try:
         task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
         # TODO decide how to handle this.
         return HttpResponseRedirect('/dashboard/')
-    # Only the owner can edit.
-    if request.user != task.creator.user:
-        #TODO decide how to handle this.
-        return HttpResponseRedirect('/dashboard/')
 
     userprofile = request.user.profile
     members = userprofile.house.members.get_query_set()
+
+    # Only the members of this task's house can edit.
+    if userprofile not in task.house.members.all():
+        #TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
 
     if request.method == "POST":
         #TODO use discontinue instead of delete
