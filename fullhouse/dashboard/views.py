@@ -10,6 +10,7 @@ from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
 from emailusernames.forms import EmailAuthenticationForm
+from django.forms.models import model_to_dict
 from django.forms.formsets import formset_factory
 
 from forms import *
@@ -193,21 +194,16 @@ def task_history(request):
 def edit_user(request):
     user = request.user
     if request.method == "POST":
-        form = UpdateUserForm(request.POST, user=user)
+        form = UpdateUserForm(request.POST, instance=user.profile)
         if form.is_valid():
-            #if form.cleaned_data['email'] != user.email:
-            #    user.email = form.cleaned_data['email']
-            #    user.save()
-            user.profile.birthday = form.cleaned_data['birthday']
-            user.profile.save()
+            form.save()
 
             return HttpResponseRedirect('/dashboard/')
     else:
-        initial = {
-            #'email': user.email,
-            'birthday': user.profile.birthday,
-        }
-        form = UpdateUserForm(initial=initial, user=user)
+        initial = model_to_dict(user.profile)
+        initial['first_name'] = user.first_name
+        initial['last_name'] = user.last_name
+        form = UpdateUserForm(initial=initial)
 
     context = RequestContext(request, {
         'form': form,

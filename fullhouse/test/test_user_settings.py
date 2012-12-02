@@ -1,4 +1,5 @@
 from django.test.client import Client
+from django.contrib.auth.models import User
 from django.core import mail
 import test_case_base
 
@@ -18,13 +19,24 @@ class TestUserSettings(test_case_base.TestCaseBase):
         '''
         mail.outbox = []
         # birthday
+        first_name = 'bob'
+        last_name = 'saget'
+        birthday = '09-12-1978'
         response = self.client.post(
             '/dashboard/user_settings/',
-            data={'birthday': '1978-09-12'},
+            data={
+                'birthday': birthday,
+                'first_name': first_name,
+                'last_name': last_name,
+            },
             follow=True
         )
-
         self.assertEqual(response.status_code, 200)
+
+        user = User.objects.get(id=self.client.session['_auth_user_id'])
+        self.assertEqual(user.first_name, first_name)
+        self.assertEqual(user.last_name, last_name)
+        self.assertEqual(user.profile.birthday.strftime('%m-%d-%Y'), birthday)
 
         # get user settings
         response = self.client.get(
@@ -32,7 +44,7 @@ class TestUserSettings(test_case_base.TestCaseBase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.redirect_chain, [])
 
-        print response
-        self.assertContains(response, '1978-09-12', 1)
+        self.assertContains(response, birthday, 1)
+        self.assertContains(response, first_name, 1)
+        self.assertContains(response, last_name, 1)
