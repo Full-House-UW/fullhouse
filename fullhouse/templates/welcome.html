@@ -15,6 +15,11 @@
     <div id="logo">
       <img src="{{ STATIC_PREFIX }}large-logo.png" alt="logo" />
     </div>
+    <div id = "tag-line">
+      <p>
+      <i>Your digital kitchen whiteboard</i>
+      </p>
+    </div>
     <form id="login" action="{% url auth_login %}" method="POST">
       {% csrf_token %}
       {{ form.non_field_errors }}
@@ -35,7 +40,7 @@
       <div>
 			  <br>
 			  <a href = "{% url auth_password_reset %}">Forgot password</a>
-			  <a href = "{% url registration_register %}">Register </a>
+			  <a href = "{% url registration_register %}">Register</a>
       </div>
     </form>
   </div>

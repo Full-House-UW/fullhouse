@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+#tag-line {
+  text-align: center;
+}
+
 #login {
   display: inline-block;
   margin: auto;

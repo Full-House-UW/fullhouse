@@ -301,4 +301,7 @@ def welcome(request):
 
 
 def about_us(request):
-    return render_to_response('about_us.html')
+    return render_to_response('about_us.html', RequestContext(request))
+    
+def faq(request):
+    return render_to_response('faq.html', RequestContext(request))
