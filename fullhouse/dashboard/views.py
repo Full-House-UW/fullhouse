@@ -301,12 +301,10 @@ def welcome(request):
 
 
 def about_us(request):
-<<<<<<< HEAD
-    return render_to_response('about_us.html',
-        RequestContext(request))
-=======
     return render_to_response('about_us.html', RequestContext(request))
     
 def faq(request):
     return render_to_response('faq.html', RequestContext(request))
->>>>>>> e4ba2d99c3b58a6d6c3cff4319cb2eb023f57ed1
+
+def contact_us(request):
+    return render_to_response('contact_us.html', RequestContext(request))

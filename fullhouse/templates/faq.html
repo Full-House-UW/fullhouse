@@ -3,11 +3,11 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-  About_us
+  FAQ
 {% endblock %}
 
 {% block content %}
-  <div id="about_us">
+  <div id="faq">
     <h1 class="reg-header">Frequently Asked Questions</h1>
     <h3 class="reg-header">What is Full House?</h3>
     <p class="reg-header"> Full House is your digital kitchen whiteboard.  It is here
@@ -18,12 +18,12 @@
     
     <h3 class="reg-header">How does it work?</h3>
     <p class="reg-header">
-    Step one, <a href = "/accounts/register/">register</a> for Full House and validate
+    Step one, <a href = "{% url registration_register %}">register</a> for Full House and validate
     your email address. 
     <br>
-    Step two, <a href = "{% dashboard %/}">create a house</a> if you haven't already.
+    Step two, <a href = "{% url dashboard %}">create a house</a> if you haven't already.
     <br>
-    Step three, <a href = "/dashboard/add_members/">invite housemates</a> to your house.
+    Step three, <a href = "{% url dashboard_add_members %}">invite housemates</a> to your house.
     <br>
     Step four, begin communicating with your housemates!
     </p>
