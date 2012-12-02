@@ -2,8 +2,8 @@
 
 # http://technomilk.wordpress.com/2011/09/03/publishing-django-test-coverage-reports-in-jenkins/
 # clean up previous results:
-rm htmlcov/*
-rm .coverage
+rm -rf htmlcov/*
+rm -f .coverage
 
 # we do not want coverage data for South migrations:
 #PARMS=--omit='*migrations*','*tests*'

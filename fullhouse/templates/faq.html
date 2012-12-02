@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  FAQ
+{% endblock %}
+
+{% block content %}
+  <div id="faq">
+    <h1 class="reg-header">Frequently Asked Questions</h1>
+    <h3 class="reg-header">What is Full House?</h3>
+    <p class="reg-header"> Full House is your digital kitchen whiteboard.  It is here
+    to help households manage common tasks-- taking out the trash, cleaning up the
+    kitchen, and more.  Full House is here to make commnication between housemates 
+    easy and convenient.
+    </p>
+    
+    <h3 class="reg-header">How does it work?</h3>
+    <p class="reg-header">
+    Step one, <a href = "{% url registration_register %}">register</a> for Full House and validate
+    your email address. 
+    <br>
+    Step two, <a href = "{% url dashboard %}">create a house</a> if you haven't already.
+    <br>
+    Step three, <a href = "{% url dashboard_add_members %}">invite housemates</a> to your house.
+    <br>
+    Step four, begin communicating with your housemates!
+    </p>
+    
+    <h3 class="reg-header">How much does it cost?</h3>
+    <p class="reg-header">
+    Nothing! It's absolutely free!
+    </p>
+    
+    <h3 class="reg-header">What kind of things can I do with Full House?</h3>
+    <p class="reg-header">
+    You can make a house with your friends. You can post announcements to let
+    all your housemates know what is going on. You can create tasks that will
+    cycle through the participating housemates so you always know whose turn it
+    is to empty the dishwasher and who did it last. 
+    </p>
+    
+    <h3 class="reg-header">How delicious are pretzels?</h3>
+    <p class="reg-header">
+		Too delicious for words.
+    </p>
+    &nbsp;
+    <p class="reg-header">Project Full House, Copyright 2012. All rights reserved.</p>
+   </div>
+{% endblock %}
