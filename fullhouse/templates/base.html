@@ -24,6 +24,16 @@
 
 </script>
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+{% if time %}
+<script>
+  {% if error %}
+    setTimeout(function() { $("#error").fadeOut(500) }, {{ time }} * 1000);
+  {% endif %}
+  {% if message %}
+    setTimeout(function() { $("#message").fadeOut(500) }, {{ time }} * 1000);
+  {% endif %}
+</script>
+{% endif %}
 {% block css %} {% endblock %}
 <div id="header">
   {% block header %}
@@ -44,12 +54,12 @@
 </div>
 <div id="main">
   {% if error %}
-    <div class="error">
+    <div id="error" class="error">
       {{ error }}
     </div>
   {% endif %}
   {% if message %}
-    <div class="message">
+    <div id="message" class="message">
       {{ message }}
     </div>
   {% endif %}
