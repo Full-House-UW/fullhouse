@@ -305,3 +305,6 @@ def about_us(request):
     
 def faq(request):
     return render_to_response('faq.html', RequestContext(request))
+
+def contact_us(request):
+    return render_to_response('contact_us.html', RequestContext(request))
