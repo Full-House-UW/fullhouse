@@ -36,7 +36,4 @@ urlpatterns = patterns(
     url(r'^house_settings/$',
         views.edit_house,
         name='edit_house'),
-    url(r'^faq/$',
-        views.faq,
-        name='faq'),
 )
