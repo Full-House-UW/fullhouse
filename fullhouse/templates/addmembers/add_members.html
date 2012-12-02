@@ -8,29 +8,36 @@
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_house.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}add_members.css" />
 {% endblock %}
 
 
 {% block content %}
+  <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
   <div id="addmembers">
+    <div id="emptyform">
+      {{ formset.empty_form.as_p }}
+    </div>
 		<h1>Add housemates</h1>
 		<p>Type in the email addresses of those in your house. An email will
-		be sent to each so they can join.</p>
+		be sent to each so they can join. Not all fields must be filled.</p>
     <form action="." method="POST">
       {% csrf_token %}
 
       {{ formset.management_form }}
       {{ formset.non_form_errors }}
-      <table>
-          {% for form in formset.forms %}
-              {{ form }}
-          {% endfor %}
-      </table>
-    <br>
-    <div id = "addmembers-button">
-      <input type="submit" value="{% trans 'Add housemates' %}" />
-    </div>
+      <div id="forms">
+        {% for form in formset.forms %}
+          {{ form.as_p }}
+        {% endfor %}
+      </div>
+      <div>
+        <input type="button" id="add_email" value="Add Row" />
+      </div>
+      <br>
+      <div id = "addmembers-button">
+        <input type="submit" value="{% trans 'Add housemates' %}" />
+      </div>
     </form>
     <br><p>Or you can choose to 
       <a href="{% url dashboard %}"><u>skip for now</u></a> 
