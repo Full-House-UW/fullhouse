@@ -1,6 +1,11 @@
 window.onload = function() {
   var createHouseLink = $("#create_house_link")[0];
-  createHouseLink.addEventListener("click", toggleCreateHouse, false);
+
+  if (createHouseLink.addEventListener) {
+    createHouseLink.addEventListener("click", toggleCreateHouse, false);
+  } else {
+    createHouseLink.attachEvent("onclick", toggleCreateHouse);
+  }
 };
 
 function toggleCreateHouse() {
