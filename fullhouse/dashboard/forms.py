@@ -1,3 +1,6 @@
+from datetime import (
+    date, timedelta
+)
 from django import forms
 from django.forms.formsets import BaseFormSet
 from django.contrib.auth.models import User
@@ -27,19 +30,50 @@ class CreateAnnouncementForm(forms.ModelForm):
         model = models.Announcement
         exclude = ('creator', 'house')
 
+    def __init__(self, *args, **kwargs):
+        super(CreateAnnouncementForm, self).__init__(*args, **kwargs)
+        self.fields['expiration'] = forms.DateField(
+            widget=forms.widgets.DateInput(format='%m-%d-%Y'),
+            input_formats=('%m-%d-%Y',),
+        )
+
 
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        exclude = ('creator', 'house')
+        exclude = ('is_active', 'creator', 'house')
 
     def __init__(self, *args, **kwargs):
-        members = kwargs.pop('members')
+        housemembers = kwargs.pop('members')
         super(CreateTaskForm, self).__init__(*args, **kwargs)
-        self.fields['assigned'].queryset = members
+
+        self.fields['description'].required = False
+        self.fields['first_due'] = forms.DateField(
+            #initial=date.today(),
+            widget=forms.widgets.DateInput(format='%m-%d-%Y'),
+            input_formats=('%m-%d-%Y',),
+        )
+        self.fields['participants'] = forms.ModelMultipleChoiceField(
+            queryset=housemembers
+        )
+
+        # Disallow changing of first_due field, except at creation
+        instance = getattr(self, 'instance', None)
+        if instance and instance.id:
+            self.fields['first_due'].widget.attrs['disabled'] = True
+            self.fields['first_due'].required = False
+
+    def clean_first_due(self):
+        # Disallow changing of first due field
+        instance = getattr(self, 'instance', None)
+        if instance and instance.first_due:
+            return instance.first_due
+        else:
+            return self.cleaned_data.get('first_due', None)
 
 
 class UpdateUserForm(forms.ModelForm):
+
     class Meta:
         model = models.UserProfile
         exclude = ('user', 'house')

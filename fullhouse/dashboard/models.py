@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import random
+import pdb
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -12,9 +13,17 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from django.utils.timezone import now as datetime_now
+
+try:
+    from django.utils.timezone import now as datetime_now
+except ImportError:
+    datetime_now = datetime.datetime.now
 
 from registration.models import SHA1_RE
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Notes:
 # - Django automatically creates an 'id' field as a primary key
@@ -155,24 +164,236 @@ class Announcement(models.Model):
         ordering = ['-id']
 
 
+class TaskManager(models.Manager):
+
+    def create_task(self, creator, task_form):
+        """
+        Create a new ``Task`` and a ``TaskInstance`` due at the task's
+        first_due date.
+
+        `creator` - ``UserProfile`` of the task's creator
+
+        `create_task_form` - bound and verified ``CreateTaskForm`` with data
+            for new task
+
+        """
+
+        assert task_form.is_valid()
+
+        task = task_form.save(commit=False)
+        task.creator = creator
+        task.house = creator.house
+        task.is_active = True
+        task.save()
+        #need to save many to many data
+        task_form.save_m2m()
+
+        current = TaskInstance.objects.create(
+            task=task,
+            #random first assignee
+            assignee=random.choice(task.participants.all()),
+            due_date=task.first_due,
+        )
+        current.save()
+
+    def update_taskinstance(self, t_id, userprofile, action):
+        """
+        Update TaskInstance with given id. No-op if the taskinstance
+        does not exist, or if the user associated with given userprofile
+        is not a participant in the task.
+        Repeated calls to this function with the same parameters will
+        not change models from their state after the first call.
+
+        """
+
+        try:
+            instance = TaskInstance.objects.get(id=t_id)
+        except TaskInstance.DoesNotExist:
+            return
+        if userprofile not in instance.task.participants.all():
+            return
+        if action == 'complete':
+            if instance.completed_by is not None:
+                return
+            instance.complete(userprofile)
+            instance.save()
+            if instance.task.frequency == Task.ONCE:
+                instance.task.is_active = False
+                instance.task.save()
+            else:
+                new = instance.create_next()
+                if new is not None:
+                    new.save()
+
+    def _get_updated_task_instances(self, task):
+        """
+        Return tuple (current, previous) of updated task instances
+        for the given task.
+
+        Postcondition: task has at least 1 instance:
+            current instance (today <= due_date < today+frequency)
+
+        """
+        instances = task.instances.order_by('-due_date')[:2]
+        # note len() fetches the objects, but we need them anyway
+        num_instances = len(instances)
+        if num_instances == 2:
+            # we have a current and a previous
+            current = instances[0]
+            prev = instances[1]
+        elif num_instances == 1:
+            # new instance, only current created
+            current = instances[0]
+            prev = None
+        else:
+            logger.error('Missing task instance for task_id %d' % task.id)
+            current = TaskInstance.objects.create(
+                task=task,
+                #random first assignee
+                assignee=random.choice(task.participants.all()),
+                due_date=task.first_due
+            )
+            current.save()
+            prev = None
+
+        return (current, prev)
+
+    def get_house_task_list(self, house):
+        """
+        Return list of task data for each of the given house's active tasks.
+
+        """
+
+        tasks = []
+        for task in house.tasks.all():
+            if not task.is_active:
+                continue
+            current, prev = self._get_updated_task_instances(task)
+            t = {
+                'title': task.title,
+                'description': task.description,
+                'frequency': task.get_frequency_display(),
+                'creator': task.creator,
+                'participants': task.participants.all(),
+                'id': task.id,
+                'current': current,
+                'prev': prev,
+            }
+            if current.due_date < datetime.date.today():
+                t['overdue'] = True
+            tasks.append(t)
+
+        return tasks
+
+    def get_task_history(self, house):
+        tasks = []
+        for task in house.tasks.all():
+            t = {
+                'title': task.title,
+                'id': task.id,
+                'instances': task.instances.all(),
+                'participants': task.participants.all(),
+            }
+            tasks.append(t)
+
+        return tasks
+
+
 class Task(models.Model):
-    creator = models.ForeignKey(UserProfile, related_name='tasks_created')
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    """
+    Represents a task definition
+    """
+
+    ONCE = '--'
+    DAILY = 'DD'
+    WEEKLY = 'WW'
+    MONTHLY = 'MM'
+    YEARLY = 'YY'
+    FREQUENCY_CHOICES = (
+        (ONCE, 'once'),
+        (DAILY, 'daily'),
+        (WEEKLY, 'weekly'),
+        (MONTHLY, 'monthly'),
+        (YEARLY, 'yearly'),
+    )
+
+    objects = TaskManager()
+
     house = models.ForeignKey(House, related_name='tasks')
-    assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned')
-    due = models.DateTimeField()
+    creator = models.ForeignKey(UserProfile, related_name='tasks_created')
+    is_active = models.BooleanField(default=False)
+
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True)
+    frequency = models.CharField(
+        max_length=4, choices=FREQUENCY_CHOICES, default=ONCE
+    )
+    participants = models.ManyToManyField(
+        UserProfile, related_name='tasks_participating'
+    )
+    first_due = models.DateField()
 
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 
-#class TaskInstance(models.Model):
-#    task = models.ForeignKey(Task, related_name='instances')
-#    completed_by = models.ForeignKey(UserProfile,
-#                                     related_name'tasks_completed')
-#    completion_date = models.DateField()
-#
-#    def __str__(self):
-#        return "%s completed by %s", %s (
-#            self.task.title, str(self.completed_by)
-#        )
+
+class TaskInstance(models.Model):
+    """
+    Represents a single instance of a (possibly recurring) task
+    """
+
+    task = models.ForeignKey(Task, related_name='instances')
+    assignee = models.ForeignKey(UserProfile, related_name='tasks_assigned')
+    completed_by = models.ForeignKey(
+        UserProfile, related_name='tasks_completed', null=True
+    )
+    completed_date = models.DateField(null=True)
+
+    due_date = models.DateField()
+
+    def get_next_assignee(self):
+        participants = list(self.task.participants.all())
+        try:
+            i = participants.index(self.assignee)
+        except ValueError:
+            # unexpected, but could happen if assignee was removed
+            # from task participants
+            return random.choice(participants)
+
+        i = (i + 1) % len(participants)
+        return participants[i]
+
+    def complete(self, userprofile):
+        self.completed_by = userprofile
+        self.completed_date = datetime.date.today()
+
+    def create_next(self):
+        """
+        Create the next due instance of this task. No-op
+        if the associated task is not recurring.
+
+        """
+        frequency = self.task.frequency
+        if frequency == Task.DAILY:
+            delta = datetime.timedelta(days=1)
+        elif frequency == Task.WEEKLY:
+            delta = datetime.timedelta(weeks=1)
+        elif frequency == Task.MONTHLY:
+            delta = datetime.timedelta(days=30)
+        elif frequency == Task.YEARLY:
+            delta = datetime.timedelta(weeks=52)
+        else:
+            return None
+
+        new_instance = TaskInstance.objects.create(
+            task=self.task,
+            assignee=self.get_next_assignee(),
+            due_date=self.due_date + delta
+        )
+
+        return new_instance
+
+    def __str__(self):
+        return "%s assigned to %s" % (
+            self.task.title, str(self.assignee)
+        )

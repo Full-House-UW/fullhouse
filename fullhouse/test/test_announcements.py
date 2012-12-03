@@ -31,7 +31,7 @@ class TestAnnouncements(test_case_base.TestCaseBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            response.redirect_chain, [('http://testserver/dashboard/', 302)]
+            response.redirect_chain, []
         )
 
         mail.outbox = []

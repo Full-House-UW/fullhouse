@@ -1,6 +1,7 @@
 from datetime import (
     date, timedelta
 )
+import pdb
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
@@ -59,9 +60,9 @@ def create_announcement(request):
 
 @login_required
 def edit_announcement(request):
+    #TODO fix this, will break if id not passed in
     a = request.GET["id"] if request.method == "GET" else request.POST["id"]
     if a is None:
-        #TODO decide how to handle this error.
         return HttpResponseRedirect('/dashboard/')
     try:
         announcement = Announcement.objects.get(id=a)
@@ -102,12 +103,9 @@ def create_task(request):
     members = userprofile.house.members.get_query_set()
 
     if request.method == "POST":
-        task = Task(
-            creator=userprofile,
-            house=userprofile.house)
-        form = CreateTaskForm(request.POST, instance=task, members=members)
+        form = CreateTaskForm(request.POST, members=members)
         if form.is_valid():
-            form.save()
+            Task.objects.create_task(userprofile, form)
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateTaskForm(members=members)
@@ -123,26 +121,33 @@ def create_task(request):
 
 @login_required
 def edit_task(request):
-    t_id = request.GET["id"] if request.method == "GET" else request.POST["id"]
+    t_id = None
+    if request.method == "GET":
+        t_id = request.GET.get('id', None)
+    elif request.method == "POST":
+        t_id = request.POST.get('id', None)
     if t_id is None:
-        #TODO decide how to handle this error.
         return HttpResponseRedirect('/dashboard/')
+
     try:
         task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
         # TODO decide how to handle this.
         return HttpResponseRedirect('/dashboard/')
-    # Only the owner can edit.
-    if request.user != task.creator.user:
-        #TODO decide how to handle this.
-        return HttpResponseRedirect('/dashboard/')
 
     userprofile = request.user.profile
     members = userprofile.house.members.get_query_set()
 
+    # Only the members of this task's house can edit.
+    if userprofile not in task.house.members.all():
+        #TODO decide how to handle this.
+        return HttpResponseRedirect('/dashboard/')
+
     if request.method == "POST":
-        if request.POST.get('delete') is not None:
-            task.delete()
+        #TODO use discontinue instead of delete
+        if request.POST.get('discontinue') is not None:
+            task.is_active = False
+            task.save()
             return HttpResponseRedirect('/dashboard/')
         form = CreateTaskForm(request.POST, instance=task, members=members)
         if form.is_valid():
@@ -159,6 +164,29 @@ def edit_task(request):
             'message': get_param(request, 'message'),
             'time': get_param(request, 'time')
         }))
+
+
+@login_required
+def update_task(request, action):
+    redirect = request.GET.get('next', '/dashboard/')
+
+    t_id = request.GET.get("id", None)
+    if t_id is not None:
+        userprofile = request.user.profile
+        Task.objects.update_taskinstance(t_id, userprofile, action)
+    return HttpResponseRedirect(redirect)
+
+
+@login_required
+def task_history(request):
+    if request.user.profile.house is None:
+        return HttpResponseRedirect('/dashboard/')
+
+    house = request.user.profile.house
+    taskhistory = Task.objects.get_task_history(house)
+    context = RequestContext(request, {'tasks': taskhistory})
+
+    return render_to_response('task_history.html', context)
 
 
 @login_required
@@ -286,8 +314,6 @@ def add_members(request):
     if request.method == "POST":
         formset = AddMemberFormSet(data=request.POST)
         if formset.is_valid():
-            # do something with data
-            # pdb.set_trace()
             for f in formset.cleaned_data:
                 if 'email' in f:
                     email = f['email']
@@ -311,7 +337,7 @@ def add_members(request):
 
 @login_required
 def dashboard(request):
-# Make the user create/join a house before showing the dashboard.
+    # Make the user create/join a house before showing the dashboard.
     if request.user.profile.house is None:
         # TODO Don't see error for "already created house"
         return create_house(request)
@@ -321,7 +347,8 @@ def dashboard(request):
         announcements = house.announcements.exclude(
             expiration__lt=date.today()
         )
-        tasks = house.tasks.all()
+        #pdb.set_trace()
+        tasks = Task.objects.get_house_task_list(house)
         context = RequestContext(request, {
             'announcements': announcements,
             'tasks': tasks,

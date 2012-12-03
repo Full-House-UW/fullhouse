@@ -50,6 +50,10 @@
   float: right;
 }
 
+.overdue {
+    color: red;
+}
+
 .dash-header {
   font-family: serif;
   padding-left: 10px;
