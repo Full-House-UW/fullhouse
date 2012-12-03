@@ -323,9 +323,9 @@ class Task(models.Model):
     creator = models.ForeignKey(UserProfile, related_name='tasks_created')
     is_active = models.BooleanField(default=False)
 
-    assigned = models.ForeignKey(UserProfile, related_name='old_tasks_assigned', null=True)
+    assigned = models.ForeignKey(UserProfile, related_name='old_tasks_assigned', null=True, blank=True)
     title = models.CharField(max_length=100)
-    due = models.DateTimeField()
+    due = models.DateTimeField(null=True, blank=True)
     description = models.TextField(null=True)
     frequency = models.CharField(
         max_length=4, choices=FREQUENCY_CHOICES, default=ONCE
