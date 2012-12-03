@@ -239,6 +239,9 @@ def edit_house(request):
                     InviteProfile.objects.create_member_invite(
                         email, user, user.profile.house
                     )
+            if form.cleaned_data['remove_from_house']:
+                user.profile.house = None
+                user.profile.save()
 
             return HttpResponseRedirect('/dashboard/')
 
@@ -252,6 +255,8 @@ def edit_house(request):
     context = RequestContext(request, {
         'form': form,
         'formset': formset,
+        'members': house.members.all(),
+        'invitees': house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED),
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')

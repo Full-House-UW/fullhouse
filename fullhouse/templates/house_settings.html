@@ -23,6 +23,9 @@
       <h1>House Settings</h1>
       <form name="house-settings" action="." method="POST">
         {% csrf_token %}
+        <div id="house-settings-submit">
+          <input type="submit" value="{% trans 'Save House Settings' %}" />
+        </div>
 
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
@@ -37,9 +40,25 @@
           {{ form.zip_code }}
         </div>
 
+        <div class="fieldWrapper">
+          {{ form.remove_from_house.errors }}
+          <label form="remove_from_house">{{ form.remove_from_house.label }}: </label>
+          {{ form.remove_from_house }}
+        </div>
+
         <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
         <div id="addmembers">
-          <h1>Add housemates</h1>
+          <h1>Housemates</h1>
+          Current members:<br>
+          {% for member in members %}
+            {{ member.user.email }}<br>
+          {% endfor %}
+          {% if invitees|length != 0 %}
+            Invited members:<br>
+          {% endif %}
+          {% for invitee in invitees %}
+            {{ invitee.email }}<br>
+          {% endfor %}
           {{ formset.management_form }}
           {{ formset.non_form_errors }}
           <div id="forms">
