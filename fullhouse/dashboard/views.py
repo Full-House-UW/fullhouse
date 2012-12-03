@@ -15,6 +15,12 @@ from forms import *
 
 from models import *
 
+def get_param(request, key):
+    if request.method == "GET":
+        return request.GET.get(key, None)
+    else:
+        return request.POST.get(key, None)
+
 
 def home(request):
     return HttpResponseRedirect('/welcome/')
@@ -38,9 +44,15 @@ def create_announcement(request):
         # Create a date two weeks from today.
         twoweeks = date.today() + timedelta(14)
         form = CreateAnnouncementForm(initial={'expiration': twoweeks})
+
     return render_to_response(
         'create_announcement.html',
-        RequestContext(request, {'form': form})
+        RequestContext(request, {
+            'form': form,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
+        })
     )
 
 
@@ -74,7 +86,10 @@ def edit_announcement(request):
         'edit_announcement.html',
         RequestContext(request, {
             'form': form,
-            'id': a
+            'id': a,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
         }))
 
 
@@ -99,7 +114,10 @@ def create_task(request):
     return render_to_response(
         'create_task.html',
         RequestContext(request, {
-            'form': form
+            'form': form,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
         }))
 
 
@@ -137,7 +155,10 @@ def edit_task(request):
         'edit_task.html',
         RequestContext(request, {
             'form': form,
-            'id': t_id
+            'id': t_id,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
         }))
 
 
@@ -161,7 +182,12 @@ def edit_user(request):
         }
         form = UpdateUserForm(initial=initial, user=user)
 
-    context = RequestContext(request, {'form': form})
+    context = RequestContext(request, {
+        'form': form,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    })
 
     return render_to_response('user_settings.html', context)
 
@@ -185,7 +211,12 @@ def edit_house(request):
             'zip_code': house.zip_code,
         }
         form = CreateHouseForm(initial=initial)
-    context = RequestContext(request, {'form': form})
+    context = RequestContext(request, {
+        'form': form,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    })
 
     return render_to_response('house_settings.html', context)
 
@@ -217,7 +248,12 @@ def create_house(request):
     else:
         form = CreateHouseForm()
 
-    context = RequestContext(request, {'form': form})
+    context = RequestContext(request, {
+        'form': form,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    })
 
     return render_to_response('nonhousemember.html', context)
 
@@ -229,6 +265,9 @@ def join_house(request, invite_key):
         # redirect to success url
     context = RequestContext(request, {
         'joined': joined,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
     })
 
     return render_to_response('addmembers/__accept.html', context)
@@ -264,6 +303,9 @@ def add_members(request):
 
     context = RequestContext(request, {
         'formset': formset,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
     })
     return render_to_response('addmembers/add_members.html', context)
 
@@ -284,6 +326,9 @@ def dashboard(request):
         context = RequestContext(request, {
             'announcements': announcements,
             'tasks': tasks,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
         })
         return render_to_response('dashboard.html', context)
 
@@ -296,15 +341,30 @@ def welcome(request):
     return render_to_response(
         'welcome.html',
         RequestContext(request, {
-            'form': form
+            'form': form,
+            'error': get_param(request, 'error'),
+            'message': get_param(request, 'message'),
+            'time': get_param(request, 'time')
         }))
 
 
 def about_us(request):
-    return render_to_response('about_us.html', RequestContext(request))
+    return render_to_response('about_us.html', RequestContext(request, {
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    }))
     
 def faq(request):
-    return render_to_response('faq.html', RequestContext(request))
+    return render_to_response('faq.html', RequestContext(request, {
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    }))
 
 def contact_us(request):
-    return render_to_response('contact_us.html', RequestContext(request))
+    return render_to_response('contact_us.html', RequestContext(request, {
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    }))
