@@ -1,7 +1,12 @@
 window.onload = function() {
   // Add an event for adding a form field.
   var add_form = $("#add_email")[0];
-  add_form.addEventListener("click", addEmailField);
+
+  if (add_form.addEventListener) {
+    add_form.addEventListener("click", addEmailField);
+  else {
+    add_form.attachEvent("onclick", addEmailField);
+  }
 }
 
 function addEmailField(e) {
