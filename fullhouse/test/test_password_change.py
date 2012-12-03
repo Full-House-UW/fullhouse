@@ -1,5 +1,4 @@
 from django.test.client import Client
-from django.core import mail
 import test_case_base
 
 
@@ -15,7 +14,6 @@ class TestPasswordChange(test_case_base.TestCaseBase):
 
     def test_password_change(self):
 
-        mail.outbox = []
         # Write out a new password
         response = self.client.post(
             '/accounts/password/change/',

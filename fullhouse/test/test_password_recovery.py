@@ -63,3 +63,17 @@ class TestPasswordRecovery(test_case_base.TestCaseBase):
         self.loginUser(self.email, self.newpassword)
         # ensure the user is now logged in with new password
         self.assertEqual(self.client.session['_auth_user_id'], user.pk)
+
+    def test_redirect(self):
+        """
+        test that password recovery logged in user to password change
+        """
+        self.loginUser(self.email, self.password)
+        response = self.client.get(
+            '/accounts/password/reset/',
+            follow=True
+        )
+        self.assertEqual(
+            response.redirect_chain,
+            [('http://testserver/accounts/password/change/', 302)]
+        )
