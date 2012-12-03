@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 
 class House(models.Model):
     name = models.CharField(max_length=30)
-    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")])
+    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")], null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -60,7 +60,7 @@ class InviteManager(models.Manager):
                 profile = user.profile
                 profile.house = invite.house
                 profile.save()
-                invite.activation_key = self.model.INVITE_ACCEPTED
+                invite.invite_key = self.model.INVITE_ACCEPTED
                 invite.save()
                 return user
         return False
@@ -99,7 +99,7 @@ class InviteProfile(models.Model):
 
     INVITE_ACCEPTED = u"ALREADY_ACCEPTED"
 
-    house = models.ForeignKey(House)
+    house = models.ForeignKey(House, related_name='invitees')
     email = models.EmailField()
     invite_key = models.CharField(_('house invite key'), max_length=40)
     sent_date = models.DateTimeField()
@@ -139,8 +139,20 @@ class InviteProfile(models.Model):
 
 class UserProfile(models.Model):
 
+    MALE = 'mm'
+    FEMALE = 'ff'
+    # There's a pc issue here, but
+    # we allow the gender to be blank
+    GENDER_CHOICES = (
+        (MALE, 'male'),
+        (FEMALE, 'female'),
+    )
+
     user = models.OneToOneField(User, related_name='profile')
     birthday = models.DateField(null=True, blank=True)
+    gender = models.CharField(
+        max_length=4, choices=GENDER_CHOICES, null=True, blank=True
+    )
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(

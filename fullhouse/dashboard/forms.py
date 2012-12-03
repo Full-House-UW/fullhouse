@@ -4,12 +4,15 @@ from datetime import (
 from django import forms
 from django.forms.formsets import BaseFormSet
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 from emailusernames.utils import user_exists
 
 import models
 
 
 class CreateHouseForm(forms.ModelForm):
+    remove_from_house = forms.BooleanField(required=False, label="Remove me from this house")
+
     class Meta:
         model = models.House
 
@@ -78,6 +81,18 @@ class UpdateUserForm(forms.ModelForm):
         model = models.UserProfile
         exclude = ('user', 'house')
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(UpdateUserForm, self).__init__(*args, **kwargs)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    birthday = forms.DateField(
+        widget=forms.widgets.DateInput(format='%m-%d-%Y'),
+        input_formats=('%m-%d-%Y',),
+        required=False
+    )
+
+    def save(self, commit=True):
+        instance = super(UpdateUserForm, self).save(commit=commit)
+        user = instance.user
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        return instance
