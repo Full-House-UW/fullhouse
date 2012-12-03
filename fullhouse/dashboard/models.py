@@ -99,7 +99,7 @@ class InviteProfile(models.Model):
 
     INVITE_ACCEPTED = u"ALREADY_ACCEPTED"
 
-    house = models.ForeignKey(House)
+    house = models.ForeignKey(House, related_name='invitees')
     email = models.EmailField()
     invite_key = models.CharField(_('house invite key'), max_length=40)
     sent_date = models.DateTimeField()

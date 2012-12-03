@@ -252,6 +252,8 @@ def edit_house(request):
     context = RequestContext(request, {
         'form': form,
         'formset': formset,
+        'members': house.members.all(),
+        'invitees': house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED),
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
