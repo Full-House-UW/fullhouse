@@ -60,7 +60,7 @@ class InviteManager(models.Manager):
                 profile = user.profile
                 profile.house = invite.house
                 profile.save()
-                invite.activation_key = self.model.INVITE_ACCEPTED
+                invite.invite_key = self.model.INVITE_ACCEPTED
                 invite.save()
                 return user
         return False
