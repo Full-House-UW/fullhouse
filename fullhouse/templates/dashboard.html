@@ -41,27 +41,14 @@
       </h2>
       <div class="inner_pane">
         {% for task in tasks %}
-          <div class="announcement">
-            <h2>
-              {{ task.title}}
-            </h2>
-            <p>
-              {{ task.description }}
-            </p>
-            <p class="assigned">
-              Assigned to {{ task.assigned }} to be completed by {{ task.due }}.
-            </p>
-            <p class="createdby">
-              Posted by
-              {% if task.creator.user == user %}
-                you <a href="{% url edit_task %}?id={{ task.id }}">edit</a>
-              {% else %}
-                {{ task.creator.user.username }}
-              {% endif %}
-            </p>
+          <div class="task">
+            {% include "task.html" with task=task user=user only %}
           </div>
         {% endfor %}
       </div>
+      <p>
+        <a href="/dashboard/task/history/">history</a>
+      <p>
     </div>
   </div>
 {% endblock %}

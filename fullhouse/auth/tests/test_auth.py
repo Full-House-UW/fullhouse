@@ -5,9 +5,13 @@ from django.test.client import Client
 
 from django.core import mail
 
+from fullhouse.test.test_case_base import TestCaseBase
 
-class TestAuth(TestCase):
+
+class TestAuth(TestCaseBase):
     def setUp(self):
+        self.email = 'alice@eatallthecake.com'
+        self.password = 'shinyballs'
         self.client = Client()
 
     def testUnauthenticatedRedirect(self):
@@ -20,9 +24,9 @@ class TestAuth(TestCase):
 
     def testRegistration(self):
         register_data = {
-            'email': 'alice@eatallthecake.com',
-            'password1': 'shiny',
-            'password2': 'shiny',
+            'email': self.email,
+            'password1': self.password,
+            'password2': self.password,
         }
 
         # first attempt at login fails
@@ -37,39 +41,25 @@ class TestAuth(TestCase):
             []
         )
 
-        with self.settings(
-                # use the inmemory mail backend so we can get the activation url
-                # from the email
-                EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'):
-            # registration redirects to dashboard on success
-            response = self.client.post(
-                '/accounts/register/', follow=True, data=register_data)
-        self.assertEqual(
-            response.redirect_chain,
-            [('http://testserver/accounts/register/complete/', 302)]
-        )
-        self.assertEqual(response.status_code, 200)
-
-        # now get the activation email and trigger activation
-        email = mail.outbox[0]
-        match = re.search(r'/accounts/activate/([a-f0-9]{40})/',
-                          str(email.message()))
-        if not match:
-            raise Exception('failed to find key in activation email')
-        activation_key = match.group(1)
-
-        response = self.client.get('/accounts/activate/%s/' % activation_key,
-                                   follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response.redirect_chain,
-            [('http://testserver/accounts/activate/complete/', 302)]
-        )
+        # create user
+        self.createUser(self.email, self.password)
 
         # now login succeeds
-        response = self.client.post(
+        self.loginUser(self.email, self.password)
+
+        # login page redirects to dashboard
+        response = self.client.get(
             '/accounts/login/',
-            data={'email': 'alice@eatallthecake.com', 'password': 'shiny'},
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.redirect_chain,
+            [('http://testserver/dashboard/', 302)]
+        )
+        # registration page redirects to dashboard
+        response = self.client.get(
+            '/accounts/register/',
             follow=True
         )
         self.assertEqual(response.status_code, 200)
