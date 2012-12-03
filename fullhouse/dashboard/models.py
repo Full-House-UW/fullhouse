@@ -139,8 +139,20 @@ class InviteProfile(models.Model):
 
 class UserProfile(models.Model):
 
+    MALE = 'mm'
+    FEMALE = 'ff'
+    # There's a pc issue here, but
+    # we allow the gender to be blank
+    GENDER_CHOICES = (
+        (MALE, 'male'),
+        (FEMALE, 'female'),
+    )
+
     user = models.OneToOneField(User, related_name='profile')
     birthday = models.DateField(null=True, blank=True)
+    gender = models.CharField(
+        max_length=4, choices=GENDER_CHOICES, null=True, blank=True
+    )
     # should perhaps be a ManyToManyField, but for simplicity, we'll only allow
     # one house per person for now.
     house = models.ForeignKey(

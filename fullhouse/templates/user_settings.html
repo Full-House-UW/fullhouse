@@ -20,12 +20,7 @@
       <form name="user-settings" action="." method="POST">
         {% csrf_token %}
 
-        <div class="fieldWrapper">
-          <br>
-          {{ form.birthday.errors }}
-          <label form="birthday">Birthdate (YYYY-MM-DD): </label>
-          {{ form.birthday }}
-        </div>
+        {{ form.as_p }}
 
         <div class="fieldWrapper">
           <br>
