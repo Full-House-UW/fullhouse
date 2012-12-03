@@ -325,6 +325,7 @@ class Task(models.Model):
 
     assigned = models.ForeignKey(UserProfile, related_name='old_tasks_assigned', null=True)
     title = models.CharField(max_length=100)
+    due = models.DateTimeField()
     description = models.TextField(null=True)
     frequency = models.CharField(
         max_length=4, choices=FREQUENCY_CHOICES, default=ONCE
