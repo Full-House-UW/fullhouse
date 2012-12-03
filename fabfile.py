@@ -83,6 +83,7 @@ def release(stack, branch):
 
     with cd(dynamic + "fullhouse/"):
         run("source ../env/bin/activate && ./manage.py syncdb")
+        run("source ../env/bin/activate && ./manage.py migrate")
 
     run(dynamic + "apache2/bin/restart")
 
