@@ -4,7 +4,7 @@ window.onload = function() {
 
   if (add_form.addEventListener) {
     add_form.addEventListener("click", addEmailField);
-  else {
+  } else {
     add_form.attachEvent("onclick", addEmailField);
   }
 }
