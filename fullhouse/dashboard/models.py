@@ -323,7 +323,7 @@ class Task(models.Model):
     creator = models.ForeignKey(UserProfile, related_name='tasks_created')
     is_active = models.BooleanField(default=False)
 
-    #assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned', null=True)
+    assigned = models.ForeignKey(UserProfile, related_name='old_tasks_assigned', null=True)
     title = models.CharField(max_length=100)
     description = models.TextField(null=True)
     frequency = models.CharField(
