@@ -21,8 +21,8 @@ class TestAuth(TestCase):
     def testRegistration(self):
         register_data = {
             'email': 'alice@eatallthecake.com',
-            'password1': 'shiny',
-            'password2': 'shiny',
+            'password1': 'shinyballs',
+            'password2': 'shinyballs',
         }
 
         # first attempt at login fails
@@ -44,6 +44,7 @@ class TestAuth(TestCase):
             # registration redirects to dashboard on success
             response = self.client.post(
                 '/accounts/register/', follow=True, data=register_data)
+        print response
         self.assertEqual(
             response.redirect_chain,
             [('http://testserver/accounts/register/complete/', 302)]
@@ -69,7 +70,7 @@ class TestAuth(TestCase):
         # now login succeeds
         response = self.client.post(
             '/accounts/login/',
-            data={'email': 'alice@eatallthecake.com', 'password': 'shiny'},
+            data={'email': 'alice@eatallthecake.com', 'password': 'shinyballs'},
             follow=True
         )
         self.assertEqual(response.status_code, 200)

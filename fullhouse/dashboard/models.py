@@ -162,6 +162,7 @@ class Task(models.Model):
     house = models.ForeignKey(House, related_name='tasks')
     assigned = models.ForeignKey(UserProfile, related_name='tasks_assigned')
     due = models.DateTimeField()
+
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 
