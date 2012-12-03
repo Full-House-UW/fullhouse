@@ -224,12 +224,26 @@ def edit_house(request):
     user = request.user
     house = user.profile.house
     if house is None:
-        return HttpResponseRedirect('../create_house/')
+        return HttpResponseRedirect('/dashboard/')
 
+    AddMemberFormSet = formset_factory(
+        AddMemberForm,
+        extra=3
+    )
     if request.method == "POST":
         form = CreateHouseForm(data=request.POST, instance=house)
-        if form.is_valid():
-            house.save()
+        formset = AddMemberFormSet(data=request.POST)
+        if formset.is_valid() and form.is_valid():
+            form.save()  # Update the house
+            # do something with data
+            # pdb.set_trace()
+            for f in formset.cleaned_data:
+                if 'email' in f:
+                    email = f['email']
+                    InviteProfile.objects.create_member_invite(
+                        email, user, user.profile.house
+                    )
+
             return HttpResponseRedirect('/dashboard/')
 
     else:
@@ -238,8 +252,10 @@ def edit_house(request):
             'zip_code': house.zip_code,
         }
         form = CreateHouseForm(initial=initial)
+        formset = AddMemberFormSet()
     context = RequestContext(request, {
         'form': form,
+        'formset': formset,
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
@@ -304,7 +320,7 @@ def join_house(request, invite_key):
 def add_members(request):
     user = request.user
     if user.profile.house is None:
-        return HttpResponseRedirect('../create_house')
+        return HttpResponseRedirect('/dashboard/')
 
     AddMemberFormSet = formset_factory(
         AddMemberForm,

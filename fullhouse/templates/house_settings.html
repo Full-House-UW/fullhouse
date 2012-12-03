@@ -9,10 +9,14 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}house_settings.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}add_members.css" />
 {% endblock %}
 
 {% block content %}
   <div id="house-settings">
+    <div id="emptyform">
+      {{ formset.empty_form.as_p }}
+    </div>
     {% if error %}
       {{ error }}
     {% else %}
@@ -32,6 +36,22 @@
           <label form="zipcode">Zip Code: </label>
           {{ form.zip_code }}
         </div>
+
+        <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
+        <div id="addmembers">
+          <h1>Add housemates</h1>
+          {{ formset.management_form }}
+          {{ formset.non_form_errors }}
+          <div id="forms">
+            {% for form in formset.forms %}
+              {{ form.as_p }}
+            {% endfor %}
+          </div>
+          <div>
+            <input type="button" id="add_email" value="Add Row" />
+          </div>
+        </div>
+        <br>
 
         <div id="house-settings-submit">
           <input type="submit" value="{% trans 'Save House Settings' %}" />
