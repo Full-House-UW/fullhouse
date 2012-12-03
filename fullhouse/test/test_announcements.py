@@ -8,7 +8,7 @@ class TestAnnouncements(test_case_base.TestCaseBase):
 
         self.client = Client()
         self.email = 'alice@eatallthecake.com'
-        self.password = 'shiny'
+        self.password = 'shinyballs'
         self.houseName = 'FunHouse'
         self.zipcode = 98006
         self.createUser(self.email, self.password)

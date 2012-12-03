@@ -27,10 +27,10 @@ Last person:
   Posted by
   {% if task.creator == user.profile %}
       you
-      <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
   {% else %}
     {{ task.creator.user.username }}
   {% endif %}
+  <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
 </p>
 <p>
   {% if user.profile in task.participants %}

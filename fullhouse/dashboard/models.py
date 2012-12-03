@@ -333,7 +333,6 @@ class Task(models.Model):
     )
     first_due = models.DateField()
 
-    #TODO: remove this field
     def __str__(self):
         return "%s: %s" % (str(self.creator), self.title)
 

@@ -1,5 +1,4 @@
 from django.test.client import Client
-from django.core import mail
 import test_case_base
 
 
@@ -8,14 +7,13 @@ class TestPasswordChange(test_case_base.TestCaseBase):
 
         self.client = Client()
         self.email = 'alice@eatallthecake.com'
-        self.password = 'shiny'
-        self.newpassword = 'tiny'
+        self.password = 'shinyballs'
+        self.newpassword = 'tinybubbles'
         self.createUser(self.email, self.password)
         self.loginUser(self.email, self.password)
 
     def test_password_change(self):
 
-        mail.outbox = []
         # Write out a new password
         response = self.client.post(
             '/accounts/password/change/',

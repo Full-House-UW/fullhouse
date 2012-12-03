@@ -7,9 +7,9 @@ class TestAddHouseMembers(test_case_base.TestCaseBase):
     def setUp(self):
         self.client = Client()
         self.email = 'alice@eatallthecake.com'
-        self.password = 'shiny'
+        self.password = 'shinyballs'
         self.email2 = 'frank@eatallthecake.com'
-        self.password2 = 'winy'
+        self.password2 = 'whinytwerp'
 
         self.createUser(self.email, self.password)
         self.createUser(self.email2, self.password2)
