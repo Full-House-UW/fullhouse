@@ -17,11 +17,9 @@ from models import *
 
 def get_param(request, key):
     if request.method == "GET":
-        if key in request.GET:
-            return request.GET[key]
+        return request.GET.get(key, None)
     else:
-        if key in request.POST:
-            return request.POST[key]
+        return request.POST.get(key, None)
 
 
 def home(request):
