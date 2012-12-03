@@ -234,7 +234,7 @@ def edit_house(request):
         form = CreateHouseForm(data=request.POST, instance=house)
         formset = AddMemberFormSet(data=request.POST)
         if formset.is_valid() and form.is_valid():
-            form.save() # Update the house
+            form.save()  # Update the house
             # do something with data
             # pdb.set_trace()
             for f in formset.cleaned_data:
