@@ -40,6 +40,12 @@
           {{ form.zip_code }}
         </div>
 
+        <div class="fieldWrapper">
+          {{ form.remove_from_house.errors }}
+          <label form="remove_from_house">{{ form.remove_from_house.label }}: </label>
+          {{ form.remove_from_house }}
+        </div>
+
         <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
         <div id="addmembers">
           <h1>Housemates</h1>
