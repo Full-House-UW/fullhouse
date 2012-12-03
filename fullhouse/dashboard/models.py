@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 
 class House(models.Model):
     name = models.CharField(max_length=30)
-    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")])
+    zip_code = models.CharField(max_length=9, validators=[RegexValidator(regex=r'^[0-9]{5}$', message="Please enter a 5 digit zip code.")], null=True, blank=True)
 
     def __str__(self):
         return self.name
