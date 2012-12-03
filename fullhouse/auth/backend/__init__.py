@@ -8,7 +8,7 @@ from registration.models import RegistrationProfile
 from registration.backends.default import DefaultBackend
 
 from fullhouse.dashboard.models import UserProfile
-from emailusernames.forms import EmailUserCreationForm
+from fullhouse.auth.forms import FullhouseRegistrationForm
 
 
 class FullhouseBackend(DefaultBackend):
@@ -106,4 +106,4 @@ class FullhouseBackend(DefaultBackend):
         Return the default form class used for user registration.
 
         """
-        return EmailUserCreationForm
+        return FullhouseRegistrationForm
