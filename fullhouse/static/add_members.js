@@ -15,12 +15,14 @@ function addEmailField(e) {
   var newFieldIndex = numFieldsInput.value;
   numFieldsInput.value = newFieldIndex + 1;
 
-  var form = $($("#emptyform")[0].childNodes[1]).clone()[0];
-  var form_id = $(form.childNodes[0]).attr("for").replace("__prefix__", newFieldIndex);
-  var form_name = $(form.childNodes[2]).attr("name").replace("__prefix__", newFieldIndex);
-  $(form.childNodes[0]).attr("for", form_id);
+  var form = $($("#emptyform")[0].getElementsByTagName("p")[0]).clone()[0];
+  var label = form.getElementsByTagName("label")[0];
+  var input = form.getElementsByTagName("input")[0];
+  var form_id = $(label).attr("for").replace("__prefix__", newFieldIndex);
+  var form_name = $(input).attr("name").replace("__prefix__", newFieldIndex);
+  $(label).attr("for", form_id);
 
-  var form_input = $(form.childNodes[2]);
+  var form_input = $(input);
   form_input.attr("name", form_name);
   form_input.attr("id", form_id);
 
