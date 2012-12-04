@@ -1,11 +1,6 @@
 #house-settings {
   display: inline-block;
   padding: 20px;
-  text-align: right;
-}
-
-#house-settings h1 {
-  padding-left: 10px;
 }
 
 #house-settings input[type="text"] {
@@ -13,6 +8,6 @@
 }
 
 #house-settings-submit {
-  padding: 5px;
+  padding: 5px 0;
   text-align: left;
 }
