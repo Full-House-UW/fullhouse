@@ -47,6 +47,7 @@ ul.nav {
   background-color: white;
   height: 100%;
   margin: auto;
+  overflow: auto;
   padding-top: 35px;
   padding-left: 10px;
   padding-right: 10px;
