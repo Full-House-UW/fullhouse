@@ -32,16 +32,23 @@
         <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
         <div id="addmembers">
           <h1>Housemates</h1>
-          Current members:<br>
+          Current members:
+          <ul class="members current">
           {% for member in members %}
-            {{ member.user.email }}<br>
+            <li>{{ member.user.email }}</li>
           {% endfor %}
+          </ul>
           {% if invitees|length != 0 %}
-            Invited members:<br>
+            Invited members:
+            <ul class="members invite">
           {% endif %}
           {% for invitee in invitees %}
-            {{ invitee.email }}<br>
+            <li>{{ invitee.email }}</li>
           {% endfor %}
+          {% if invitees|length != 0 %}
+            </ul>
+          {% endif %}
+
           {{ formset.management_form }}
           {{ formset.non_form_errors }}
           <div id="forms">
