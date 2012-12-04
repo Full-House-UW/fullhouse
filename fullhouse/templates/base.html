@@ -2,28 +2,36 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 <!doctype html>
+<html lang="en">
 <title>
   Full House - 
   {% block title %}
     Welcome
   {% endblock %}
 </title>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<!-- Google Analytics -->
-<script type="text/javascript">
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36074829-1']);
-  _gaq.push(['_trackPageview']);
+  <!-- Google Analytics -->
+  <script type="text/javascript">
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36074829-1']);
+    _gaq.push(['_trackPageview']);
 
-</script>
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+  <link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
+
+  <!-- bootstrap -->
+  <script src="{{ STATIC_PREFIX }}/bootstrap/js/bootstrap.min.js"></script>
+  <link href="{{ STATIC_PREFIX }}/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
 {% if time %}
 <script>
   {% if error %}
@@ -35,22 +43,50 @@
 </script>
 {% endif %}
 {% block css %} {% endblock %}
-<div id="header">
-  {% block header %}
-    <LINK REL="SHORTCUT ICON" HREF="{{ STATIC_PREFIX }}favicon.ico" type="image/x-icon">
-    <a id="header-logo" href="{% url welcome %}"> 
-      <img src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
-    </a>
-    {% if user.is_authenticated %}
-      <ul class="nav">
-        <li><a href="{% url edit_user %}">User Settings</a></li>
-        <li><a href="{% url edit_house %}">House Settings</a></li>
-        <li><a href="{% url welcome %}">Home</a></li>
-        <li><a href="{% url auth_logout %}">Logout</a></li>
-      </ul>
-    {% endif %}
-  {% endblock %}
+    {% comment %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    {% endcomment %}
+{% block header %}
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li>
+            <a id="header-logo" href="{% url welcome %}"> 
+              <img src="{{ STATIC_PREFIX }}header-logo.png" alt="logo"/>
+            </a>
+          </li>
+          <li><a href="{% url welcome %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url edit_user %}">User Settings</a></li>
+          <li><a href="{% url edit_house %}">House Settings</a></li>
+          <li><a href="{% url auth_logout %}">Logout</a></li>
+          {% endif %}
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
 </div>
+{% endblock %}
 <div id="main">
   {% if error %}
     <div id="error" class="error">
@@ -64,6 +100,7 @@
   {% endif %}
   
   {% block content %}
+  <div class="
   <div class="error">
     There was an error fetching the web page.
   </div>
@@ -80,3 +117,4 @@
 
   {% endblock %}
 </div>
+</html>
