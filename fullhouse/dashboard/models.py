@@ -160,7 +160,10 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return str(self.user)
+        if self.user.first_name or self.user.last_name:
+            return self.user.first_name + " " + self.user.last_name + " <" + self.user.email + ">"
+        else:
+            return self.user.email
 
 
 class Announcement(models.Model):

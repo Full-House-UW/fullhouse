@@ -252,11 +252,13 @@ def edit_house(request):
         }
         form = CreateHouseForm(initial=initial)
         formset = AddMemberFormSet()
+    members = map(str, house.members.all())
+    invitees = map(str, house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED))
     context = RequestContext(request, {
         'form': form,
         'formset': formset,
-        'members': house.members.all(),
-        'invitees': house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED),
+        'members': members,
+        'invitees': invitees,
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')

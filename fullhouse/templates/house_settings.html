@@ -35,7 +35,7 @@
           Current members:
           <ul class="members current">
           {% for member in members %}
-            <li>{{ member.user.email }}</li>
+            <li>{{ member }}</li>
           {% endfor %}
           </ul>
           {% if invitees|length != 0 %}
@@ -43,7 +43,7 @@
             <ul class="members invite">
           {% endif %}
           {% for invitee in invitees %}
-            <li>{{ invitee.email }}</li>
+            <li>{{ invitee }}</li>
           {% endfor %}
           {% if invitees|length != 0 %}
             </ul>
