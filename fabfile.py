@@ -59,17 +59,23 @@ def get_app_paths(stack):
     return (dynamic_app_path, static_app_path)
 
 
-# arguments:
-# - stack: qa or prod -- the stack to release to
-# - branch: the github branch or tag to release
-def release(stack, branch):
+@task
+def release(stack, commit):
+    """
+    release a specific commit to qa or prod
+
+    Usage: fab release:stack,commit
+    arguments:
+    - stack: qa or prod -- the stack to release to
+    - commit: the github branch, tag, or commit hash to release
+    """
     dynamic, static = get_app_paths(stack)
 
     with cd(dynamic):
         run("rm -rf fullhouse/")
         run("git clone " + GIT_REPO)
         with cd("fullhouse/"):
-            run("git checkout " + branch)
+            run("git checkout " + commit)
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
         run("source env/bin/activate && pip install -r fullhouse/server_requirements.txt")
