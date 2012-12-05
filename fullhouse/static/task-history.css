@@ -1,0 +1,21 @@
+.overdue {
+  color: red;
+}
+.task {
+  border-top: 1px solid black;
+  margin-right: 5px;
+  padding: 5px;
+  word-wrap: break-word;
+}
+
+.task-history-record {
+  border-bottom: 1px solid black;
+  width: 50%;
+}
+
+#task-title {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+}
+

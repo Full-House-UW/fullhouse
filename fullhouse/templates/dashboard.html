@@ -6,6 +6,7 @@
   Dashboard
 {% endblock %}
 
+<!-- bootstrap -->
 {% block css %}
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}dashboard.css" />
 {% endblock %}
@@ -15,7 +16,7 @@
   <div id="dash">
     <div class="pane" id="announcements">
       <h2>Announcements <a id="add-ann" href="{% url create_announcement %}">
-        <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
+        <i class="icon-plus"></i> Add </a>
       </h2>
       <div class="inner_pane">
         {% for announcement in announcements %}
@@ -26,7 +27,7 @@
             <p class="createdby">
               Posted by
               {% if announcement.creator.user == user %}
-                you <a href="{% url edit_announcement %}?id={{ announcement.id }}">edit</a>
+                you <a id="edit-ann" href="{% url edit_announcement %}?id={{ announcement.id }}"><i class="icon-pencil"></i> Edit</a>
               {% else %}
                 {{ announcement.creator.user.username }}
               {% endif %}
@@ -37,7 +38,7 @@
     </div>
     <div class="pane" id="tasks">
       <h2>Tasks <a id="add-task" href="{% url create_task %}">
-        <img src="{{ STATIC_PREFIX }}add_icon.png" id="add-icon" />add</a>
+        <i class="icon-plus"></i> Add </a>
       </h2>
       <div class="inner_pane">
         {% for task in tasks %}
@@ -47,7 +48,7 @@
         {% endfor %}
       </div>
       <p>
-        <a href="/dashboard/task/history/">history</a>
+        <a href="/dashboard/task/history/"><i class="icon-list-alt"></i> Task History</a>
       <p>
     </div>
   </div>
