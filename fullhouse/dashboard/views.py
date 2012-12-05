@@ -226,6 +226,15 @@ def edit_house(request):
         AddMemberForm,
         extra=3
     )
+
+    # default forms -- changed below on certain condition
+    initial = {
+        'name': house.name,
+        'zip_code': house.zip_code,
+    }
+    form = CreateHouseForm(initial=initial)
+    formset = AddMemberFormSet()
+
     if request.method == "POST":
         form = CreateHouseForm(data=request.POST, instance=house)
         formset = AddMemberFormSet(data=request.POST)
@@ -245,15 +254,16 @@ def edit_house(request):
 
             return HttpResponseRedirect('/dashboard/')
 
-    else:
-        initial = {
-            'name': house.name,
-            'zip_code': house.zip_code,
-        }
-        form = CreateHouseForm(initial=initial)
-        formset = AddMemberFormSet()
-    members = map(str, house.members.all())
-    invitees = map(str, house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED))
+    elif request.method == "GET":
+        uninvite_email = request.GET.get('uninvite', None)
+        for invite in house.invitees.all():
+            if invite.email == uninvite_email:
+                invite.invite_key = InviteProfile.INVITE_ACCEPTED
+                invite.save()
+
+    members = [str(member) for member in house.members.all()]
+    invitees = [x.email for x in house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED)]
+
     context = RequestContext(request, {
         'form': form,
         'formset': formset,

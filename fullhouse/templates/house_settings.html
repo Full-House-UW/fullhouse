@@ -43,7 +43,7 @@
             <ul class="members invite">
           {% endif %}
           {% for invitee in invitees %}
-            <li>{{ invitee }}</li>
+            <li>{{ invitee }} (<a href=".?uninvite={{invitee}}">Cancel invitation</a>)</li>
           {% endfor %}
           {% if invitees|length != 0 %}
             </ul>
