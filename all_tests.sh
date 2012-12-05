@@ -6,10 +6,10 @@ rm -rf htmlcov/*
 rm -f .coverage
 
 # we do not want coverage data for South migrations:
-#PARMS=--omit='*migrations*','*tests*'
+PARMS=--omit='*migrations*','env*'
 
 # run the tests and collect coverage, only for our applications
-coverage run --source=fullhouse/dashboard ./manage.py test
+coverage run --source=. ./manage.py test
 
 # generate plaintext and HTML report
 echo "----------------------------"
