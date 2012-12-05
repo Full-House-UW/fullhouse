@@ -5,7 +5,7 @@
 #create-task {
   display: inline-block;
   padding: 20px;
-  text-align: right;
+  text-align: left;
 }
 
 #create-task h1 {

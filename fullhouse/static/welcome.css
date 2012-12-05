@@ -24,3 +24,9 @@
 #login-form-fields > p {
   text-align: right;
 }
+
+#forgot-pw, #register {
+  padding: 10px;
+  font-weight: bold;
+
+}

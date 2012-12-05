@@ -1,39 +1,48 @@
-<h3>
-  {{ task.title}}
-</h3>
-<p>
-  {{ task.description }}
-</p>
-<p class="previous">
-Last person:
-  {% if task.prev %}
-      Assigned to {{ task.prev.assignee }}, due {{ task.prev.due_date }}
-      {% if task.prev.completed_by %}
-        (Completed by {{ task.prev.completed_by }} on {{ task.prev.completed_date }}
-      {% else %}
-        NOT COMPLETED
-      {% endif %}
-  {% else %}
-    N/A
-  {% endif %}
-</p>
-<p class="frequency">
-  Frequency: {{ task.frequency }}
-</p>
-<p class="assigned{% if task.overdue %} overdue{% endif %}">
-  Assigned to {{ task.current.assignee.user.username }}, due {{ task.current.due_date }}.
-</p>
-<p class="createdby">
-  Posted by
-  {% if task.creator == user.profile %}
+<div id="task-title">
+  {% if user.profile in task.participants %}
+    <a id="completed" class="btn" href="/dashboard/task/update/complete/?id={{ task.current.id }}"><i class="icon-ok"></i> Complete</a>
+  {% endif %} 
+  {{ task.title }}
+</div>
+
+<br>
+<id class ="description">
+  <b>Description: </b>{{ task.description }}
+</id>
+
+<id class="frequency">
+  <br>
+  <b>Frequency:</b> {{ task.frequency }}
+</id>
+
+<id class="assigned{% if task.overdue %} overdue{% endif %}">
+  <br>
+  <b>Assigned to</b> <i>{{ task.current.assignee.user.username }}</i>, <b>due</b> {{ task.current.due_date }}.
+</id>
+
+<id class="previous">
+  <br>
+  <b>Last person:</b>
+    {% if task.prev %}
+        Assigned to <i>{{ task.prev.assignee }}</i>, was due {{ task.prev.due_date }}
+        {% if task.prev.completed_by %}
+          (Completed by <i>{{ task.prev.completed_by }}</i> on {{ task.prev.completed_date }})
+        {% else %}
+          NOT COMPLETED
+        {% endif %}
+    {% else %}
+      N/A
+    {% endif %}
+</id>
+
+<br>
+<id class="createdby">
+  <br>
+  Created by
+  <i>{% if task.creator == user.profile %}
       you
   {% else %}
     {{ task.creator.user.username }}
-  {% endif %}
-  <a href="/dashboard/task/edit/?id={{ task.id }}">edit</a>
-</p>
-<p>
-  {% if user.profile in task.participants %}
-  <a href="/dashboard/task/update/complete/?id={{ task.current.id }}">complete</a>
-  {% endif %}
-</p>
+  {% endif %}</i>
+  <a id="edit-task" href="/dashboard/task/edit/?id={{ task.id }}"><i class="icon-pencil"></i> Edit</a>
+</id>
