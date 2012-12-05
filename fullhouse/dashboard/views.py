@@ -262,7 +262,8 @@ def edit_house(request):
                 invite.save()
 
     members = [str(member) for member in house.members.all()]
-    invitees = [x.email for x in house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED)]
+    all_invitees = house.invitees.all()
+    invitees = [x.email for x in all_invitees if not x.invite_key_expired()]
 
     context = RequestContext(request, {
         'form': form,
