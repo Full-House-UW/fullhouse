@@ -227,39 +227,48 @@ def edit_house(request):
         extra=3
     )
 
-    # default forms -- changed below on certain condition
+    # default values to be passed to templates -- changed below on certain
+    # condition
     initial = {
         'name': house.name,
         'zip_code': house.zip_code,
     }
     form = CreateHouseForm(initial=initial)
     formset = AddMemberFormSet()
+    message = get_param(request, 'message')
+    time = get_param(request, 'time')
 
     if request.method == "POST":
         form = CreateHouseForm(data=request.POST, instance=house)
         formset = AddMemberFormSet(data=request.POST)
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
-            # do something with data
-            # pdb.set_trace()
+            # process the invitations:
             for f in formset.cleaned_data:
                 if 'email' in f:
                     email = f['email']
                     InviteProfile.objects.create_member_invite(
                         email, user, user.profile.house
                     )
+            # process house removal
             if form.cleaned_data['remove_from_house']:
                 user.profile.house = None
                 user.profile.save()
 
-            return HttpResponseRedirect('/dashboard/')
+            # reset the add member formset so that the email they just entered
+            # isn't displayed again
+            formset = AddMemberFormSet()
+            message = "House settings have been saved"
+            time = "3"
 
+    # process canceling of invitations
     elif request.method == "GET":
         uninvite_email = request.GET.get('uninvite', None)
         for invite in house.invitees.all():
             if invite.email == uninvite_email:
                 invite.invite_key = InviteProfile.INVITE_ACCEPTED
                 invite.save()
+        # deliberately continue without returning so we stay on this page
 
     members = [str(member) for member in house.members.all()]
     all_invitees = house.invitees.all()
@@ -271,8 +280,8 @@ def edit_house(request):
         'members': members,
         'invitees': invitees,
         'error': get_param(request, 'error'),
-        'message': get_param(request, 'message'),
-        'time': get_param(request, 'time')
+        'message': message,
+        'time': time,
     })
 
     return render_to_response('house_settings.html', context)
