@@ -1,5 +1,5 @@
 #dash {
-  padding: 0 10px;
+  padding: 10px;
 }
 
 .pane {
@@ -36,12 +36,7 @@
   font-style: italic;
 }
 
-#add-icon {
-  width: 15px;
-  height: 15px;
-}
-
-#add-ann, #add-task {
+#add-ann, #add-task, #edit-ann, #edit-task {
   float: right;
   font-size: 14px;
 }
@@ -51,11 +46,37 @@
 }
 
 .overdue {
-    color: red;
+  color: red;
 }
 
 .dash-header {
   font-family: serif;
   padding-left: 10px;
+}
+
+.announcement:last-child {
+  border-bottom: 1px solid black;
+}
+
+.task {
+  border-top: 1px solid black;
+  margin-right: 5px;
+  padding: 5px;
+  word-wrap: break-word;
+}
+
+.task:last-child {
+  border-bottom: 1px solid black;
+}
+
+.task .createdby, .announcement .assigned {
+  font-size: smaller;
+  font-style: italic;
+}
+
+#task-title {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
 }
 

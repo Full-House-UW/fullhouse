@@ -4,19 +4,19 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block title %}
-  Create A House
+  Non-House Member
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}main.css" />
 <link rel="stylesheet" href="{{ STATIC_PREFIX }}nonhousemember.css" />
 {% endblock %}
 
 {% block content %}
-  <script src="{{ STATIC_PREFIX }}nonhousemember.js"></script>
+  <script src="{{ STATIC_PREFIX }}/nonhousemember.js"></script>
   <div id="nonhousemember">
-  	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet. :(</h2>
-	  <p class="reg-header" align="center">You can <a id="create_house_link" href = "javascript:void(0)">create a House</a></p>
+  	<h2 class="reg-header" align="center">Oh! It looks like you aren't a member of a house yet!
+  	</h2>
+	  <p id="cr-house" class="reg-header" align="center">You can <a id="create_house_link" href = "javascript:void(0)"><u>create a House</u></a></p>
       <div id="createhouse"
           {% if not form.is_bound %}
              style="display:none"
@@ -30,9 +30,15 @@
             <label form="housename">House Name: </label>
             {{ form.name }}
           </div>
+
+          <div class="fieldWrapper">
+            {{ form.zip_code.errors }}
+            <label form="zipcode">Zip Code: </label>
+            {{ form.zip_code }}
+          </div>
           <input type="submit" value="{% trans 'Create My House' %}" />
         </form>
     </div>
-	  <p class="reg-header" align="center"><a href = "{% url auth_logout %}">Skip for now and log out</a></p>
+	  <p id="skip" class="reg-header" align="center">Skip for now and <a href = "{% url auth_logout %}"><u>log out</u></a></p>
   </div>
 {% endblock %}

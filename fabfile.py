@@ -58,18 +58,34 @@ def get_app_paths(stack):
     static_app_path = APP_PATH + apps[1]
     return (dynamic_app_path, static_app_path)
 
+def get_repo(path, commit, repo):
+    run("mkdir -p %s" % path)
+    with cd(path):
+        run("rm -rf fullhouse/")
+        run("git clone " + repo)
+        with cd("fullhouse/"):
+            run("git checkout " + commit)
 
-# arguments:
-# - stack: qa or prod -- the stack to release to
-# - branch: the github branch or tag to release
-def release(stack, branch):
+@task
+def release(stack, commit):
+    """
+    release a specific commit to qa or prod
+
+    Usage: fab release:stack,commit
+    arguments:
+    - stack: qa or prod -- the stack to release to
+    - commit: the github branch, tag, or commit hash to release
+    """
     dynamic, static = get_app_paths(stack)
 
+    print "Checking for existence of '%s'" % commit
+    # errors out on failure
+    get_repo("tmp", commit, GIT_REPO)
+    print "'%s' is a valid commit -- continuing" % commit
+    print
+
+    get_repo(dynamic, commit, GIT_REPO)
     with cd(dynamic):
-        run("rm -rf fullhouse/")
-        run("git clone " + GIT_REPO)
-        with cd("fullhouse/"):
-            run("git checkout " + branch)
 
         run("source env/bin/activate && pip install -r fullhouse/requirements.txt")
         run("source env/bin/activate && pip install -r fullhouse/server_requirements.txt")

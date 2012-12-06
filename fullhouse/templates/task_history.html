@@ -7,15 +7,17 @@
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}dashboard.css" />
+<link rel="stylesheet" href="{{ STATIC_PREFIX }}task-history.css" />
 {% endblock %}
 
 {% block content %}
 {% for task in tasks %}
   {% for instance in task.instances %}
     <div class="task-history-record">
-      <p>
-        {{ task.title }}
+      <p> 
+        <div id="task-title">
+          {{ task.title }}
+        </div>
       </p>
       <p>
       Assigned to {{ instance.assignee }}, due {{ instance.due_date }}
@@ -25,8 +27,9 @@
         Completed by {{ instance.completed_by.user.username }} on {{ instance.completed_date }}
       {% else %}
         NOT COMPLETED
+        <br>
         {% if user.profile in task.participants %}
-        <a href="/dashboard/task/update/complete/?id={{ task.id }}&next=/dashboard/task/history/">complete</a>
+          <a id="completed" class="btn" href="/dashboard/task/update/complete/?id={{ task.current.id }}"><i class="icon-ok"></i> Complete</a>
         {% endif %}
       {% endif %}
       </p>

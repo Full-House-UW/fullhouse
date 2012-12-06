@@ -26,11 +26,11 @@
       <div id="login-form-fields">
         {{ form.email.errors }}
         <p>
-          {{ form.email.label_tag }}: {{ form.email }}
+          {{ form.email.label_tag }} {{ form.email }}
         </p>
         {{ form.password.errors }}
         <p>
-          {{ form.password.label_tag }}: {{ form.password }}
+          {{ form.password.label_tag }} {{ form.password }}
         </p>
       </div>
       <input type="hidden" name="next" value="{{ next }}" />
@@ -39,8 +39,8 @@
       </div>
       <div>
 			  <br>
-			  <a href = "{% url auth_password_reset %}">Forgot password</a>
-			  <a href = "{% url registration_register %}">Register</a>
+			  <a id="forgot-pw" href = "{% url auth_password_reset %}">Forgot password</a>
+			  <a id="register" href = "{% url registration_register %}">Register</a>
       </div>
     </form>
   </div>
