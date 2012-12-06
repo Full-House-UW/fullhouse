@@ -19,7 +19,7 @@
       <input type="hidden" name="id" value="{{ id }}" />
       {{ form.as_p }}
       <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
-      <input type="submit" name="delete" value="{% trans 'Delete' %}" />
+      <input type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this announcement?');" value="{% trans 'Delete' %}" />
     </form>
   </div>
 {% endblock %}
