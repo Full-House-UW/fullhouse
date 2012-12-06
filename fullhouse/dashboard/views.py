@@ -226,40 +226,76 @@ def edit_house(request):
         AddMemberForm,
         extra=3
     )
+
+    # default values to be passed to templates -- changed below on certain
+    # condition
+    initial = {
+        'name': house.name,
+        'zip_code': house.zip_code,
+    }
+    form = CreateHouseForm(initial=initial)
+    formset = AddMemberFormSet()
+    message = get_param(request, 'message')
+    time = get_param(request, 'time')
+
     if request.method == "POST":
         form = CreateHouseForm(data=request.POST, instance=house)
         formset = AddMemberFormSet(data=request.POST)
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
-            # do something with data
-            # pdb.set_trace()
+
+            # process the invitations:
+            current_member_emails = [member.user.email for member in house.members.all()]
+            current_invitee_emails = [invitee.email for invitee in house.invitees.all() if not invitee.invite_key_expired()]
+            emails_not_invited = []
             for f in formset.cleaned_data:
                 if 'email' in f:
                     email = f['email']
-                    InviteProfile.objects.create_member_invite(
-                        email, user, user.profile.house
-                    )
+                    if email in current_member_emails or email in current_invitee_emails:
+                        emails_not_invited.append(email)
+                    else:
+                        InviteProfile.objects.create_member_invite(
+                            email, user, user.profile.house
+                        )
+            # process house removal
             if form.cleaned_data['remove_from_house']:
                 user.profile.house = None
                 user.profile.save()
 
-            return HttpResponseRedirect('/dashboard/')
+            # reset the add member formset so that the email they just entered
+            # isn't displayed again
+            formset = AddMemberFormSet()
+            message = "House settings have been saved"
+            time = "3"
+            if len(emails_not_invited) != 0:
+                message += ", but the following members were not invited " + \
+                    "because they are already part of the house, or they have " + \
+                    "already been invited: " + ', '.join(emails_not_invited)
+                # since we have such a long message, don't fade it out
+                time = None
 
-    else:
-        initial = {
-            'name': house.name,
-            'zip_code': house.zip_code,
-        }
-        form = CreateHouseForm(initial=initial)
-        formset = AddMemberFormSet()
+    # process canceling of invitations
+    elif request.method == "GET":
+        uninvite_email = request.GET.get('uninvite', None)
+        # it should never happen that there is more than one for a single
+        # email, but just to be safe, let's deal with that case
+        invites = house.invitees.filter(email=uninvite_email)
+        for invite in invites:
+            invite.delete()
+        # deliberately continue without returning so we stay on this page
+
+    members = [unicode(member) for member in house.members.all()]
+    all_invitees = house.invitees.all()
+    invitees = [x.email for x in all_invitees if not x.invite_key_expired()]
+
     context = RequestContext(request, {
         'form': form,
         'formset': formset,
-        'members': house.members.all(),
-        'invitees': house.invitees.exclude(invite_key=InviteProfile.INVITE_ACCEPTED),
+        'members': members,
+        'invitees': invitees,
         'error': get_param(request, 'error'),
-        'message': get_param(request, 'message'),
-        'time': get_param(request, 'time')
+        'message': message,
+        'time': time,
     })
 
     return render_to_response('house_settings.html', context)
