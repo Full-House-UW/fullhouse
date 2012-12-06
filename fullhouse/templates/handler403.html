@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Handler 403
+{% endblock %}
+
+{% block content %}
+  <div id="handler403">
+    <h3 class="reg-header">That is not allowed!</h3>
+    <p class="reg-header">Oops! It looks like you do not have permission to do whatever you just
+    tried to do.
+    <br>
+    Please return to the <a href="{% url dashboard %}">dashboard</a> and try again.
+    <br>
+    If you continue to see this message, please <a href="{% url contact_us %}">contact us</a> for support.
+    </p>
+  </div>
+{% endblock %}
