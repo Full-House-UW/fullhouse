@@ -15,7 +15,8 @@ urlpatterns = patterns(
     url(r'^accounts/', include('fullhouse.auth.urls')),
     url(r'^faq/$', views.faq, name='faq'),
     url(r'^contact_us/$', views.contact_us, name='contact_us'),
-
+    url(r'^handler403/$', views.handler403, name='handler403'),
+    url(r'^handler404/$', views.handler404, name='handler404'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
