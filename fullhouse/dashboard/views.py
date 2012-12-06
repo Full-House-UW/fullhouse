@@ -281,7 +281,7 @@ def edit_house(request):
                 invite.save()
         # deliberately continue without returning so we stay on this page
 
-    members = [str(member) for member in house.members.all()]
+    members = [unicode(member) for member in house.members.all()]
     all_invitees = house.invitees.all()
     invitees = [x.email for x in all_invitees if not x.invite_key_expired()]
 
