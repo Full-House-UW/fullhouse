@@ -58,6 +58,7 @@ def get_app_paths(stack):
     static_app_path = APP_PATH + apps[1]
     return (dynamic_app_path, static_app_path)
 
+
 def get_repo(path, commit, repo):
     run("mkdir -p %s" % path)
     with cd(path):
@@ -65,6 +66,7 @@ def get_repo(path, commit, repo):
         run("git clone " + repo)
         with cd("fullhouse/"):
             run("git checkout " + commit)
+
 
 @task
 def release(stack, commit):
