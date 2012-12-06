@@ -243,13 +243,20 @@ def edit_house(request):
         formset = AddMemberFormSet(data=request.POST)
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
+
             # process the invitations:
+            current_member_emails = [member.user.email for member in house.members.all()]
+            current_invitee_emails = [invitee.email for invitee in house.invitees.all() if not invitee.invite_key_expired()]
+            emails_not_invited = []
             for f in formset.cleaned_data:
                 if 'email' in f:
                     email = f['email']
-                    InviteProfile.objects.create_member_invite(
-                        email, user, user.profile.house
-                    )
+                    if email in current_member_emails or email in current_invitee_emails:
+                        emails_not_invited.append(email)
+                    else:
+                        InviteProfile.objects.create_member_invite(
+                            email, user, user.profile.house
+                        )
             # process house removal
             if form.cleaned_data['remove_from_house']:
                 user.profile.house = None
@@ -260,6 +267,10 @@ def edit_house(request):
             formset = AddMemberFormSet()
             message = "House settings have been saved"
             time = "3"
+            if len(emails_not_invited) != 0:
+                message += ", but the following members were not invited because they are already part of the house, or they have already been invited: " + ', '.join(emails_not_invited)
+                # since we have such a long message, don't fade it out
+                time = ""
 
     # process canceling of invitations
     elif request.method == "GET":
