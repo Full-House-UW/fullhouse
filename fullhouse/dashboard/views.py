@@ -277,10 +277,11 @@ def edit_house(request):
     # process canceling of invitations
     elif request.method == "GET":
         uninvite_email = request.GET.get('uninvite', None)
-        for invite in house.invitees.all():
-            if invite.email == uninvite_email:
-                invite.invite_key = InviteProfile.INVITE_ACCEPTED
-                invite.save()
+        # it should never happen that there is more than one for a single
+        # email, but just to be safe, let's deal with that case
+        invites = house.invitees.filter(email=uninvite_email)
+        for invite in invites:
+            invite.delete()
         # deliberately continue without returning so we stay on this page
 
     members = [unicode(member) for member in house.members.all()]
