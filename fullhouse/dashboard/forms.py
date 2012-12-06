@@ -33,6 +33,12 @@ class CreateAnnouncementForm(forms.ModelForm):
         model = models.Announcement
         exclude = ('creator', 'house')
 
+    def clean_expiration(self):
+        expiration = self.cleaned_data['expiration']
+        if expiration < date.today():
+            raise forms.ValidationError("Please enter an expiration date in the future")
+        return expiration
+
     def __init__(self, *args, **kwargs):
         super(CreateAnnouncementForm, self).__init__(*args, **kwargs)
         self.fields['expiration'] = forms.DateField(
