@@ -21,13 +21,32 @@
       {{ error }}
     {% else %}
       <h1>House Settings</h1>
-      <form name="house-settings" action="." method="POST">
+      <form id="house-settings-form" name="house-settings" action="." method="POST">
         {% csrf_token %}
-        <div id="house-settings-submit">
-          <input type="submit" value="{% trans 'Save House Settings' %}" />
-        </div>
+        <input type="submit" name="save" value="{% trans 'Save House Settings' %}" />
 
         {{ form.as_p }}
+
+        <a class="btn" href="#" id="leave-house-btn">Leave this House</a>
+        <script>
+          $('#leave-house-btn').click(function() {
+            bootbox.dialog("{{ leave_message }}", [
+              {
+                'label': 'Leave House',
+                'class': 'btn-danger',
+                'callback': function() {
+                  var leave_input = $("<input type='hidden' name='leave_house' />");
+                  $('#house-settings-form').append(leave_input).submit();
+                }
+              },
+              {
+                'label': 'Cancel',
+                'class': 'btn-primary'
+              }
+            ]);
+            return false;
+          });
+        </script>
 
         <script src="{{ STATIC_PREFIX }}add_members.js" ></script>
         <div id="addmembers">
@@ -62,9 +81,7 @@
         </div>
         <br>
 
-        <div id="house-settings-submit">
-          <input type="submit" value="{% trans 'Save House Settings' %}" />
-        </div>
+        <input type="submit" name="save" value="{% trans 'Save House Settings' %}" />
       </form>
     {% endif %}
   </div>

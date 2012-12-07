@@ -11,8 +11,6 @@ import models
 
 
 class CreateHouseForm(forms.ModelForm):
-    remove_from_house = forms.BooleanField(required=False, label="Remove me from this house")
-
     class Meta:
         model = models.House
 
