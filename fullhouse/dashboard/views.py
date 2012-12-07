@@ -241,6 +241,14 @@ def edit_house(request):
     if request.method == "POST":
         form = CreateHouseForm(data=request.POST, instance=house)
         formset = AddMemberFormSet(data=request.POST)
+
+        # leaving the house is a separate command and does not
+        # touch form data
+        if request.POST.get('leave_house') is not None:
+            user.profile.house = None
+            user.profile.save()
+            return HttpResponseRedirect('/dashboard/')
+
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
 
@@ -287,12 +295,21 @@ def edit_house(request):
     members = [unicode(member) for member in house.members.all()]
     all_invitees = house.invitees.all()
     invitees = [x.email for x in all_invitees if not x.invite_key_expired()]
+    if house.members.count() == 1:
+            leave_message = "WARNING: you are the only member of %s. \
+                             If you leave the house it will be deleted. \
+                             Are you sure you want to leave?" % house.name
+    else:
+            leave_message = "If you leave %s, you will need an invitation \
+                             from a house member to join again. Are you sure \
+                             you want to leave?" % house.name
 
     context = RequestContext(request, {
         'form': form,
         'formset': formset,
         'members': members,
         'invitees': invitees,
+        'leave_message': leave_message,
         'error': get_param(request, 'error'),
         'message': message,
         'time': time,

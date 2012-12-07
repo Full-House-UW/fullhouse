@@ -39,10 +39,3 @@ class TestCreateHouse(test_case_base.TestCaseBase):
         response = self.client.get('/dashboard/house_settings/', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain, [])
-
-        form = response.context['form']
-        print form.is_valid()
-        print form.errors
-
-        self.assertContains(response, 'MyHouse', 1)
-        self.assertContains(response, '98006', 1)
