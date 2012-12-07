@@ -103,6 +103,3 @@ class TestCaseBase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain, [])
-        # check that we can read house settings
-        self.assertContains(response, housename, 1)
-        self.assertContains(response, zipcode, 1)
