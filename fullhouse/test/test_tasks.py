@@ -27,14 +27,14 @@ class TestTasks(test_case_base.TestCaseBase):
         ##################################
         user = User.objects.get(id=self.client.session['_auth_user_id'])
         title = 'Fun Task'
-        first_due = '12-23-2013'
+        first_due = datetime.date(2013, 12, 23)
         frequency = Task.ONCE
 
         response = self.client.post(
             '/dashboard/task/new/',
             data={
                 'title': title,
-                'first_due': first_due,
+                'first_due': first_due.strftime("%m-%d-%Y"),
                 'participants': [user.profile.id],
                 'frequency': frequency
             },
@@ -58,13 +58,14 @@ class TestTasks(test_case_base.TestCaseBase):
         first = new_task.instances.all()[0]
         # only one participant, should be me
         self.assertEqual(first.assignee, user.profile)
-        self.assertEqual(first.due_date.strftime("%m-%d-%Y"), first_due)
+        self.assertEqual(first.due_date, first_due)
 
         ##################################
-        # test edit renaming and changing frequency
+        # test renaming, changing frequency and next due
         ##################################
         title = 'Not So Fun Task'
         frequency = Task.WEEKLY
+        next_due = first_due + datetime.timedelta(days=3)
 
         response = self.client.post(
             '/dashboard/task/edit/',
@@ -72,6 +73,7 @@ class TestTasks(test_case_base.TestCaseBase):
                 'title': title,
                 'participants': [user.profile.id],
                 'frequency': frequency,
+                'next_due': next_due.strftime("%m-%d-%Y"),
                 'id': new_task.id,
             },
             follow=True
@@ -87,6 +89,9 @@ class TestTasks(test_case_base.TestCaseBase):
         new_task = Task.objects.get(id=1)
         self.assertEqual(new_task.title, title)
         self.assertEqual(new_task.frequency, frequency)
+        # check that instance was updated with new due date
+        instance = new_task.instances.latest('due_date')
+        self.assertEqual(instance.due_date, next_due)
 
         ##################################
         # test delete (discontinue)

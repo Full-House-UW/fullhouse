@@ -339,7 +339,7 @@ class Task(models.Model):
     is_active = models.BooleanField(default=False)
 
     title = models.CharField(max_length=100)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     frequency = models.CharField(
         max_length=4, choices=FREQUENCY_CHOICES, default=ONCE
     )
