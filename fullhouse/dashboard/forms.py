@@ -11,8 +11,6 @@ import models
 
 
 class CreateHouseForm(forms.ModelForm):
-    remove_from_house = forms.BooleanField(required=False, label="Remove me from this house")
-
     class Meta:
         model = models.House
 
@@ -32,6 +30,12 @@ class CreateAnnouncementForm(forms.ModelForm):
     class Meta:
         model = models.Announcement
         exclude = ('creator', 'house')
+
+    def clean_expiration(self):
+        expiration = self.cleaned_data['expiration']
+        if expiration < date.today():
+            raise forms.ValidationError("Please enter an expiration date in the future")
+        return expiration
 
     def __init__(self, *args, **kwargs):
         super(CreateAnnouncementForm, self).__init__(*args, **kwargs)
