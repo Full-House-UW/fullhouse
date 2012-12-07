@@ -25,6 +25,8 @@ urlpatterns = patterns(
     # url(r'^admin/', include(admin.site.urls)),
 )
 
+handler404 = 'views.handler404'
+handler403 = 'views.handler403'
 
 # for debug only! django is not made to serve static files in prod
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

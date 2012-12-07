@@ -5,6 +5,8 @@ import pdb
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden
+from django.http import HttpResponseNotFound
 from django.template import RequestContext
 
 
@@ -33,7 +35,7 @@ def home(request):
 def create_announcement(request):
     # TODO Hack to block making an announcement if there's no house.
     if request.user.profile.house is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseForbidden('/handler403/')
 
     if request.method == "POST":
         announcement = Announcement(
@@ -64,16 +66,16 @@ def edit_announcement(request):
     #TODO fix this, will break if id not passed in
     a = request.GET["id"] if request.method == "GET" else request.POST["id"]
     if a is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseNotFound('/handler404/')
     try:
         announcement = Announcement.objects.get(id=a)
     except Announcement.DoesNotExist:
         # TODO decide how to handle this.
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseNotFound('/handler404/')
     # Only the owner can edit.
     if request.user != announcement.creator.user:
         #TODO decide how to handle this.
-        return HttpResponseRedirect('/handler403/')
+        return HttpResponseForbidden('/handler403/')
 
     if request.method == "POST":
         if request.POST.get('delete') is not None:
@@ -100,7 +102,7 @@ def edit_announcement(request):
 def create_task(request):
     userprofile = request.user.profile
     if userprofile.house is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseForbidden('/handler403/')
     members = userprofile.house.members.get_query_set()
 
     if request.method == "POST":
@@ -128,13 +130,13 @@ def edit_task(request):
     elif request.method == "POST":
         t_id = request.POST.get('id', None)
     if t_id is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseNotFound('/handler404/')
 
     try:
         task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
         # TODO decide how to handle this.
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseNotFound('/handler404/')
 
     userprofile = request.user.profile
     members = userprofile.house.members.get_query_set()
@@ -142,7 +144,7 @@ def edit_task(request):
     # Only the members of this task's house can edit.
     if userprofile not in task.house.members.all():
         #TODO decide how to handle this.
-        return HttpResponseRedirect('/handler403/')
+        return HttpResponseForbidden('/handler403/')
 
     if request.method == "POST":
         #TODO use discontinue instead of delete
@@ -181,7 +183,7 @@ def update_task(request, action):
 @login_required
 def task_history(request):
     if request.user.profile.house is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseForbidden('/handler403/')
 
     house = request.user.profile.house
     taskhistory = Task.objects.get_task_history(house)
@@ -220,7 +222,7 @@ def edit_house(request):
     user = request.user
     house = user.profile.house
     if house is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseNotFound('/handler404/')
 
     AddMemberFormSet = formset_factory(
         AddMemberForm,
@@ -374,7 +376,7 @@ def join_house(request, invite_key):
 def add_members(request):
     user = request.user
     if user.profile.house is None:
-        return HttpResponseRedirect('/handler404/')
+        return HttpResponseForbidden('/handler403/')
 
     AddMemberFormSet = formset_factory(
         AddMemberForm,
