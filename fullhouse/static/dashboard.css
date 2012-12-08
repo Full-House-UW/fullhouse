@@ -1,4 +1,5 @@
 #dash {
+  overflow: auto;
   padding: 10px;
 }
 
