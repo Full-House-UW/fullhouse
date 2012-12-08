@@ -369,7 +369,6 @@ def join_house(request, invite_key):
         elif user.profile.house is not None:
             message = "Are you sure you want to leave " + user.profile.house.name + " and switch to " +\
                       InviteProfile.objects.get(invite_key=invite_key).house.name + "?"
-                  
             return render_to_response('switch_house.html', RequestContext(request, {
                 'leave_message': message
             }))
