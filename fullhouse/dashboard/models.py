@@ -47,6 +47,18 @@ class House(models.Model):
 
 class InviteManager(models.Manager):
 
+    def is_valid(self, user, invite_key):
+        """
+        TODO: documentation
+        """
+        if SHA1_RE.search(invite_key):
+            try:
+                invite = self.get(invite_key=invite_key)
+            except self.model.DoesNotExist:
+                return False
+            return not invite.invite_key_expired() and user.email == invite.email
+        return False
+
     def accept_invite(self, user, invite_key):
         """
         TODO: documentation
@@ -114,11 +126,16 @@ class InviteProfile(models.Model):
             (self.sent_date + expiration_date <= datetime_now())
 
     def send_invite_email(self, site, from_user):
+        members = [unicode(member) for member in self.house.members.all()]
+        invitees = [x.email for x in self.house.invitees.all() if not x.invite_key_expired()]
+
         ctx_dict = {'invite_key': self.invite_key,
                     'expiration_days': settings.INVITE_ACTIVATION_DAYS,
                     'from_username': from_user.username,
                     'housename': self.house.name,
-                    'site': site}
+                    'site': site,
+                    'members': members,
+                    'invitees': invitees}
         subject = render_to_string('addmembers/invite_email_subject.txt',
                                    ctx_dict)
         subject = ''.join(subject.splitlines())
