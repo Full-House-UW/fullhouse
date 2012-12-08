@@ -469,12 +469,14 @@ def contact_us(request):
         'time': get_param(request, 'time')
     }))
 
+
 def handler403(request):
     return render_to_response('403.html', RequestContext(request, {
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
     }))
+
 
 def handler404(request):
     return render_to_response('404.html', RequestContext(request, {
