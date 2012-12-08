@@ -357,8 +357,23 @@ def create_house(request):
 @login_required
 def join_house(request, invite_key):
     user = request.user
+    # This prevents them from removing themselves from the new house if they refresh after switching.
+    if InviteProfile.objects.is_valid(user, invite_key):
+        # TODO is this secure since I don't process a Django form?
+        # If they were prompted to leave the old house and confirmed.
+        if request.method == "POST" and request.POST.get('switch_house') is not None:
+            user.profile.house = None
+            user.profile.save()
+
+        # If they're in a house and the invite is valid.
+        elif user.profile.house is not None:
+            message = "Are you sure you want to leave " + user.profile.house.name + " and switch to " +\
+                      InviteProfile.objects.get(invite_key=invite_key).house.name + "?"
+            return render_to_response('switch_house.html', RequestContext(request, {
+                'leave_message': message
+            }))
     joined = InviteProfile.objects.accept_invite(user, invite_key)
-        # redirect to success url
+    # redirect to success url
     context = RequestContext(request, {
         'joined': joined,
         'error': get_param(request, 'error'),

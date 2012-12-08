@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Switch Houses
+{% endblock %}
+
+{% block content %}
+  <script>
+    bootbox.dialog("{{ leave_message }}", [
+      {
+        'label': 'Switch Houses',
+        'class': 'btn-danger',
+        'callback': function() {
+            var switch_house = $('<input type="hidden" name="switch_house" />');
+            $('#switch-house-form').append(switch_house).submit();
+        }
+      },
+      {
+        'label': 'Cancel',
+        'class': 'btn-primary',
+        'callback': function() {
+          // Redirect to dashboard.
+          window.location = '/dashboard/';
+        }
+      }
+    ]); 
+  </script>
+  <form id="switch-house-form" action="." method="POST">
+    {% csrf_token %}
+  </form>
+{% endblock %}
