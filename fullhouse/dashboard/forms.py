@@ -91,7 +91,7 @@ class UpdateUserForm(forms.ModelForm):
         widget=forms.widgets.DateInput(format='%m-%d-%Y'),
         input_formats=('%m-%d-%Y',),
         required=False,
-        label='Birthday (mm-dd-yy):'
+        label='Birthday (MM-DD-YYYY):'
     )
 
     def save(self, commit=True):
