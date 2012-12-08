@@ -3,6 +3,9 @@
 
 {% trans "House" %}: {{ housename|safe }}
 
+{% trans "Click the link below to join this house!" %}
+http://{{ site.domain }}{% url fullhouse.dashboard.views.join_house invite_key %}
+
 {% if members|length != 0 %}
   Current house members:
   {% for member in members %}
@@ -17,7 +20,10 @@
   {% endfor %}
 {% endif %}
 
-{% trans "Click the link below to join this house!" %}
-http://{{ site.domain }}{% url fullhouse.dashboard.views.join_house invite_key %}
+{% blocktrans %}
+Full House is your digital kitchen whiteboard, your electronic solution for efficient communication
+between you and the people you live with. Post announcements, organize your tasks, and more; get
+started with Full House today!
+{% endblocktrans %}
 
 {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
