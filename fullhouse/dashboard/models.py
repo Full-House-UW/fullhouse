@@ -118,14 +118,14 @@ class InviteProfile(models.Model):
                     'expiration_days': settings.INVITE_ACTIVATION_DAYS,
                     'from_username': from_user.username,
                     'housename': self.house.name,
-                    'site': site,
-                    'members': self.house.members,
-                    'invitees': self.house.invitees}
+                    'site': site}
         subject = render_to_string('addmembers/invite_email_subject.txt',
                                    ctx_dict)
         subject = ''.join(subject.splitlines())
         message = render_to_string('addmembers/invite_email.txt',
                                    ctx_dict)
+        members = [unicode(member) for member in self.house.members.all()]
+        invitees = [x.email for x in self.house.invitees.all() if not x.invite_key_expired()]
 
         if Site._meta.installed:
             site = Site.objects.get_current()
