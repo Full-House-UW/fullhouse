@@ -118,7 +118,9 @@ class InviteProfile(models.Model):
                     'expiration_days': settings.INVITE_ACTIVATION_DAYS,
                     'from_username': from_user.username,
                     'housename': self.house.name,
-                    'site': site}
+                    'site': site,
+                    'members': self.house.members,
+                    'invitees': self.house.invitees}
         subject = render_to_string('addmembers/invite_email_subject.txt',
                                    ctx_dict)
         subject = ''.join(subject.splitlines())

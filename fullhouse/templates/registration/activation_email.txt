@@ -2,8 +2,8 @@
 {% blocktrans %}
 Welcome to Full House!
 
-Thank you for registering with Full House, your digital kitchen whiteboard! You are just about ready
-to launch on a more effective way to coordinate and communicate with the people you live with.
+Thank you for registering with Full House, your digital kitchen whiteboard! You are about to
+discover a more effective way to coordinate and communicate with the people you live with.
 {% endblocktrans %}
 
 {% trans "Just activate your account at" %} {{ site.name }}:
