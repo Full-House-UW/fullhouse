@@ -2,6 +2,22 @@
 {{ from_username }} {% trans "has invited you to join a house on" %} {{ site.name }}:
 
 {% trans "House" %}: {{ housename|safe }}
+
+{% if members|length != 0 %}
+  Current house members:
+  {% for member in members %}
+    {{ member }}
+  {% endfor %}
+{% endif %}
+
+{% if invitees|length != 0 %}
+  Other invited members:
+  {% for invitee in invitees %}
+    {{ invitee }}
+  {% endfor %}
+{% endif %}
+
+{% trans "Click the link below to join this house!" %}
 http://{{ site.domain }}{% url fullhouse.dashboard.views.join_house invite_key %}
 
 {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
