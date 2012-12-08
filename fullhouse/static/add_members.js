@@ -12,7 +12,7 @@ window.onload = function() {
 function addEmailField(e) {
   // Grab the number of fields already in here and increment.
   var numFieldsInput = $("#id_form-TOTAL_FORMS")[0];
-  var newFieldIndex = numFieldsInput.value;
+  var newFieldIndex = parseInt(numFieldsInput.value);
   numFieldsInput.value = newFieldIndex + 1;
 
   var form = $($("#emptyform")[0].getElementsByTagName("p")[0]).clone()[0];
