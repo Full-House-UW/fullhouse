@@ -3,7 +3,7 @@ $(window).load(function() {
   var add_form = $("#add_email")[0];
 
   $(add_form).click(addEmailField);
-}
+});
 
 function addEmailField(e) {
   // Grab the number of fields already in here and increment.
