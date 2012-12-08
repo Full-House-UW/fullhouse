@@ -483,3 +483,11 @@ def handler404(request):
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
     }))
+
+
+def handler500(request):
+    return render_to_response('500.html', RequestContext(request, {
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    }))

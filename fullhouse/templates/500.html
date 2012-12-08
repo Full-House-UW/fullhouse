@@ -1,0 +1,20 @@
+{% extends base.html %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  Handler 500
+{% endblock %}
+
+{% block content %}
+  <div id="handler500">
+    <h3 class="reg-header">We ran into a problem.</h3>
+    <p ckass-"reg-header">We were unable to complete your request.
+    <br>
+    Please return to the <a href="{$ url dashboard %}">dashboard</a> and try again.
+    <br>
+    If you continue to see this message, please <a href="{% url contact_us %}">contact us</a> for support.
+    </p>
+  </div>
+{% endblock %}
