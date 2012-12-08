@@ -14,7 +14,7 @@
 {% block content %}
   <div id="createannouncement">
     <h2>Edit Task</h2>
-    <form name="edit-task" action="." method="POST">
+    <form id="edit-task-form" action="." method="POST">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <input type="hidden" name="id" value="{{ id }}" />

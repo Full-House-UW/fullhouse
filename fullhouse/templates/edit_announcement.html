@@ -14,7 +14,7 @@
 {% block content %}
   <div id="createannouncement">
     <h2>Edit Announcement</h2>
-    <form name="edit-announcement-form" name="edit-announcement" action="." method="POST">
+    <form name="edit-announcement" id="edit-announcement-form" action="." method="POST">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ id }}" />
       {{ form.as_p }}
