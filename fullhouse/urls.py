@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include, url, handler404, handler403
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -23,9 +23,8 @@ urlpatterns = patterns(
     # url(r'^admin/', include(admin.site.urls)),
 )
 
-handler404 = 'views.handler404'
-handler403 = 'views.handler403'
-handler500 = 'views.handler500'
+handler404 = 'fullhouse.dashboard.views.handler404'
+handler403 = 'fullhouse.dashboard.views.handler403'
 
 # for debug only! django is not made to serve static files in prod
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

@@ -470,24 +470,8 @@ def contact_us(request):
 
 
 def handler403(request):
-    return render_to_response('403.html', RequestContext(request, {
-        'error': get_param(request, 'error'),
-        'message': get_param(request, 'message'),
-        'time': get_param(request, 'time')
-    }))
+    return render_to_response('403.html')
 
 
 def handler404(request):
-    return render_to_response('404.html', RequestContext(request, {
-        'error': get_param(request, 'error'),
-        'message': get_param(request, 'message'),
-        'time': get_param(request, 'time')
-    }))
-
-
-def handler500(request):
-    return render_to_response('500.html', RequestContext(request, {
-        'error': get_param(request, 'error'),
-        'message': get_param(request, 'message'),
-        'time': get_param(request, 'time')
-    }))
+    return render_to_response('404.html')
