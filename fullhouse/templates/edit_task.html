@@ -19,6 +19,8 @@
       {{ form.non_field_errors }}
       <input type="hidden" name="id" value="{{ id }}" />
 
+      {{ form.as_p }}
+      {% comment %}
       <div class = "fieldWrapper">
         {{ form.title.errors }}
         <label form="title">Title: </label>
@@ -47,7 +49,9 @@
         {{ form.first_due.errors }}
         <label form="first_due">First Due (MM-DD-YYYY): </label>
         {{ form.first_due }}
-      </div>
+     </div>
+     {% endcomment %}
+
       <input type="submit" class="btn" name="save" value="{% trans 'Save Changes' %}" />
       <a class="btn" href="#" id="delete-task-btn">Discontinue</a>
       <script>
@@ -68,7 +72,6 @@
           ]);
           return false;
         });
-
       </script>
     </form>
   </div>
