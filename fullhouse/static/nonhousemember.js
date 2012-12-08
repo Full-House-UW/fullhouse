@@ -2,7 +2,7 @@ $(window).load(function() {
   var createHouseLink = $("#create_house_link")[0];
 
   $(createHouseLink).click(toggleCreateHouse);
-};
+}
 
 function toggleCreateHouse() {
   var chdiv = $("#createhouse")[0];
