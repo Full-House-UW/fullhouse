@@ -5,8 +5,8 @@ import pdb
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from django.http import HttpResponseForbidden
-from django.http import HttpResponseNotFound
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
 from django.template import RequestContext
 
 
@@ -35,7 +35,7 @@ def home(request):
 def create_announcement(request):
     # TODO Hack to block making an announcement if there's no house.
     if request.user.profile.house is None:
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
 
     if request.method == "POST":
         announcement = Announcement(
@@ -66,16 +66,16 @@ def edit_announcement(request):
     #TODO fix this, will break if id not passed in
     a = request.GET["id"] if request.method == "GET" else request.POST["id"]
     if a is None:
-        return HttpResponseNotFound('/handler404/')
+        raise Http404
     try:
         announcement = Announcement.objects.get(id=a)
     except Announcement.DoesNotExist:
         # TODO decide how to handle this.
-        return HttpResponseNotFound('/handler404/')
+        raise Http404
     # Only the owner can edit.
     if request.user != announcement.creator.user:
         #TODO decide how to handle this.
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
 
     if request.method == "POST":
         if request.POST.get('delete') is not None:
@@ -102,7 +102,7 @@ def edit_announcement(request):
 def create_task(request):
     userprofile = request.user.profile
     if userprofile.house is None:
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
     members = userprofile.house.members.get_query_set()
 
     if request.method == "POST":
@@ -130,13 +130,13 @@ def edit_task(request):
     elif request.method == "POST":
         t_id = request.POST.get('id', None)
     if t_id is None:
-        return HttpResponseNotFound('/handler404/')
+        raise Http404
 
     try:
         task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
         # TODO decide how to handle this.
-        return HttpResponseNotFound('/handler404/')
+        raise Http404
 
     userprofile = request.user.profile
     members = userprofile.house.members.get_query_set()
@@ -144,7 +144,7 @@ def edit_task(request):
     # Only the members of this task's house can edit.
     if userprofile not in task.house.members.all():
         #TODO decide how to handle this.
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
 
     if request.method == "POST":
         #TODO use discontinue instead of delete
@@ -183,7 +183,7 @@ def update_task(request, action):
 @login_required
 def task_history(request):
     if request.user.profile.house is None:
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
 
     house = request.user.profile.house
     taskhistory = Task.objects.get_task_history(house)
@@ -222,7 +222,7 @@ def edit_house(request):
     user = request.user
     house = user.profile.house
     if house is None:
-        return HttpResponseNotFound('/handler404/')
+        raise Http404
 
     AddMemberFormSet = formset_factory(
         AddMemberForm,
@@ -376,7 +376,7 @@ def join_house(request, invite_key):
 def add_members(request):
     user = request.user
     if user.profile.house is None:
-        return HttpResponseForbidden('/handler403/')
+        raise PermissionDenied
 
     AddMemberFormSet = formset_factory(
         AddMemberForm,
@@ -470,14 +470,14 @@ def contact_us(request):
     }))
 
 def handler403(request):
-    return render_to_response('handler403.html', RequestContext(request, {
+    return render_to_response('403.html', RequestContext(request, {
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
     }))
 
 def handler404(request):
-    return render_to_response('handler404.html', RequestContext(request, {
+    return render_to_response('404.html', RequestContext(request, {
         'error': get_param(request, 'error'),
         'message': get_param(request, 'message'),
         'time': get_param(request, 'time')
