@@ -54,21 +54,34 @@ class CreateTaskForm(forms.ModelForm):
         housemembers = kwargs.pop('members')
         super(CreateTaskForm, self).__init__(*args, **kwargs)
 
-        self.fields['description'].required = False
-        self.fields['first_due'] = forms.DateField(
-            #initial=date.today(),
-            widget=forms.widgets.DateInput(format='%m-%d-%Y'),
-            input_formats=('%m-%d-%Y',),
-        )
         self.fields['participants'] = forms.ModelMultipleChoiceField(
             queryset=housemembers
         )
 
-        # Disallow changing of first_due field, except at creation
-        instance = getattr(self, 'instance', None)
-        if instance and instance.id:
-            self.fields['first_due'].widget.attrs['disabled'] = True
+        # If we have an bound task, disable editing of first due
+        # and replace it with a field to edit the next due
+        task = getattr(self, 'instance', None)
+        if task and task.id:
+            self.fields['first_due'].widget = forms.HiddenInput()
             self.fields['first_due'].required = False
+
+            due_name = 'next_due'
+            due_label = 'Next Due'
+            # store reference to next_due so we can update it on save
+            self.next_instance = task.instances.latest('due_date')
+            initial = self.next_instance.due_date
+        else:
+            due_name = 'first_due'
+            due_label = 'First Due'
+            initial = None
+
+        self.fields[due_name] = forms.DateField(
+            #initial=date.today(),
+            initial=initial,
+            label='%s (mm-dd-yy)' % due_label,
+            widget=forms.widgets.DateInput(format='%m-%d-%Y'),
+            input_formats=('%m-%d-%Y',),
+        )
 
     def clean_first_due(self):
         # Disallow changing of first due field
@@ -77,6 +90,17 @@ class CreateTaskForm(forms.ModelForm):
             return instance.first_due
         else:
             return self.cleaned_data.get('first_due', None)
+
+    def save(self, commit=True):
+        instance = super(CreateTaskForm, self).save(commit=commit)
+
+        # save the updated next due date
+        next_due = self.cleaned_data.get('next_due', None)
+        if next_due:
+            self.next_instance.due_date = next_due
+            self.next_instance.save()
+
+        return instance
 
 
 class UpdateUserForm(forms.ModelForm):

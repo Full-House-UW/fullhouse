@@ -19,6 +19,8 @@
       {{ form.non_field_errors }}
       <input type="hidden" name="id" value="{{ id }}" />
 
+      {{ form.as_p }}
+      {% comment %}
       <div class = "fieldWrapper">
         {{ form.title.errors }}
         <label form="title">Title: </label>
@@ -48,6 +50,7 @@
         <label form="first_due">First Due (MM-DD-YYYY): </label>
         {{ form.first_due }}
       </div>
+      {% endcomment %}
 
       <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
       <input type="submit" name="discontinue" value="{% trans 'Discontinue' %}" />
