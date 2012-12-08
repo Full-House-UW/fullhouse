@@ -49,8 +49,28 @@
         {{ form.first_due }}
       </div>
 
-      <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
-      <input type="submit" name="discontinue" value="{% trans 'Discontinue' %}" />
+      <input type="submit" class="btn" name="save" value="{% trans 'Save Changes' %}" />
+      <a class="btn" href="#" id="delete-task-btn">Discontinue</a>
+      <script>
+        $('#delete-task-btn').click(function() {
+          bootbox.dialog("{{ discontinue_task_message }}", [
+            {
+              'label': 'Discontinue',
+              'class': 'btn-danger',
+              'callback': function() {
+                var delete_input = $("<input type='hidden' name='discontinue' />");
+                $('#edit-task-form').append(delete_input).submit();
+              }
+            },
+            {
+              'label': 'Cancel',
+              'class': 'btn-primary'
+            }
+          ]);
+          return false;
+        });
+
+      </script>
     </form>
   </div>
 {% endblock %}
