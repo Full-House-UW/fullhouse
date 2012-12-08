@@ -47,6 +47,18 @@ class House(models.Model):
 
 class InviteManager(models.Manager):
 
+    def is_valid(self, user, invite_key):
+        """
+        TODO: documentation
+        """
+        if SHA1_RE.search(invite_key):
+            try:
+              invite = self.get(invite_key=invite_key)
+            except self.model.DoesNotExist:
+              return False
+            return not invite.invite_key_expired() and user.email == invite.email
+        return False
+
     def accept_invite(self, user, invite_key):
         """
         TODO: documentation
