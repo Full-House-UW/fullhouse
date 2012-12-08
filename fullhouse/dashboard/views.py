@@ -268,10 +268,6 @@ def edit_house(request):
                         InviteProfile.objects.create_member_invite(
                             email, user, user.profile.house
                         )
-            # process house removal
-            if form.cleaned_data['remove_from_house']:
-                user.profile.house = None
-                user.profile.save()
 
             # reset the add member formset so that the email they just entered
             # isn't displayed again
