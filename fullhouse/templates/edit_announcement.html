@@ -14,12 +14,31 @@
 {% block content %}
   <div id="createannouncement">
     <h2>Edit Announcement</h2>
-    <form name="edit-announcement" action="." method="POST">
+    <form name="edit-announcement" id="edit-announcement-form" action="." method="POST">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ id }}" />
       {{ form.as_p }}
-      <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
-      <input type="submit" name="delete" value="{% trans 'Delete' %}" />
+      <input type="submit" class="btn" name="save" value="{% trans 'Save Changes' %}" />
+      <a class="btn" href="#" id="delete-ann-btn">Delete</a>
+      <script>
+        $('#delete-ann-btn').click(function() {
+          bootbox.dialog("{{ delete_ann_message }}", [
+            {
+              'label': 'Delete',
+              'class': 'btn-danger',
+              'callback': function() {
+                var delete_input = $("<input type='hidden' name='delete' />");
+                $('#edit-announcement-form').append(delete_input).submit();
+              }
+            },
+            {
+              'label': 'Cancel',
+              'class': 'btn-primary'
+            }
+          ]);
+          return false;
+        });
+      </script>
     </form>
   </div>
 {% endblock %}

@@ -14,11 +14,13 @@
 {% block content %}
   <div id="createannouncement">
     <h2>Edit Task</h2>
-    <form name="edit-task" action="." method="POST">
+    <form id="edit-task-form" action="." method="POST">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <input type="hidden" name="id" value="{{ id }}" />
 
+      {{ form.as_p }}
+      {% comment %}
       <div class = "fieldWrapper">
         {{ form.title.errors }}
         <label form="title">Title: </label>
@@ -47,10 +49,30 @@
         {{ form.first_due.errors }}
         <label form="first_due">First Due (MM-DD-YYYY): </label>
         {{ form.first_due }}
-      </div>
+     </div>
+     {% endcomment %}
 
-      <input type="submit" name="save" value="{% trans 'Save Changes' %}" />
-      <input type="submit" name="discontinue" value="{% trans 'Discontinue' %}" />
+      <input type="submit" class="btn" name="save" value="{% trans 'Save Changes' %}" />
+      <a class="btn" href="#" id="delete-task-btn">Discontinue</a>
+      <script>
+        $('#delete-task-btn').click(function() {
+          bootbox.dialog("{{ discontinue_task_message }}", [
+            {
+              'label': 'Discontinue',
+              'class': 'btn-danger',
+              'callback': function() {
+                var delete_input = $("<input type='hidden' name='discontinue' />");
+                $('#edit-task-form').append(delete_input).submit();
+              }
+            },
+            {
+              'label': 'Cancel',
+              'class': 'btn-primary'
+            }
+          ]);
+          return false;
+        });
+      </script>
     </form>
   </div>
 {% endblock %}

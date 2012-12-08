@@ -87,13 +87,15 @@ def edit_announcement(request):
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateAnnouncementForm(instance=announcement)
+
+    delete_ann_message = "Are you sure you want to delete this message?"
     return render_to_response(
         'edit_announcement.html',
         RequestContext(request, {
             'form': form,
             'id': a,
             'error': get_param(request, 'error'),
-            'message': get_param(request, 'message'),
+            'delete_ann_message': delete_ann_message,
             'time': get_param(request, 'time')
         }))
 
@@ -158,13 +160,14 @@ def edit_task(request):
             return HttpResponseRedirect('/dashboard/')
     else:
         form = CreateTaskForm(instance=task, members=members)
+    discontinue_task_message = "Are you sure you want to discontinue this task?"
     return render_to_response(
         'edit_task.html',
         RequestContext(request, {
             'form': form,
             'id': t_id,
             'error': get_param(request, 'error'),
-            'message': get_param(request, 'message'),
+            'discontinue_task_message': discontinue_task_message,
             'time': get_param(request, 'time')
         }))
 
@@ -267,10 +270,6 @@ def edit_house(request):
                         InviteProfile.objects.create_member_invite(
                             email, user, user.profile.house
                         )
-            # process house removal
-            if form.cleaned_data['remove_from_house']:
-                user.profile.house = None
-                user.profile.save()
 
             # reset the add member formset so that the email they just entered
             # isn't displayed again
