@@ -1,18 +1,14 @@
-window.onload = function() {
+$(window).load(function() {
   // Add an event for adding a form field.
   var add_form = $("#add_email")[0];
 
-  if (add_form.addEventListener) {
-    add_form.addEventListener("click", addEmailField);
-  } else {
-    add_form.attachEvent("onclick", addEmailField);
-  }
-}
+  $(add_form).click(addEmailField);
+});
 
 function addEmailField(e) {
   // Grab the number of fields already in here and increment.
   var numFieldsInput = $("#id_form-TOTAL_FORMS")[0];
-  var newFieldIndex = numFieldsInput.value;
+  var newFieldIndex = parseInt(numFieldsInput.value);
   numFieldsInput.value = newFieldIndex + 1;
 
   var form = $($("#emptyform")[0].getElementsByTagName("p")[0]).clone()[0];

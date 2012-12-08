@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+<script src="/static/dashboard.js"></script>
 <h1 class="dash-header">Welcome to {{ user.profile.house.name }}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h1>
   <div id="dash">
     <div class="pane" id="announcements">
