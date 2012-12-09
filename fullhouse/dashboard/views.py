@@ -164,7 +164,7 @@ def edit_task(request):
 @login_required
 def update_task(request, action):
     redirect = request.GET.get('next', '/dashboard/')
-    redirect += '?message=Task+marked+completed.'
+    redirect += '?time=3&message=Task+marked+completed.'
 
     t_id = request.GET.get("id", None)
     if t_id is not None:
@@ -180,7 +180,12 @@ def task_history(request):
 
     house = request.user.profile.house
     taskhistory = Task.objects.get_task_history(house)
-    context = RequestContext(request, {'tasks': taskhistory})
+    context = RequestContext(request, {
+        'tasks': taskhistory,
+        'error': get_param(request, 'error'),
+        'message': get_param(request, 'message'),
+        'time': get_param(request, 'time')
+    })
 
     return render_to_response('task_history.html', context)
 
