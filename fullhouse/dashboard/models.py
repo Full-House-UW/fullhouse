@@ -249,10 +249,13 @@ class TaskManager(models.Manager):
                 return
             instance.complete(userprofile)
             instance.save()
-            if instance.task.frequency == Task.ONCE:
-                instance.task.is_active = False
-                instance.task.save()
-            else:
+
+            task = instance.task
+            if task.frequency == Task.ONCE:
+                task.is_active = False
+                task.save()
+            elif (task.is_active and
+                  task.instances.latest('due_date') == instance):
                 new = instance.create_next()
                 if new is not None:
                     new.save()
