@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block title %}
+  404 - Not Found
+{% endblock %}
+
+{% block content %}
+  <div id="handler404">
+    <h3 class="reg-header">Something went wrong!</h3>
+    <p class="reg-header">Oops! The page you requested cannot be found.
+    <br>
+    Please return to the <a href="{% url dashboard %}">dashboard</a> and try again.
+    </p>
+    <p>
+    If you continue to see this message, please <a href="{% url contact_us %}">contact us</a> for support.
+    </p>
+  </div>
+{% endblock %}
