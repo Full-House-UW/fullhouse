@@ -285,7 +285,7 @@ def edit_house(request):
         invites = house.invitees.filter(email=uninvite_email)
         for invite in invites:
             invite.delete()
-        if message is None:
+        if uninvite_email is not None and message is None:
             message = "Successfully uninvited member."
             if time is None:
                 time = 3
