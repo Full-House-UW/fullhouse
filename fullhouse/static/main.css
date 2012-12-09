@@ -14,6 +14,18 @@ img {
   border: none;
 }
 
+.message, .error {
+  font-weight: bold;
+}
+
+.message {
+  color: green;
+}
+
+.error, .errorlist {
+  color: red;
+}
+
 .container {
   height: 75px;
 }
