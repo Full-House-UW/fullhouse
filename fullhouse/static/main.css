@@ -1,5 +1,6 @@
 a {
     color: #306;
+    outline: none;
 }
 
 body {
@@ -14,34 +15,33 @@ img {
   border: none;
 }
 
-ul.nav {
-  margin: 0;
-  padding: 17px 0;
+.container {
+  height: 75px;
 }
 
-.nav li {
+.navbar ul.navlinks {
+  float: right;
+  margin: 0;
+  padding: 27px 0;
+}
+
+.navlinks li {
   display: inline-block;
   list-style: none;
   padding-right: 24px;
 }
 
-
-#header {
-  background: rgb(200,215,220); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(200,215,220,1) 0%, rgba(242,245,246,1) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(200,215,220,1)), color-stop(100%,rgba(242,245,246,1))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, rgba(200,215,220,1) 0%,rgba(242,245,246,1) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, rgba(200,215,220,1) 0%,rgba(242,245,246,1) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, rgba(200,215,220,1) 0%,rgba(242,245,246,1) 100%); /* IE10+ */
-  background: linear-gradient(to bottom, rgba(200,215,220,1) 0%,rgba(242,245,246,1) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8d7dc', endColorstr='#f2f5f6',GradientType=0 ); /* IE6-9 */
-  height: 50px;
-  text-align: right;
+.navbar .navlinks li > a {
+  padding: 10px 15px 10px;
+  color: #777;
+  text-decoration: none;
+  text-shadow: 0 1px 0 white;
 }
 
 #header-logo {
   float: left;
   padding: 0;
+  padding-top: 15px;
 }
 
 #main {

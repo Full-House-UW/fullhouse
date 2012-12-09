@@ -7,15 +7,11 @@
   Register
 {% endblock %}
 
-{% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}registration.css" />
-{% endblock %}
-
 {% block content %}
   <h1 class="reg-header">Register for Full House</h1>
-  <h2 class="reg-header">It's fast, free and easy!</h2>
+  <h2 class="reg-header">It's fast, free, and easy!</h2>
   <p class="reg-header">
-    <b>Fields marked with * are required. </b>
+    <strong>Fields marked with * are required. </strong>
   </p>
   <div id="register">
     <form name="account-registration" action="." method="POST">
@@ -41,7 +37,7 @@
 
       <input type="hidden" name="next" value="{{ next }}" />
       <div id="register-button">
-        <input type="submit" value="{% trans 'Submit' %}" />
+        <input type="submit" value="{% trans 'Register' %}" />
       </div>
     </form>
   </div>

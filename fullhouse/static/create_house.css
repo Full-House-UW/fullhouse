@@ -1,9 +1,0 @@
-#createhouse {
-  display: inline-block;
-  padding: 20px;
-  text-align: right;
-}
-
-#createhouse input[type="text"] {
-  width: 150px;
-}
