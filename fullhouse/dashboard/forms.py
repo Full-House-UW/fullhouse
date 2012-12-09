@@ -55,7 +55,8 @@ class CreateTaskForm(forms.ModelForm):
         super(CreateTaskForm, self).__init__(*args, **kwargs)
 
         self.fields['participants'] = forms.ModelMultipleChoiceField(
-            queryset=housemembers
+            queryset=housemembers,
+            label='Participants (ctrl click to select multiple)'
         )
 
         # If we have an bound task, disable editing of first due
@@ -115,7 +116,7 @@ class UpdateUserForm(forms.ModelForm):
         widget=forms.widgets.DateInput(format='%m-%d-%Y'),
         input_formats=('%m-%d-%Y',),
         required=False,
-        label='Birthday (MM-DD-YYYY):'
+        label='Birthday (mm-dd-yyyy):'
     )
 
     def save(self, commit=True):
