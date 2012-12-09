@@ -29,7 +29,7 @@
         NOT COMPLETED
         <br>
         {% if user.profile in task.participants %}
-          <a id="completed" class="btn" href="/dashboard/task/update/complete/?id={{ task.current.id }}"><i class="icon-ok"></i> Complete</a>
+          <a id="completed" class="btn" href="/dashboard/task/update/complete/?id={{ instance.id }}"><i class="icon-ok"></i> Complete</a>
         {% endif %}
       {% endif %}
       </p>
