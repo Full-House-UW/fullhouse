@@ -22,7 +22,9 @@
       <h1>House Settings</h1>
       <form id="house-settings-form" name="house-settings" action="." method="POST">
         {% csrf_token %}
-        <input type="submit" class="btn" name="save" value="{% trans 'Save House Settings' %}" />
+        <div>
+          <input type="submit" class="btn" name="save" value="{% trans 'Save House Settings' %}" />
+        </div>
         <br>
 
         {{ form.as_p }}
