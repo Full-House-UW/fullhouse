@@ -43,7 +43,7 @@ def create_announcement(request):
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+created.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Announcement+successfully+created.')
     else:
         # Create a date two weeks from today.
         twoweeks = date.today() + timedelta(14)
@@ -62,7 +62,7 @@ def create_announcement(request):
 
 @login_required
 def edit_announcement(request):
-    a = get_param('id')
+    a = get_param(request, 'id')
     if a is None:
         raise Http404
     try:
@@ -76,11 +76,11 @@ def edit_announcement(request):
     if request.method == "POST":
         if request.POST.get('delete') is not None:
             announcement.delete()
-            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+deleted.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Announcement+successfully+deleted.')
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
-            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+updated.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Announcement+successfully+updated.')
     else:
         form = CreateAnnouncementForm(instance=announcement)
 
@@ -107,7 +107,7 @@ def create_task(request):
         form = CreateTaskForm(request.POST, members=members)
         if form.is_valid():
             Task.objects.create_task(userprofile, form)
-            return HttpResponseRedirect('/dashboard/?message=Task+successfully+completed.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Task+successfully+completed.')
     else:
         form = CreateTaskForm(members=members)
     return render_to_response(
@@ -122,7 +122,7 @@ def create_task(request):
 
 @login_required
 def edit_task(request):
-    t_id = get_param('id')
+    t_id = get_param(request, 'id')
     if t_id is None:
         raise Http404
 
@@ -142,11 +142,11 @@ def edit_task(request):
         if request.POST.get('discontinue') is not None:
             task.is_active = False
             task.save()
-            return HttpResponseRedirect('/dashboard/?message=Task+successfully+discontinued.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Task+successfully+discontinued.')
         form = CreateTaskForm(request.POST, instance=task, members=members)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/dashboard/?message=Task+successfully+updated.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Task+successfully+updated.')
     else:
         form = CreateTaskForm(instance=task, members=members)
     discontinue_task_message = "Are you sure you want to discontinue this task?"
@@ -192,7 +192,7 @@ def edit_user(request):
         form = UpdateUserForm(request.POST, instance=user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/dashboard/?message=User+settings+updated.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=User+settings+updated.')
     else:
         initial = model_to_dict(user.profile)
         initial['first_name'] = user.first_name
@@ -241,7 +241,7 @@ def edit_house(request):
         if request.POST.get('leave_house') is not None:
             user.profile.house = None
             user.profile.save()
-            return HttpResponseRedirect('/dashboard/?message=Left+house+successfully.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Left+house+successfully.')
 
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
@@ -263,7 +263,7 @@ def edit_house(request):
             # reset the add member formset so that the email they just entered
             # isn't displayed again
             formset = AddMemberFormSet()
-            message = "House settings have been saved"
+            message = "House settings have been saved."
             time = "3"
             if len(emails_not_invited) != 0:
                 message += ", but the following members were not invited " + \
@@ -394,7 +394,7 @@ def add_members(request):
                         email, user, user.profile.house
                     )
 
-            return HttpResponseRedirect('/dashboard/?message=Successfully+invited+users.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Successfully+invited+users.')
 
     else:
         formset = AddMemberFormSet()
