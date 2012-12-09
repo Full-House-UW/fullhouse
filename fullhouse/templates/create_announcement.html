@@ -7,10 +7,6 @@
   Create Announcement
 {% endblock %}
 
-{% block css %}
-<link rel="stylesheet" href="{{ STATIC_PREFIX }}create_announcement.css" />
-{% endblock %}
-
 {% block content %}
   <div id="createannouncement">
     <h2>Create New Announcement</h2>
@@ -25,7 +21,7 @@
 
       <div class = "fieldWrapper">
         {{ form.expiration.errors }}
-        <label for="id_expiration">Expiration (MM-DD-YYYY): </label>
+        <label for="id_expiration">Expiration (mm-dd-yyyy): </label>
         {{ form.expiration }}
       </div>
 

@@ -2,31 +2,13 @@
   text-align: center;
 }
 
-#tag-line {
-  text-align: center;
-}
-
 #login {
   display: inline-block;
   margin: auto;
   padding-top: 20px;
 }
 
-#login-button {
-  padding: 5px;
-}
-
-#login-form-fields {
-  display: inline-block;
-  margin: auto;
-}
-
-#login-form-fields > p {
-  text-align: right;
-}
-
 #forgot-pw, #register {
   padding: 10px;
   font-weight: bold;
-
 }
