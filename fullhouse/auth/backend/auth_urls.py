@@ -42,7 +42,7 @@ urlpatterns = patterns(
         name='auth_login'),
     url(r'^logout/$',
         auth_views.logout,
-        {'next_page': '/welcome/'},
+        {'next_page': '/welcome/?time=3&message=Logged+out.'},
         name='auth_logout'),
     url(r'^password/change/$',
         auth_views.password_change,

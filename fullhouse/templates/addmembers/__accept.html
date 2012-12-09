@@ -3,6 +3,9 @@
 {% block content %}
 {% if joined %}
 <p>{% trans "House invitation accepted" %}</p>
+    <script>
+      window.location = "/dashboard/?time=3&message=Successfully+joined+{{ house_name }}.";
+    </script>
     <p><a href="{% url dashboard %}">{% trans "Go to dashboard" %}</a></p>
 {% else %}
     <p>{% trans "Invalid invitation link" %}</p>
