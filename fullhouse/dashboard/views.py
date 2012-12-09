@@ -33,7 +33,6 @@ def home(request):
 
 @login_required
 def create_announcement(request):
-    # TODO Hack to block making an announcement if there's no house.
     if request.user.profile.house is None:
         raise PermissionDenied
 
@@ -44,7 +43,7 @@ def create_announcement(request):
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+created.')
     else:
         # Create a date two weeks from today.
         twoweeks = date.today() + timedelta(14)
@@ -63,28 +62,25 @@ def create_announcement(request):
 
 @login_required
 def edit_announcement(request):
-    #TODO fix this, will break if id not passed in
-    a = request.GET["id"] if request.method == "GET" else request.POST["id"]
+    a = get_param('id')
     if a is None:
         raise Http404
     try:
         announcement = Announcement.objects.get(id=a)
     except Announcement.DoesNotExist:
-        # TODO decide how to handle this.
-        raise Http404
+        raise PermissionDenied
     # Only the owner can edit.
     if request.user != announcement.creator.user:
-        #TODO decide how to handle this.
         raise PermissionDenied
 
     if request.method == "POST":
         if request.POST.get('delete') is not None:
             announcement.delete()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+deleted.')
         form = CreateAnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             announcement = form.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Announcement+successfully+updated.')
     else:
         form = CreateAnnouncementForm(instance=announcement)
 
@@ -111,7 +107,7 @@ def create_task(request):
         form = CreateTaskForm(request.POST, members=members)
         if form.is_valid():
             Task.objects.create_task(userprofile, form)
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Task+successfully+completed.')
     else:
         form = CreateTaskForm(members=members)
     return render_to_response(
@@ -126,38 +122,31 @@ def create_task(request):
 
 @login_required
 def edit_task(request):
-    t_id = None
-    if request.method == "GET":
-        t_id = request.GET.get('id', None)
-    elif request.method == "POST":
-        t_id = request.POST.get('id', None)
+    t_id = get_param('id')
     if t_id is None:
         raise Http404
 
     try:
         task = Task.objects.get(id=t_id)
     except Task.DoesNotExist:
-        # TODO decide how to handle this.
-        raise Http404
+        raise PermissionDenied
 
     userprofile = request.user.profile
     members = userprofile.house.members.get_query_set()
 
     # Only the members of this task's house can edit.
     if userprofile not in task.house.members.all():
-        #TODO decide how to handle this.
         raise PermissionDenied
 
     if request.method == "POST":
-        #TODO use discontinue instead of delete
         if request.POST.get('discontinue') is not None:
             task.is_active = False
             task.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Task+successfully+discontinued.')
         form = CreateTaskForm(request.POST, instance=task, members=members)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Task+successfully+updated.')
     else:
         form = CreateTaskForm(instance=task, members=members)
     discontinue_task_message = "Are you sure you want to discontinue this task?"
@@ -175,6 +164,7 @@ def edit_task(request):
 @login_required
 def update_task(request, action):
     redirect = request.GET.get('next', '/dashboard/')
+    redirect += '?message=Task+marked+completed.'
 
     t_id = request.GET.get("id", None)
     if t_id is not None:
@@ -202,8 +192,7 @@ def edit_user(request):
         form = UpdateUserForm(request.POST, instance=user.profile)
         if form.is_valid():
             form.save()
-
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=User+settings+updated.')
     else:
         initial = model_to_dict(user.profile)
         initial['first_name'] = user.first_name
@@ -252,7 +241,7 @@ def edit_house(request):
         if request.POST.get('leave_house') is not None:
             user.profile.house = None
             user.profile.save()
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Left+house+successfully.')
 
         if formset.is_valid() and form.is_valid():
             form.save()  # Update the house
@@ -321,11 +310,10 @@ def edit_house(request):
 
 @login_required
 def create_house(request):
-    #TODO fix this hack
     user = request.user
     if user.profile.house is not None:
         context = RequestContext(request, {
-            'error': 'You have already created a house',
+            'error': 'You are already part of a house.',
         })
         return render_to_response('nonhousemember.html', context)
 
@@ -341,7 +329,7 @@ def create_house(request):
             userprofile.house = new_house
             userprofile.save()
 
-            return HttpResponseRedirect('add_members/')
+            return HttpResponseRedirect('/add_members/')
 
     else:
         form = CreateHouseForm()
@@ -361,7 +349,6 @@ def join_house(request, invite_key):
     user = request.user
     # This prevents them from removing themselves from the new house if they refresh after switching.
     if InviteProfile.objects.is_valid(user, invite_key):
-        # TODO is this secure since I don't process a Django form?
         # If they were prompted to leave the old house and confirmed.
         if request.method == "POST" and request.POST.get('switch_house') is not None:
             user.profile.house = None
@@ -407,7 +394,7 @@ def add_members(request):
                         email, user, user.profile.house
                     )
 
-            return HttpResponseRedirect('/dashboard/')
+            return HttpResponseRedirect('/dashboard/?message=Successfully+invited+users.')
 
     else:
         formset = AddMemberFormSet()
@@ -425,9 +412,7 @@ def add_members(request):
 def dashboard(request):
     # Make the user create/join a house before showing the dashboard.
     if request.user.profile.house is None:
-        # TODO Don't see error for "already created house"
         return create_house(request)
-        #return render_to_response('nonhousemember.html')
     else:
         house = request.user.profile.house
         announcements = house.announcements.exclude(
