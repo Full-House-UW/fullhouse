@@ -79,7 +79,7 @@ class CreateTaskForm(forms.ModelForm):
         self.fields[due_name] = forms.DateField(
             #initial=date.today(),
             initial=initial,
-            label='%s (mm-dd-yy)' % due_label,
+            label='%s (mm-dd-yyyy)' % due_label,
             widget=forms.widgets.DateInput(format='%m-%d-%Y'),
             input_formats=('%m-%d-%Y',),
         )
