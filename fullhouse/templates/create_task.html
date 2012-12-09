@@ -13,6 +13,9 @@
     <form name="create-task" action="." method="POST">
       {% csrf_token %}
 
+      {{ form.as_p }}
+
+      {% comment %}
       {{ form.non_field_errors }}
 
       <div class = "fieldWrapper">
@@ -29,7 +32,7 @@
 
       <div class = "fieldWrapper">
         {{ form.participants.errors }}
-        <label form="assigned">Participants: </label>
+        <label form="assigned">Participants (ctrl click to select multiple): </label>
         {{ form.participants }}
       </div>
 
@@ -44,6 +47,7 @@
         <label form="first_due">First Due (MM-DD-YYYY): </label>
         {{ form.first_due }}
       </div>
+      {% endcomment %}
 
       <div id="create-task-submit">
         <input type="submit" class="btn" value="{% trans 'Create Task' %}" />
