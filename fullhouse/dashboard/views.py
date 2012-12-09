@@ -107,7 +107,7 @@ def create_task(request):
         form = CreateTaskForm(request.POST, members=members)
         if form.is_valid():
             Task.objects.create_task(userprofile, form)
-            return HttpResponseRedirect('/dashboard/?time=3&message=Task+successfully+completed.')
+            return HttpResponseRedirect('/dashboard/?time=3&message=Task+successfully+created.')
     else:
         form = CreateTaskForm(members=members)
     return render_to_response(
@@ -285,7 +285,7 @@ def edit_house(request):
         invites = house.invitees.filter(email=uninvite_email)
         for invite in invites:
             invite.delete()
-        if message is None:
+        if uninvite_email is not None and message is None:
             message = "Successfully uninvited member."
             if time is None:
                 time = 3
@@ -338,7 +338,7 @@ def create_house(request):
             userprofile.house = new_house
             userprofile.save()
 
-            return HttpResponseRedirect('/add_members/')
+            return HttpResponseRedirect('/dashboard/add_members/')
 
     else:
         form = CreateHouseForm()
@@ -488,4 +488,4 @@ def handler403(request):
 
 
 def handler404(request):
-    return render_to_response('404.html', RequestContext(reqeuest))
+    return render_to_response('404.html', RequestContext(request))

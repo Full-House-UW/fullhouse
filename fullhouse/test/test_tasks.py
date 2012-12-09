@@ -43,7 +43,7 @@ class TestTasks(test_case_base.TestCaseBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.redirect_chain,
-            [('http://testserver/dashboard/', 302)]
+            [('http://testserver/dashboard/?time=3&message=Task+successfully+created.', 302)]
         )
 
         self.assertEqual(Task.objects.count(), 1)
@@ -81,7 +81,7 @@ class TestTasks(test_case_base.TestCaseBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.redirect_chain,
-            [('http://testserver/dashboard/', 302)]
+            [('http://testserver/dashboard/?time=3&message=Task+successfully+updated.', 302)]
         )
         self.assertEqual(Task.objects.count(), 1)
 
@@ -108,7 +108,7 @@ class TestTasks(test_case_base.TestCaseBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.redirect_chain,
-            [('http://testserver/dashboard/', 302)]
+            [('http://testserver/dashboard/?time=3&message=Task+successfully+discontinued.', 302)]
         )
         # discontinue just marks the task as inactive,
         # does not delete it
@@ -142,7 +142,7 @@ class TestTasks(test_case_base.TestCaseBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.redirect_chain,
-            [('http://testserver/dashboard/', 302)]
+            [('http://testserver/dashboard/?time=3&message=Task+successfully+created.', 302)]
         )
 
         self.assertEqual(Task.objects.count(), 1)
@@ -160,7 +160,7 @@ class TestTasks(test_case_base.TestCaseBase):
         # default redirect is to dashboard
         self.assertEqual(
             response.redirect_chain,
-            [('http://testserver/dashboard/', 302)]
+            [('http://testserver/dashboard/?time=3&message=Task+marked+completed.', 302)]
         )
         # verify instance was completed
         instance = TaskInstance.objects.get(id=1)
@@ -210,7 +210,7 @@ class TestTasks(test_case_base.TestCaseBase):
             # default redirect is to dashboard
             self.assertEqual(
                 response.redirect_chain,
-                [('http://testserver/dashboard/', 302)]
+                [('http://testserver/dashboard/?time=3&message=Task+marked+completed.', 302)]
             )
             self.assertEqual(task.instances.count(), 2)
             instances = task.instances.order_by('-due_date')
